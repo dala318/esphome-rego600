@@ -44,12 +44,12 @@ void H60InterfaceComponent::loop() {
 void H60InterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Stream Server:");
     // ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
-#ifdef USE_BINARY_SENSOR
+// #ifdef USE_BINARY_SENSOR
     LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
-#endif
-#ifdef USE_SENSOR
+// #endif
+// #ifdef USE_SENSOR
     LOG_SENSOR("  ", "Connection count:", this->connection_count_sensor_);
-#endif
+// #endif
 }
 
 void H60InterfaceComponent::on_shutdown() {
@@ -58,19 +58,21 @@ void H60InterfaceComponent::on_shutdown() {
 }
 
 void H60InterfaceComponent::publish_sensor() {
-#ifdef USE_BINARY_SENSOR
+// #ifdef USE_BINARY_SENSOR
     if (this->connected_sensor_)
-        this->connected_sensor_->publish_state(this->clients_.size() > 0);
-#endif
-#ifdef USE_SENSOR
+        // this->connected_sensor_->publish_state(this->clients_.size() > 0);
+        this->connected_sensor_->publish_state(this->port_ > 0);
+// #endif
+// #ifdef USE_SENSOR
     if (this->connection_count_sensor_)
-        this->connection_count_sensor_->publish_state(this->clients_.size());
-#endif
+        // this->connection_count_sensor_->publish_state(this->clients_.size());
+        this->connection_count_sensor_->publish_state(this->port_);
+// #endif
 }
 
 void H60InterfaceComponent::accept() {
-    struct sockaddr_storage client_addr;
-    socklen_t client_addrlen = sizeof(client_addr);
+    // struct sockaddr_storage client_addr;
+    // socklen_t client_addrlen = sizeof(client_addr);
     // std::unique_ptr<socket::Socket> socket = this->socket_->accept(reinterpret_cast<struct sockaddr *>(&client_addr), &client_addrlen);
     // if (!socket)
     //     return;
@@ -78,7 +80,7 @@ void H60InterfaceComponent::accept() {
     // socket->setblocking(false);
     // std::string identifier = socket->getpeername();
     // this->clients_.emplace_back(std::move(socket), identifier, this->buf_head_);
-    ESP_LOGD(TAG, "New client connected from %s", identifier.c_str());
+    // ESP_LOGD(TAG, "New client connected from %s", identifier.c_str());
     this->publish_sensor();
 }
 

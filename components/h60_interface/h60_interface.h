@@ -68,12 +68,12 @@ protected:
     uint16_t port_;
     size_t buf_size_;
 
-#ifdef USE_BINARY_SENSOR
+// #ifdef USE_BINARY_SENSOR
     esphome::binary_sensor::BinarySensor *connected_sensor_;
-#endif
-#ifdef USE_SENSOR
+// #endif
+// #ifdef USE_SENSOR
     esphome::sensor::Sensor *connection_count_sensor_;
-#endif
+// #endif
 
     std::unique_ptr<uint8_t[]> buf_{};
     size_t buf_head_{0};
