@@ -13,12 +13,12 @@ static const char *TAG = "h60_interface";
 using namespace esphome;
 
 void H60InterfaceComponent::setup() {
-    ESP_LOGCONFIG(TAG, "Setting up stream server...");
+    ESP_LOGCONFIG(TAG, "Setting up H60 Interface...");
 
     // The make_unique() wrapper doesn't like arrays, so initialize the unique_ptr directly.
     this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
 
-    struct sockaddr_storage bind_addr;
+//     struct sockaddr_storage bind_addr;
 // #if ESPHOME_VERSION_CODE >= VERSION_CODE(2023, 4, 0)
 //     socklen_t bind_addrlen = socket::set_sockaddr_any(reinterpret_cast<struct sockaddr *>(&bind_addr), sizeof(bind_addr), this->port_);
 // #else

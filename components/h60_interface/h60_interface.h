@@ -11,9 +11,9 @@
 #include "esphome/components/sensor/sensor.h"
 #endif
 
-#include "HD_Globals.h"
-#include "HD_Utilities.h"  
-#include "HD_H1comm.h"
+// #include "HD_Globals.h"
+// #include "HD_Utilities.h"
+// #include "HD_H1comm.h"
 
 #include <memory>
 #include <string>
