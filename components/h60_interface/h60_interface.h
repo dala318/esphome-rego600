@@ -75,7 +75,7 @@ protected:
     esphome::sensor::Sensor *connection_count_sensor_;
 #endif
 
-    // std::unique_ptr<uint8_t[]> buf_{};
+    std::unique_ptr<uint8_t[]> buf_{};
     size_t buf_head_{0};
     size_t buf_tail_{0};
 

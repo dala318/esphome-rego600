@@ -43,7 +43,7 @@ void H60InterfaceComponent::loop() {
 
 void H60InterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Stream Server:");
-    ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
+    // ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
 #ifdef USE_BINARY_SENSOR
     LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
 #endif
@@ -84,11 +84,11 @@ void H60InterfaceComponent::accept() {
 
 void H60InterfaceComponent::cleanup() {
     // auto discriminator = [](const Client &client) { return !client.disconnected; };
-    auto last_client = std::partition(this->clients_.begin(), this->clients_.end(), discriminator);
-    if (last_client != this->clients_.end()) {
-        this->clients_.erase(last_client, this->clients_.end());
-        this->publish_sensor();
-    }
+    // auto last_client = std::partition(this->clients_.begin(), this->clients_.end(), discriminator);
+    // if (last_client != this->clients_.end()) {
+    //     this->clients_.erase(last_client, this->clients_.end());
+    //     this->publish_sensor();
+    // }
 }
 
 void H60InterfaceComponent::read() {
