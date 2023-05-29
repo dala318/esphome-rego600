@@ -11,7 +11,7 @@
 #include "esphome/components/sensor/sensor.h"
 #endif
 
-#include "h60_os/HD_H1comm.h"
+#include "./h60_os/HD_H1comm.h"
 
 #include <memory>
 #include <string>
