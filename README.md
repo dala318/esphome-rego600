@@ -7,6 +7,7 @@ Planned functions:
   - Wifi connection with DHCP and fixed SSID/PASS (ESPHome)
   - Web page showing status and heat pump data (ESPHome)
   - Basic code for communication with heat pump
+  - Provide inut and output entities based on heat-pump model
 
 For contributors please refer to the following projects:
 
