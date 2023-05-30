@@ -16,7 +16,7 @@ void H60InterfaceComponent::setup() {
     // The make_unique() wrapper doesn't like arrays, so initialize the unique_ptr directly.
     this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
 
-    this->publish_sensors();
+    // this->publish_sensors();
 }
 
 void H60InterfaceComponent::loop() {
@@ -37,17 +37,20 @@ void H60InterfaceComponent::dump_config() {
 void H60InterfaceComponent::on_shutdown() {
 }
 
-void H60InterfaceComponent::publish_sensors() {
-    // if (this->connected_sensor_)
-    //     // this->connected_sensor_->publish_state(this->clients_.size() > 0);
-    //     this->connected_sensor_->publish_state(this->port_ > 0);
-    // if (this->connection_count_sensor_)
-    //     // this->connection_count_sensor_->publish_state(this->clients_.size());
-    //     this->connection_count_sensor_->publish_state(this->port_);
-}
+// void H60InterfaceComponent::publish_sensors() {
+//     for (Parameter &parameter : this->parameters_) {   
+//     }
+
+//     // if (this->connected_sensor_)
+//     //     // this->connected_sensor_->publish_state(this->clients_.size() > 0);
+//     //     this->connected_sensor_->publish_state(this->port_ > 0);
+//     // if (this->connection_count_sensor_)
+//     //     // this->connection_count_sensor_->publish_state(this->clients_.size());
+//     //     this->connection_count_sensor_->publish_state(this->port_);
+// }
 
 void H60InterfaceComponent::accept() {
-    this->publish_sensors();
+    // this->publish_sensors();
 }
 
 void H60InterfaceComponent::cleanup() {

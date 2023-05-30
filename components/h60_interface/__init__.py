@@ -14,7 +14,6 @@ MULTI_CONF = True
 CONF_H60_INTERFACE = "h60_interface"
 CONF_MODEL = "model"
 
-# ns = cg.global_ns
 ns = cg.esphome_ns.namespace("esphome::h60_interface")
 H60InterfaceComponent = ns.class_("H60InterfaceComponent", cg.Component)
 
