@@ -18,7 +18,7 @@ Add the following to your ESPHome config
 
 ```yaml
 external_components:
-  # - source: https://github.com/peterarandis/H60-OS
+  - source: github://dala318/esphome-h60-interface
 
 uart:
   id: uart_bus
