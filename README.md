@@ -1,18 +1,14 @@
 # H60-OS
-Husdata H60 Arduino get started code
-HUSDATA.SE, Peter Hansson. h60@husdata.se
+Follow up to Husdata H60 Arduino get started code (https://github.com/peterarandis/H60-OS)
 
-Open H60 Arduino code as a foundation for own development projects on the H60 platform
-Provided as-is with no support. Can be freely used in personal och commercial projects.
+To be used as custom component to ESPHome
 
 Functions:
   - Wifi connection with DHCP and fixed SSID/PASS  
   - Basic code for communication with heat pump
-  - Web page showing status and heat pump data
-  - restAPI at  /api/alldata
+  - Web page showing status and heat pump data (ESPHome)
   - LED status H60 red/green
   - Routine for button pushed
-  - Debug printout via serial/usb port
 
 Add the following to your ESPHome config
 
@@ -29,3 +25,5 @@ uart:
 h60_interface:
   uart_id: uart_bus
 ```
+
+For debugging it's suggested to also add a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump
