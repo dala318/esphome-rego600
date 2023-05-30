@@ -3,12 +3,16 @@ Follow up to Husdata H60 Arduino get started code (https://github.com/peterarand
 
 To be used as custom component to ESPHome
 
-Functions:
-  - Wifi connection with DHCP and fixed SSID/PASS  
-  - Basic code for communication with heat pump
+Planned functions:
+  - Wifi connection with DHCP and fixed SSID/PASS (ESPHome)
   - Web page showing status and heat pump data (ESPHome)
-  - LED status H60 red/green
-  - Routine for button pushed
+  - Basic code for communication with heat pump
+
+For contributors please refer to the following projects:
+
+https://rago600.sourceforge.net/
+
+https://github.com/peterarandis/H60-OS
 
 Add the following to your ESPHome config
 
