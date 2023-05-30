@@ -36,7 +36,7 @@ public:
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
 protected:
-    void publish_sensor();
+    void publish_sensors();
 
     void accept();
     void cleanup();
@@ -50,7 +50,7 @@ protected:
     struct Parameter {
         Parameter(std::int64_t reg, std::string identifier, size_t position);
 
-        std::int64_t reg{}
+        std::int64_t reg{};
         std::string identifier{};
         // bool disconnected{false};
         size_t position{0};
