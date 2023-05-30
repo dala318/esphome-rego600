@@ -14,3 +14,18 @@ Functions:
   - Routine for button pushed
   - Debug printout via serial/usb port
 
+Add the following to your ESPHome config
+
+```yaml
+external_components:
+  # - source: https://github.com/peterarandis/H60-OS
+
+uart:
+  id: uart_bus
+  tx_pin: GPIO12
+  rx_pin: GPIO13
+  baud_rate: 19200
+
+h60_interface:
+  uart_id: uart_bus
+```
