@@ -12,11 +12,11 @@ CONF_CONNECTION_COUNT = "connection_count"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_H60_INTERFACE): cv.use_id(H60InterfaceComponent),
-        cv.Required(CONF_CONNECTION_COUNT): sensor.sensor_schema(
-            accuracy_decimals=0,
-            state_class=STATE_CLASS_MEASUREMENT,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
-        ),
+        # cv.Required(CONF_CONNECTION_COUNT): sensor.sensor_schema(
+        #     accuracy_decimals=0,
+        #     state_class=STATE_CLASS_MEASUREMENT,
+        #     entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+        # ),
     } # TODO: Add same as in binary_sensor
 )
 

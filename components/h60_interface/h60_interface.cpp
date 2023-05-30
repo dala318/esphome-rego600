@@ -30,20 +30,20 @@ void H60InterfaceComponent::loop() {
 void H60InterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "H60 Interface:");
     // ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
-    LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
-    LOG_SENSOR("  ", "Connection count:", this->connection_count_sensor_);
+    // LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
+    // LOG_SENSOR("  ", "Connection count:", this->connection_count_sensor_);
 }
 
 void H60InterfaceComponent::on_shutdown() {
 }
 
 void H60InterfaceComponent::publish_sensor() {
-    if (this->connected_sensor_)
-        // this->connected_sensor_->publish_state(this->clients_.size() > 0);
-        this->connected_sensor_->publish_state(this->port_ > 0);
-    if (this->connection_count_sensor_)
-        // this->connection_count_sensor_->publish_state(this->clients_.size());
-        this->connection_count_sensor_->publish_state(this->port_);
+    // if (this->connected_sensor_)
+    //     // this->connected_sensor_->publish_state(this->clients_.size() > 0);
+    //     this->connected_sensor_->publish_state(this->port_ > 0);
+    // if (this->connection_count_sensor_)
+    //     // this->connection_count_sensor_->publish_state(this->clients_.size());
+    //     this->connection_count_sensor_->publish_state(this->port_);
 }
 
 void H60InterfaceComponent::accept() {
