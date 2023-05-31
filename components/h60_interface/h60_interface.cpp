@@ -5,10 +5,10 @@
 #include "esphome/core/util.h"
 #include "esphome/core/version.h"
 
-static const char *TAG = "h60_interface";
-
 namespace esphome {
 namespace h60_interface {
+
+static const char *TAG = "h60_interface";
 
 void H60InterfaceComponent::setup() {
     ESP_LOGCONFIG(TAG, "Setting up H60 Interface...");
@@ -29,6 +29,15 @@ void H60InterfaceComponent::loop() {
 
 void H60InterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "H60 Interface:");
+    for (auto *sensor : this->sensors_) {
+        LOG_SENSOR("  ", "Sensor", sensor);
+    }
+    for(auto *text_sensor : this->text_sensors_){
+        LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
+    }
+    for(auto *binary_sensor : this->binary_sensors_){
+        LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
+    }
     // ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
     // LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
     // LOG_SENSOR("  ", "Connection count:", this->connection_count_sensor_);

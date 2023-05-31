@@ -5,26 +5,25 @@ from esphome.const import CONF_ID, CONF_PORT, CONF_BUFFER_SIZE
 
 # ESPHome doesn't know the Stream abstraction yet, so hardcode to use a UART for now.
 
-# AUTO_LOAD = ["socket"]
+AUTO_LOAD = [ 'binary_sensor', 'sensor','text_sensor']
+MULTI_CONF = True
 
 DEPENDENCIES = ["uart"]
 
-MULTI_CONF = True
+CONF_HUB_ID = "h60_interface_id"
 
-CONF_H60_INTERFACE = "h60_interface"
 CONF_MODEL = "model"
 
 ns = cg.esphome_ns.namespace("esphome::h60_interface")
 H60InterfaceComponent = ns.class_("H60InterfaceComponent", cg.Component)
 
-def validate_buffer_size(buffer_size):
-    if buffer_size & (buffer_size - 1) != 0:
-        raise cv.Invalid("Buffer size must be a power of two.")
-    return buffer_size
-
+# def validate_buffer_size(buffer_size):
+#     if buffer_size & (buffer_size - 1) != 0:
+#         raise cv.Invalid("Buffer size must be a power of two.")
+#     return buffer_size
 
 CONFIG_SCHEMA = cv.All(
-    cv.require_esphome_version(2022, 3, 0),
+    # cv.require_esphome_version(2022, 3, 0),
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(H60InterfaceComponent),
