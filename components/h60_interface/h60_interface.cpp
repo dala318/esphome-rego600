@@ -29,18 +29,15 @@ void H60InterfaceComponent::loop() {
 
 void H60InterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "H60 Interface:");
-    for (auto *sensor : this->sensors_) {
-        LOG_SENSOR("  ", "Sensor", sensor);
-    }
-    for(auto *text_sensor : this->text_sensors_){
-        LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
-    }
     for(auto *binary_sensor : this->binary_sensors_){
         LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
     }
-    // ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address().c_str(), this->port_);
-    // LOG_BINARY_SENSOR("  ", "Connected:", this->connected_sensor_);
-    // LOG_SENSOR("  ", "Connection count:", this->connection_count_sensor_);
+    // for (auto *sensor : this->sensors_) {
+    //     LOG_SENSOR("  ", "Sensor", sensor);
+    // }
+    for(auto *text_sensor : this->text_sensors_){
+        LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
+    }
 }
 
 void H60InterfaceComponent::on_shutdown() {
@@ -60,9 +57,6 @@ void H60InterfaceComponent::on_shutdown() {
 
 void H60InterfaceComponent::accept() {
     // this->publish_sensors();
-}
-
-void H60InterfaceComponent::cleanup() {
 }
 
 void H60InterfaceComponent::read() {
@@ -95,6 +89,9 @@ void H60InterfaceComponent::flush() {
 void H60InterfaceComponent::write() {
     uint8_t buf[128];
     ssize_t read;
+}
+
+void H60InterfaceComponent::cleanup() {
 }
 
 }  // namespace h60_interface

@@ -18,9 +18,9 @@ Sensor = sensor_ns.class_('Sensor', sensor.Sensor)
 
 h60_ns = cg.esphome_ns.namespace("h60_interface")
 CONF_POWER = "power"
-SensorPower = h60_ns.class_("SensorPower", sensor.Sensor, cg.Component)
+SensorPower = h60_ns.class_("SensorPower", sensor.Sensor, cg.PollingComponent)
 CONF_RETURN_TEMP = "return_temp"
-SensorReturnTemp = h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.Component)
+SensorReturnTemp = h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.PollingComponent)
 
 # CONF_SENSOR_PARAMETERS = ["power", "return_temp"]
 

@@ -18,33 +18,41 @@
 namespace esphome {
 namespace h60_interface {
 
-
-
-class SensorPower : public sensor::Sensor, public Component {
+class SensorPower : public sensor::Sensor, public PollingComponent {
 public:
-    void setup() override { this->publish_state(50); }
-//   void update() override {
-//     // auto ip = wifi::global_wifi_component->wifi_sta_ip();
-//     // if (ip != this->last_ip_) {
-//     //   this->last_ip_ = ip;
-//     //   this->publish_state(ip.str());
-//     // }
-//     this->publish_state(50);
-//   }
+    // void setup() override { this->publish_state(50); }
+    void update() override {
+        // auto ip = wifi::global_wifi_component->wifi_sta_ip();
+        // if (ip != this->last_ip_) {
+        //   this->last_ip_ = ip;
+        //   this->publish_state(ip.str());
+        // }
+        float value = 5050.8;
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+  }
 //   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
 //   void dump_config() override;
 
 protected:
+    float last_value_;
 //   network::IPAddress last_ip_;
 };
 
-class SensorReturnTemp : public sensor::Sensor, public Component {
+class SensorReturnTemp : public sensor::Sensor, public PollingComponent {
 public:
-    void setup() override { this->publish_state(501.88); }
-//   void update() override {
-//     this->publish_state(504.1);
-//   }
+    // void setup() override { this->publish_state(501.88); }
+    void update() override {
+        float value = -701.888;
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+    }
 protected:
+    float last_value_;
 };
 
 
@@ -62,9 +70,18 @@ public:
     
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
-    void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); }
-    void register_text_sensor(text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
     void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
+    // void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); }
+    void register_text_sensor(text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
+
+    // float get_float_parameter(std::string parameter) {
+    //     if (paramter == 0){
+    //         return 550.88
+    //     } else if (paramter == 1) {
+    //         return -188.22222
+    //     }
+    //     return 0
+    // }
 
 protected:
     void accept();
@@ -73,9 +90,9 @@ protected:
     void flush();
     void write();
 
-    std::vector<sensor::Sensor *> sensors_;
-    std::vector<text_sensor::TextSensor *> text_sensors_;
     std::vector<binary_sensor::BinarySensor *> binary_sensors_;
+    // std::vector<sensor::Sensor *> sensors_;
+    std::vector<text_sensor::TextSensor *> text_sensors_;
 
     size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
     size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
