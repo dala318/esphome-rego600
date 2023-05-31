@@ -11,6 +11,7 @@ MULTI_CONF = True
 DEPENDENCIES = ["uart"]
 
 CONF_HUB_ID = "h60_interface_id"
+CONF_PARAMETER_ID = "parameter_id"
 
 CONF_MODEL = "model"
 

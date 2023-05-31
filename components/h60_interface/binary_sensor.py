@@ -6,7 +6,7 @@ from esphome.const import (
     DEVICE_CLASS_CONNECTIVITY,
     ENTITY_CATEGORY_DIAGNOSTIC,
 )
-from . import ns, H60InterfaceComponent, CONF_HUB_ID
+from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
@@ -14,11 +14,13 @@ binary_sensor_ns = cg.esphome_ns.namespace('binary_sensor')
 BinarySensor = binary_sensor_ns.class_('BinarySensor', binary_sensor.BinarySensor)
 # BinarySensor = binary_sensor_ns.class_('BinarySensor', binary_sensor.BinarySensor, cg.Nameable)
 
-CONF_CONNECTED = "connected"
+# CONF_CONNECTED = "connected"
+CONF_BINARY_SENSOR_PARAMETERS = ["connected", "heat_needed"]
 
 CONFIG_SCHEMA = binary_sensor.BINARY_SENSOR_SCHEMA.extend({
     cv.GenerateID(): cv.declare_id(BinarySensor),
-    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent)
+    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+    cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_BINARY_SENSOR_PARAMETERS),
 }).extend(cv.COMPONENT_SCHEMA)
 
 

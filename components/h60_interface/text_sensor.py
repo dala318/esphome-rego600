@@ -6,7 +6,7 @@ from esphome.const import (
     DEVICE_CLASS_CONNECTIVITY,
     ENTITY_CATEGORY_DIAGNOSTIC,
 )
-from . import ns, H60InterfaceComponent, CONF_HUB_ID
+from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
@@ -14,12 +14,14 @@ text_sensor_ns = cg.esphome_ns.namespace('text_sensor')
 TextSensor = text_sensor_ns.class_('TextSensor', text_sensor.TextSensor)
 # TextSensor = text_sensor_ns.class_('TextSensor', text_sensor.TextSensor, cg.Nameable)
 
-CONF_DEVICE_TYPE = "device_type"
-CONF_DEVICE_MODEL = "device_model"
+# CONF_DEVICE_TYPE = "device_type"
+# CONF_DEVICE_MODEL = "device_model"
+CONF_TEXT_SENSOR_PARAMETERS = ["device_type", "device_model"]
 
 CONFIG_SCHEMA = text_sensor.TEXT_SENSOR_SCHEMA.extend({
     cv.GenerateID(): cv.declare_id(TextSensor),
-    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent)
+    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+    cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_TEXT_SENSOR_PARAMETERS),
 }).extend(cv.COMPONENT_SCHEMA)
 
 # CONFIG_SCHEMA = cv.Schema(

@@ -8,7 +8,7 @@ from esphome.const import (
     STATE_CLASS_MEASUREMENT,
     ENTITY_CATEGORY_DIAGNOSTIC,
 )
-from . import ns, H60InterfaceComponent, CONF_HUB_ID
+from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
@@ -16,11 +16,13 @@ sensor_ns = cg.esphome_ns.namespace('sensor')
 Sensor = sensor_ns.class_('Sensor', sensor.Sensor)
 # Sensor = sensor_ns.class_('Sensor', sensor.Sensor, cg.Nameable)
 
-CONF_POWER = "power"
+# CONF_POWER = "power"
+CONF_SENSOR_PARAMETERS = ["power", "return_temp"]
 
-CONFIG_SCHEMA = sensor.sensor_schema(UNIT_EMPTY, ICON_EMPTY, 1).extend({
+CONFIG_SCHEMA = sensor.SENSOR_SCHEMA.extend({
     cv.GenerateID(): cv.declare_id(Sensor),
-    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent)
+    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+    cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_SENSOR_PARAMETERS),
 }).extend(cv.COMPONENT_SCHEMA)
 
 # CONFIG_SCHEMA = cv.Schema(
