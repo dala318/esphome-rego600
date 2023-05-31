@@ -16,31 +16,66 @@ sensor_ns = cg.esphome_ns.namespace('sensor')
 Sensor = sensor_ns.class_('Sensor', sensor.Sensor)
 # Sensor = sensor_ns.class_('Sensor', sensor.Sensor, cg.Nameable)
 
-# CONF_POWER = "power"
-CONF_SENSOR_PARAMETERS = ["power", "return_temp"]
+h60_ns = cg.esphome_ns.namespace("h60_interface")
+CONF_POWER = "power"
+SensorPower = h60_ns.class_("SensorPower", sensor.Sensor, cg.Component)
+CONF_RETURN_TEMP = "return_temp"
+SensorReturnTemp = h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.Component)
 
-CONFIG_SCHEMA = sensor.SENSOR_SCHEMA.extend({
-    cv.GenerateID(): cv.declare_id(Sensor),
-    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-    cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_SENSOR_PARAMETERS),
-}).extend(cv.COMPONENT_SCHEMA)
+# CONF_SENSOR_PARAMETERS = ["power", "return_temp"]
 
-# CONFIG_SCHEMA = cv.Schema(
-#     {
-#         cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-#         cv.Optional(CONF_POWER): sensor.sensor_schema(),
-#         # cv.Required(CONF_CONNECTION_COUNT): sensor.sensor_schema(
-#         #     accuracy_decimals=0,
-#         #     state_class=STATE_CLASS_MEASUREMENT,
-#         #     entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
-#         # ),
-#     } # TODO: Add same as in binary_sensor
-# )
+# CONFIG_SCHEMA = sensor.SENSOR_SCHEMA.extend({
+#     cv.GenerateID(): cv.declare_id(Sensor),
+#     cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+#     cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_SENSOR_PARAMETERS),
+# }).extend(cv.COMPONENT_SCHEMA)
+
+CONFIG_SCHEMA = cv.Schema(
+    {
+        # cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+        cv.Optional(CONF_POWER): sensor.sensor_schema(SensorPower).extend(cv.COMPONENT_SCHEMA),
+        cv.Optional(CONF_RETURN_TEMP): sensor.sensor_schema(SensorReturnTemp).extend(cv.COMPONENT_SCHEMA),
+    }
+)# .extend(cv.COMPONENT_SCHEMA)
+
+async def setup_conf(config, key):
+    if key in config:
+        conf = config[key]
+        var = await sensor.new_sensor(conf)
+        # await sensor.register_sensor(var, conf)
+        await cg.register_component(var, conf)
+
 
 async def to_code(config):
-    paren = await cg.get_variable(config[CONF_HUB_ID])
-    var = cg.new_Pvariable(config[CONF_ID])
+    await setup_conf(config, CONF_POWER)
+    await setup_conf(config, CONF_RETURN_TEMP)
+
+
+# async def to_code(config):
+#     paren = await cg.get_variable(config[CONF_HUB_ID])
+#     var = cg.new_Pvariable(config[CONF_ID])
     
-    await sensor.register_sensor(var, config)
+#     await sensor.register_sensor(var, config)
     
-    cg.add(paren.register_sensor(var))
+#     cg.add(paren.register_sensor(var))
+
+# async def to_code(config):
+#     paren = await cg.get_variable(config[CONF_HUB_ID])
+
+#     # for key, conf in config.items():
+#     #     if not isinstance(conf, dict):
+#     #         continue
+#     #     id = conf.get("id")
+#     #     if id and id.type == sensor.Sensor:
+#     #         # var = cg.new_Pvariable(conf)
+#     #         # await sensor.register_sensor(var, conf)
+#     #         var = await sensor.new_sensor(conf)
+#     #         cg.add(paren.register_sensor(var))
+
+#     for key, conf in config.items():
+#         if not isinstance(conf, dict):
+#             continue
+#         id = conf.get("id")
+#         if id and id.type == sensor.Sensor:
+#             var = await sensor.new_sensor(conf)
+#             cg.add(paren.register_sensor(key, var))

@@ -18,6 +18,37 @@
 namespace esphome {
 namespace h60_interface {
 
+
+
+class SensorPower : public sensor::Sensor, public Component {
+public:
+    void setup() override { this->publish_state(50); }
+//   void update() override {
+//     // auto ip = wifi::global_wifi_component->wifi_sta_ip();
+//     // if (ip != this->last_ip_) {
+//     //   this->last_ip_ = ip;
+//     //   this->publish_state(ip.str());
+//     // }
+//     this->publish_state(50);
+//   }
+//   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
+//   void dump_config() override;
+
+protected:
+//   network::IPAddress last_ip_;
+};
+
+class SensorReturnTemp : public sensor::Sensor, public Component {
+public:
+    void setup() override { this->publish_state(501.88); }
+//   void update() override {
+//     this->publish_state(504.1);
+//   }
+protected:
+};
+
+
+
 class H60InterfaceComponent : public Component {
 public:
     void setup() override;
@@ -31,10 +62,9 @@ public:
     
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
-    void register_sensor(sensor::Sensor *obj) { this->sensors_.push_back(obj); }
+    void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); }
     void register_text_sensor(text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
     void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
-
 
 protected:
     void accept();
