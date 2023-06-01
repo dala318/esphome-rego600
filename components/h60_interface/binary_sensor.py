@@ -10,37 +10,27 @@ from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
-binary_sensor_ns = cg.esphome_ns.namespace('binary_sensor')
-BinarySensor = binary_sensor_ns.class_('BinarySensor', binary_sensor.BinarySensor)
-# BinarySensor = binary_sensor_ns.class_('BinarySensor', binary_sensor.BinarySensor, cg.Nameable)
+h60_ns = cg.esphome_ns.namespace("h60_interface")
+CONF_DICT = {
+    cv.Optional("connected"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorConnected", binary_sensor.BinarySensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("heat_needed"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorHeatNeeded", binary_sensor.BinarySensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
+}
 
-# CONF_CONNECTED = "connected"
-CONF_BINARY_SENSOR_PARAMETERS = ["connected", "heat_needed"]
+CONFIG_SCHEMA = cv.Schema(
+    {
+        cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+    }
+).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
 
-CONFIG_SCHEMA = binary_sensor.BINARY_SENSOR_SCHEMA.extend({
-    cv.GenerateID(): cv.declare_id(BinarySensor),
-    cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-    cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_BINARY_SENSOR_PARAMETERS),
-}).extend(cv.COMPONENT_SCHEMA)
-
-
-# CONFIG_SCHEMA = cv.Schema(
-#     {
-#         cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-#         cv.Optional(CONF_CONNECTED): binary_sensor.binary_sensor_schema(),
-#         # cv.Optional("running"): binary_sensor.binary_sensor_schema(),
-#         # cv.Required(CONF_CONNECTED): binary_sensor.binary_sensor_schema(
-#         #     device_class=DEVICE_CLASS_CONNECTIVITY,
-#         #     entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
-#         # ),
-#     }
-# ).extend(cv.COMPONENT_SCHEMA)
+async def setup_conf(paren, config, key):
+    if key in config:
+        conf = config[key]
+        var = await binary_sensor.new_binary_sensor(conf)
+        await cg.register_component(var, conf)
+        cg.add(paren.register_binary_sensor(str(key), var))
 
 
 async def to_code(config):
     paren = await cg.get_variable(config[CONF_HUB_ID])
-    var = cg.new_Pvariable(config[CONF_ID])
-    
-    await binary_sensor.register_binary_sensor(var, config)
-    
-    cg.add(paren.register_binary_sensor(var))
+    for key in CONF_DICT.keys():
+        await setup_conf(paren, config, key)

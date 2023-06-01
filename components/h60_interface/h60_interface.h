@@ -22,6 +22,32 @@
 namespace esphome {
 namespace h60_interface {
 
+// Binary Sensor specific classes
+class BinarySensorConnected : public binary_sensor::BinarySensor, public PollingComponent {
+public:
+    void update() override {
+        bool value = true;
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+  }
+protected:
+    bool last_value_;
+};
+class BinarySensorHeatNeeded : public binary_sensor::BinarySensor, public PollingComponent {
+public:
+    void update() override {
+        bool value = false;
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+    }
+protected:
+    bool last_value_;
+};
+
 // Sensor specific classes
 class SensorPower : public sensor::Sensor, public PollingComponent {
 public:
@@ -40,14 +66,12 @@ public:
   }
 //   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
 //   void dump_config() override;
-
 protected:
     float last_value_;
 //   network::IPAddress last_ip_;
 };
 class SensorReturnTemp : public sensor::Sensor, public PollingComponent {
 public:
-    // void setup() override { this->publish_state(501.88); }
     void update() override {
         float value = -701.888;
         if (value != this->last_value_) {
@@ -57,6 +81,32 @@ public:
     }
 protected:
     float last_value_;
+};
+
+// Text Sensor specific classes
+class TextSensorDeviceType : public text_sensor::TextSensor, public PollingComponent {
+public:
+    void update() override {
+        std::string value = "rego 600";
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+  }
+protected:
+    std::string last_value_;
+};
+class TextSensorDeviceModel : public text_sensor::TextSensor, public PollingComponent {
+public:
+    void update() override {
+        std::string value = "3.1";
+        if (value != this->last_value_) {
+            this->last_value_ = value;
+            this->publish_state(value);
+        }
+    }
+protected:
+    std::string last_value_;
 };
 
 // Switch specific classes
@@ -84,9 +134,9 @@ public:
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
     // Register input entities function
-    void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
+    void register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
     void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter from the heat-pump and register a callback in that parameter to set the value "sensor->publish_state(value);" */}
-    void register_text_sensor(text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
+    void register_text_sensor(std::string id, text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
 
     // Register output entities function
     void register_switch(std::string id, switch_::Switch *obj) { this->switches_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter to the heat-pump and register a callback to update on "sensor->write_state(bool);" */}
