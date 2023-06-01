@@ -16,6 +16,8 @@ sensor_ns = cg.esphome_ns.namespace('sensor')
 Sensor = sensor_ns.class_('Sensor', sensor.Sensor)
 # Sensor = sensor_ns.class_('Sensor', sensor.Sensor, cg.Nameable)
 
+DEFAULT_UPDATE_INTERVAL = "5s"
+
 h60_ns = cg.esphome_ns.namespace("h60_interface")
 CONF_POWER = "power"
 SensorPower = h60_ns.class_("SensorPower", sensor.Sensor, cg.PollingComponent)
@@ -32,9 +34,14 @@ SensorReturnTemp = h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.PollingCo
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        # cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-        cv.Optional(CONF_POWER): sensor.sensor_schema(SensorPower).extend(cv.COMPONENT_SCHEMA),
-        cv.Optional(CONF_RETURN_TEMP): sensor.sensor_schema(SensorReturnTemp).extend(cv.COMPONENT_SCHEMA),
+        cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+        cv.Optional(CONF_POWER): sensor.sensor_schema(SensorPower).extend(
+            cv.COMPONENT_SCHEMA,
+            # **cv.polling_component_schema(DEFAULT_UPDATE_INTERVAL),
+            # cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
+        ),
+        cv.Optional(CONF_RETURN_TEMP): sensor.sensor_schema(SensorReturnTemp).extend(
+            cv.COMPONENT_SCHEMA).extend({cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent)}),
     }
 )# .extend(cv.COMPONENT_SCHEMA)
 
@@ -47,6 +54,7 @@ async def setup_conf(config, key):
 
 
 async def to_code(config):
+    paren = await cg.get_variable(config[CONF_HUB_ID])
     await setup_conf(config, CONF_POWER)
     await setup_conf(config, CONF_RETURN_TEMP)
 
