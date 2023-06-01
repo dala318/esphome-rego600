@@ -32,9 +32,9 @@ void H60InterfaceComponent::dump_config() {
     for(auto *binary_sensor : this->binary_sensors_){
         LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
     }
-    // for (auto *sensor : this->sensors_) {
-    //     LOG_SENSOR("  ", "Sensor", sensor);
-    // }
+    for (auto *sensor : this->sensors_) {
+        LOG_SENSOR("  ", "Sensor", sensor);
+    }
     for(auto *text_sensor : this->text_sensors_){
         LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
     }

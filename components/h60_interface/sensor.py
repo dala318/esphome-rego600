@@ -35,28 +35,26 @@ SensorReturnTemp = h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.PollingCo
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-        cv.Optional(CONF_POWER): sensor.sensor_schema(SensorPower).extend(
-            cv.COMPONENT_SCHEMA,
-            # **cv.polling_component_schema(DEFAULT_UPDATE_INTERVAL),
-            # cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-        ),
-        cv.Optional(CONF_RETURN_TEMP): sensor.sensor_schema(SensorReturnTemp).extend(
-            cv.COMPONENT_SCHEMA).extend({cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent)}),
+        cv.Optional(CONF_POWER): sensor.sensor_schema(SensorPower)
+            .extend(cv.COMPONENT_SCHEMA),
+        cv.Optional(CONF_RETURN_TEMP): sensor.sensor_schema(SensorReturnTemp)
+            .extend(cv.COMPONENT_SCHEMA),
     }
 )# .extend(cv.COMPONENT_SCHEMA)
 
-async def setup_conf(config, key):
+async def setup_conf(paren, config, key):
     if key in config:
         conf = config[key]
         var = await sensor.new_sensor(conf)
         # await sensor.register_sensor(var, conf)
         await cg.register_component(var, conf)
+        cg.add(paren.register_sensor(key, var))
 
 
 async def to_code(config):
     paren = await cg.get_variable(config[CONF_HUB_ID])
-    await setup_conf(config, CONF_POWER)
-    await setup_conf(config, CONF_RETURN_TEMP)
+    await setup_conf(paren, config, CONF_POWER)
+    await setup_conf(paren, config, CONF_RETURN_TEMP)
 
 
 # async def to_code(config):
