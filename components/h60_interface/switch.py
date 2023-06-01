@@ -1,13 +1,8 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import switch
-from esphome.const import (
-    CONF_ID,
-    UNIT_EMPTY,
-    ICON_EMPTY,
-    STATE_CLASS_MEASUREMENT,
-    ENTITY_CATEGORY_DIAGNOSTIC,
-)
+# from esphome.const import (
+# )
 from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']

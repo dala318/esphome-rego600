@@ -1,21 +1,16 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor
-from esphome.const import (
-    CONF_ID,
-    UNIT_EMPTY,
-    ICON_EMPTY,
-    STATE_CLASS_MEASUREMENT,
-    ENTITY_CATEGORY_DIAGNOSTIC,
-)
+# from esphome.const import (
+# )
 from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
 h60_ns = cg.esphome_ns.namespace("h60_interface")
 CONF_DICT = {
-    cv.Optional("power"): sensor.sensor_schema(h60_ns.class_("SensorPower", sensor.Sensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("return_temp"): sensor.sensor_schema(h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("power"): sensor.sensor_schema(h60_ns.class_("SensorPower", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("return_temp"): sensor.sensor_schema(h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
 }
 
 CONFIG_SCHEMA = cv.Schema(

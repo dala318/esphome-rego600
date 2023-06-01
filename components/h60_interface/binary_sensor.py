@@ -1,19 +1,16 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import (
-    CONF_ID,
-    DEVICE_CLASS_CONNECTIVITY,
-    ENTITY_CATEGORY_DIAGNOSTIC,
-)
+# from esphome.const import (
+# )
 from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
 h60_ns = cg.esphome_ns.namespace("h60_interface")
 CONF_DICT = {
-    cv.Optional("connected"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorConnected", binary_sensor.BinarySensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("heat_needed"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorHeatNeeded", binary_sensor.BinarySensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("connected"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorConnected", binary_sensor.BinarySensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("heat_needed"): binary_sensor.binary_sensor_schema(h60_ns.class_("BinarySensorHeatNeeded", binary_sensor.BinarySensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
 }
 
 CONFIG_SCHEMA = cv.Schema(

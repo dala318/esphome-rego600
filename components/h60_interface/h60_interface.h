@@ -23,88 +23,53 @@ namespace esphome {
 namespace h60_interface {
 
 // Binary Sensor specific classes
-class BinarySensorConnected : public binary_sensor::BinarySensor, public PollingComponent {
+class BinarySensorConnected : public binary_sensor::BinarySensor, public Component {
 public:
-    void update() override {
-        bool value = true;
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-  }
 protected:
     bool last_value_;
 };
-class BinarySensorHeatNeeded : public binary_sensor::BinarySensor, public PollingComponent {
+class BinarySensorHeatNeeded : public binary_sensor::BinarySensor, public Component {
 public:
-    void update() override {
-        bool value = false;
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-    }
 protected:
     bool last_value_;
 };
 
 // Sensor specific classes
-class SensorPower : public sensor::Sensor, public PollingComponent {
+class SensorPower : public sensor::Sensor, public Component {
 public:
     // void setup() override { this->publish_state(50); }
-    void update() override {
-        // auto ip = wifi::global_wifi_component->wifi_sta_ip();
-        // if (ip != this->last_ip_) {
-        //   this->last_ip_ = ip;
-        //   this->publish_state(ip.str());
-        // }
-        float value = 5050.8;
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-  }
+    // void update() override {
+    //     // auto ip = wifi::global_wifi_component->wifi_sta_ip();
+    //     // if (ip != this->last_ip_) {
+    //     //   this->last_ip_ = ip;
+    //     //   this->publish_state(ip.str());
+    //     // }
+    //     float value = 5050.8;
+    //     if (value != this->last_value_) {
+    //         this->last_value_ = value;
+    //         // this->publish_state(value);
+    //     }
+    // }
 //   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
 //   void dump_config() override;
 protected:
     float last_value_;
 //   network::IPAddress last_ip_;
 };
-class SensorReturnTemp : public sensor::Sensor, public PollingComponent {
+class SensorReturnTemp : public sensor::Sensor, public Component {
 public:
-    void update() override {
-        float value = -701.888;
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-    }
 protected:
     float last_value_;
 };
 
 // Text Sensor specific classes
-class TextSensorDeviceType : public text_sensor::TextSensor, public PollingComponent {
+class TextSensorDeviceType : public text_sensor::TextSensor, public Component {
 public:
-    void update() override {
-        std::string value = "rego 600";
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-  }
 protected:
     std::string last_value_;
 };
-class TextSensorDeviceModel : public text_sensor::TextSensor, public PollingComponent {
+class TextSensorDeviceModel : public text_sensor::TextSensor, public Component {
 public:
-    void update() override {
-        std::string value = "3.1";
-        if (value != this->last_value_) {
-            this->last_value_ = value;
-            // this->publish_state(value);
-        }
-    }
 protected:
     std::string last_value_;
 };
