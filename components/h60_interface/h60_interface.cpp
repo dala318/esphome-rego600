@@ -25,6 +25,11 @@ void H60InterfaceComponent::loop() {
     this->flush();
     this->write();
     this->cleanup();
+
+    this->loop_counter++;
+    for (auto *sensor : this->sensors_) {
+        sensor->publish_state(this->loop_counter);
+    }
 }
 
 void H60InterfaceComponent::dump_config() {

@@ -172,15 +172,19 @@ protected:
     //     SENSOR,
     //     TEXT_SENSOR,
     // } entity_type;
-    // struct Parameter {
-    //     Parameter(std::int64_t reg, std::string identifier, size_t position);
+    struct Parameter {
+        Parameter(std::int64_t reg, std::string identifier);//, size_t position);
 
-    //     std::int64_t reg{};
-    //     std::string identifier{};
-    //     // bool disconnected{false};
-    //     size_t position{0};
-    // };
-    // std::vector<Parameter> parameters_{};
+        std::int64_t reg{};
+        std::string identifier{};
+        // size_t position{0};
+
+        // std::vector<>
+    };
+    std::vector<Parameter> parameters_{};
+
+    // For testing purposes only
+    int loop_counter = 0;
 
     // Keeping track of UART bus data
     size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
