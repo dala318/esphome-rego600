@@ -169,15 +169,14 @@ public:
     // Function override definitions
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
+    // Function declaration component
+    void set_model(std::string model);
+
     // Function definitions component
-    void set_model(std::string model) {this->model_ = model; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
     void set_buffer_size(size_t size) { this->buf_size_ = size; }
     
     // Function declarations register input entities
-    // void register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
-    // void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter from the heat-pump and register a callback in that parameter to set the value "sensor->publish_state(value);" */}
-    // void register_text_sensor(std::string id, text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
     void register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj);
     void register_sensor(std::string id, sensor::Sensor *obj);
     void register_text_sensor(std::string id, text_sensor::TextSensor *obj);

@@ -22,16 +22,21 @@ void Parameter::publish_entities() {
     }
 }
 
+void H60InterfaceComponent::set_model(std::string model) {
+    this->model_ = model;
+
+    // This part should be uniqu for each model
+    this->parameters_.push_back(new Parameter(0x5122, "power"));
+    this->parameters_.push_back(new Parameter(0x9954, "heat_needed"));
+    this->parameters_.push_back(new Parameter(0x6845, "device_model"));
+    this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
+}
+
 void H60InterfaceComponent::setup() {
     ESP_LOGCONFIG(TAG, "Setting up H60 Interface...");
 
     // The make_unique() wrapper doesn't like arrays, so initialize the unique_ptr directly.
     this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
-
-    this->parameters_.push_back(new Parameter(0x5122, "power"));
-    this->parameters_.push_back(new Parameter(0x9954, "heat_needed"));
-    this->parameters_.push_back(new Parameter(0x6845, "device_model"));
-    this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
 }
 
 void H60InterfaceComponent::loop() {
@@ -67,7 +72,7 @@ void H60InterfaceComponent::on_shutdown() {
 }
 
 void H60InterfaceComponent::register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) {
-    this->binary_sensors_.push_back(obj); // TODO: remove
+    this->binary_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
             parameter->binary_sensors_.push_back(obj);
@@ -76,7 +81,7 @@ void H60InterfaceComponent::register_binary_sensor(std::string id, binary_sensor
 }
 
 void H60InterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj) {
-    this->sensors_.push_back(obj); // TODO: remove
+    this->sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
             parameter->sensors_.push_back(obj);
@@ -85,7 +90,7 @@ void H60InterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj)
 }
 
 void H60InterfaceComponent::register_text_sensor(std::string id, text_sensor::TextSensor *obj) {
-    this->text_sensors_.push_back(obj); // TODO: remove
+    this->text_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
             parameter->text_sensors_.push_back(obj);
