@@ -5,7 +5,7 @@ from esphome.const import CONF_ID, CONF_PORT, CONF_BUFFER_SIZE
 
 # ESPHome doesn't know the Stream abstraction yet, so hardcode to use a UART for now.
 
-AUTO_LOAD = [ 'binary_sensor', 'sensor','text_sensor']
+AUTO_LOAD = [ 'binary_sensor', 'sensor','text_sensor', 'switch']
 MULTI_CONF = True
 
 DEPENDENCIES = ["uart"]

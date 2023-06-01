@@ -3,9 +3,13 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 
+// Input entities
 #include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
+
+// Output entities
+#include "esphome/components/switch/switch.h"
 
 // #include "HD_Globals.h"
 // #include "HD_Utilities.h"
@@ -18,6 +22,7 @@
 namespace esphome {
 namespace h60_interface {
 
+// Sensor specific classes
 class SensorPower : public sensor::Sensor, public PollingComponent {
 public:
     // void setup() override { this->publish_state(50); }
@@ -40,7 +45,6 @@ protected:
     float last_value_;
 //   network::IPAddress last_ip_;
 };
-
 class SensorReturnTemp : public sensor::Sensor, public PollingComponent {
 public:
     // void setup() override { this->publish_state(501.88); }
@@ -55,6 +59,15 @@ protected:
     float last_value_;
 };
 
+// Switch specific classes
+class SwitchAdditionalHeat: public switch_::Switch, public Component {
+public:
+    // void setup() override;
+    void write_state(bool state) override { this->publish_state(state); }
+    // void dump_config() override;
+protected:
+    // bool last_state_;
+};
 
 
 class H60InterfaceComponent : public Component {
@@ -70,9 +83,13 @@ public:
     
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
+    // Register input entities function
     void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->binary_sensors_.push_back(obj); }
-    void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); }
+    void register_sensor(std::string id, sensor::Sensor *obj) { this->sensors_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter from the heat-pump and register a callback in that parameter to set the value "sensor->publish_state(value);" */}
     void register_text_sensor(text_sensor::TextSensor *obj) { this->text_sensors_.push_back(obj); }
+
+    // Register output entities function
+    void register_switch(std::string id, switch_::Switch *obj) { this->switches_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter to the heat-pump and register a callback to update on "sensor->write_state(bool);" */}
 
     // float get_float_parameter(std::string parameter) {
     //     if (paramter == 0){
@@ -90,20 +107,21 @@ protected:
     void flush();
     void write();
 
+    // Registred input entities
     std::vector<binary_sensor::BinarySensor *> binary_sensors_;
     std::vector<sensor::Sensor *> sensors_;
     std::vector<text_sensor::TextSensor *> text_sensors_;
 
-    size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
-    size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
+    // Registred ouputut entities
+    std::vector<switch_::Switch *> switches_;
 
+    // All available heat-pump parameters
     // typedef enum
     // {
     //     BINARY_SENSOR
     //     SENSOR,
     //     TEXT_SENSOR,
     // } entity_type;
-
     // struct Parameter {
     //     Parameter(std::int64_t reg, std::string identifier, size_t position);
 
@@ -112,8 +130,11 @@ protected:
     //     // bool disconnected{false};
     //     size_t position{0};
     // };
-
     // std::vector<Parameter> parameters_{};
+
+    // Keeping track of UART bus data
+    size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
+    size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
 
     std::string model_;
     esphome::uart::UARTComponent *stream_{nullptr};

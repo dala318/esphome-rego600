@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import sensor
+from esphome.components import switch
 from esphome.const import (
     CONF_ID,
     UNIT_EMPTY,
@@ -12,23 +12,21 @@ from . import ns, H60InterfaceComponent, CONF_HUB_ID, CONF_PARAMETER_ID
 
 DEPENDENCIES = ['h60_interface']
 
-sensor_ns = cg.esphome_ns.namespace('sensor')
-Sensor = sensor_ns.class_('Sensor', sensor.Sensor)
-# Sensor = sensor_ns.class_('Sensor', sensor.Sensor, cg.Nameable)
-
-DEFAULT_UPDATE_INTERVAL = "5s"
+switch_ns = cg.esphome_ns.namespace('switch_')
+Switch = switch_ns.class_('Switch', switch.Switch)
+# Switch = switch_ns.class_('Switch', switch.Switch, cg.Nameable)
 
 h60_ns = cg.esphome_ns.namespace("h60_interface")
 CONF_DICT = {
-    cv.Optional("power"): sensor.sensor_schema(h60_ns.class_("SensorPower", sensor.Sensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("return_temp"): sensor.sensor_schema(h60_ns.class_("SensorReturnTemp", sensor.Sensor, cg.PollingComponent)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("additional_heat"): switch.switch_schema(h60_ns.class_("SwitchAdditionalHeat", switch.Switch, cg.Component)).extend(cv.COMPONENT_SCHEMA),
 }
 
-# CONF_SENSOR_PARAMETERS = ["power", "return_temp"]
-# CONFIG_SCHEMA = sensor.SENSOR_SCHEMA.extend({
-#     cv.GenerateID(): cv.declare_id(Sensor),
+# CONF_SWITCH_PARAMETERS = ["power", "return_temp"]
+
+# CONFIG_SCHEMA = switch.SWITCH_SCHEMA.extend({
+#     cv.GenerateID(): cv.declare_id(Switch),
 #     cv.GenerateID(CONF_HUB_ID): cv.use_id(H60InterfaceComponent),
-#     cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_SENSOR_PARAMETERS),
+#     cv.Required(CONF_PARAMETER_ID): cv.one_of(*CONF_SWITCH_PARAMETERS),
 # }).extend(cv.COMPONENT_SCHEMA)
 
 CONFIG_SCHEMA = cv.Schema(
@@ -40,10 +38,10 @@ CONFIG_SCHEMA = cv.Schema(
 async def setup_conf(paren, config, key):
     if key in config:
         conf = config[key]
-        var = await sensor.new_sensor(conf)
-        # await sensor.register_sensor(var, conf)
+        var = await switch.new_switch(conf)
+        # await switch.register_switch(var, conf)
         await cg.register_component(var, conf)
-        cg.add(paren.register_sensor(str(key), var))
+        cg.add(paren.register_switch(str(key), var))
 
 
 async def to_code(config):
@@ -56,9 +54,9 @@ async def to_code(config):
 #     paren = await cg.get_variable(config[CONF_HUB_ID])
 #     var = cg.new_Pvariable(config[CONF_ID])
     
-#     await sensor.register_sensor(var, config)
+#     await switch.register_switch(var, config)
     
-#     cg.add(paren.register_sensor(var))
+#     cg.add(paren.register_switch(var))
 
 # async def to_code(config):
 #     paren = await cg.get_variable(config[CONF_HUB_ID])
@@ -67,16 +65,16 @@ async def to_code(config):
 #     #     if not isinstance(conf, dict):
 #     #         continue
 #     #     id = conf.get("id")
-#     #     if id and id.type == sensor.Sensor:
+#     #     if id and id.type == switch.Switch:
 #     #         # var = cg.new_Pvariable(conf)
-#     #         # await sensor.register_sensor(var, conf)
-#     #         var = await sensor.new_sensor(conf)
-#     #         cg.add(paren.register_sensor(var))
+#     #         # await switch.register_switch(var, conf)
+#     #         var = await switch.new_switch(conf)
+#     #         cg.add(paren.register_switch(var))
 
 #     for key, conf in config.items():
 #         if not isinstance(conf, dict):
 #             continue
 #         id = conf.get("id")
-#         if id and id.type == sensor.Sensor:
-#             var = await sensor.new_sensor(conf)
-#             cg.add(paren.register_sensor(key, var))
+#         if id and id.type == switch.Switch:
+#             var = await switch.new_switch(conf)
+#             cg.add(paren.register_switch(key, var))
