@@ -29,6 +29,13 @@ uart:
 
 h60_interface:
   uart_id: uart_bus
+  id: h60_hub
+
+sensor:
+  - platform: h60_interface
+    h60_interface_id: h60_hub
+    return_temp:
+      name: Return temp
 ```
 
 For debugging it's suggested to also add a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump
