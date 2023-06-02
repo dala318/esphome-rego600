@@ -1,5 +1,5 @@
 # H60-OS
-Follow up to Husdata H60 Arduino get started code (https://github.com/peterarandis/H60-OS)
+Fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS)
 
 To be used as custom component to ESPHome
 
@@ -15,11 +15,13 @@ https://rago600.sourceforge.net/
 
 https://github.com/peterarandis/H60-OS
 
+https://github.com/jagheterfredrik/esphome-rego1000
+
 Add the following to your ESPHome config
 
 ```yaml
 external_components:
-  - source: github://dala318/esphome-h60-interface
+  - source: github://dala318/esphome-rego600
 
 uart:
   id: uart_bus
@@ -27,13 +29,13 @@ uart:
   rx_pin: GPIO13
   baud_rate: 19200
 
-h60_interface:
+rego600:
   uart_id: uart_bus
-  id: h60_hub
+  id: rego600_hub
 
 sensor:
-  - platform: h60_interface
-    h60_interface_id: h60_hub
+  - platform: rego600
+    rego600_id: rego600_hub
     return_temp:
       name: Return temp
 ```

@@ -1,4 +1,4 @@
-#include "h60_interface.h"
+#include "rego_interface.h"
 
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
@@ -6,9 +6,9 @@
 #include "esphome/core/version.h"
 
 namespace esphome {
-namespace h60_interface {
+namespace rego {
 
-static const char *TAG = "h60_interface";
+static const char *TAG = "rego_interface";
 
 void Parameter::publish_entities() {
     for (auto *binary_sensor : this->binary_sensors_){
@@ -22,7 +22,7 @@ void Parameter::publish_entities() {
     }
 }
 
-void H60InterfaceComponent::set_model(std::string model) {
+void RegoInterfaceComponent::set_model(std::string model) {
     this->model_ = model;
 
     // This part should be uniqu for each model
@@ -32,14 +32,14 @@ void H60InterfaceComponent::set_model(std::string model) {
     this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
 }
 
-void H60InterfaceComponent::setup() {
-    ESP_LOGCONFIG(TAG, "Setting up H60 Interface...");
+void RegoInterfaceComponent::setup() {
+    ESP_LOGCONFIG(TAG, "Setting up Rego Interface...");
 
     // The make_unique() wrapper doesn't like arrays, so initialize the unique_ptr directly.
     this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
 }
 
-void H60InterfaceComponent::loop() {
+void RegoInterfaceComponent::loop() {
     this->accept();
     this->read();
     this->flush();
@@ -52,8 +52,8 @@ void H60InterfaceComponent::loop() {
     // }
 }
 
-void H60InterfaceComponent::dump_config() {
-    ESP_LOGCONFIG(TAG, "H60 Interface:");
+void RegoInterfaceComponent::dump_config() {
+    ESP_LOGCONFIG(TAG, "Rego Interface:");
     for (auto *binary_sensor : this->binary_sensors_){
         LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
     }
@@ -68,10 +68,10 @@ void H60InterfaceComponent::dump_config() {
     }
 }
 
-void H60InterfaceComponent::on_shutdown() {
+void RegoInterfaceComponent::on_shutdown() {
 }
 
-void H60InterfaceComponent::register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) {
+void RegoInterfaceComponent::register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) {
     this->binary_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
@@ -80,7 +80,7 @@ void H60InterfaceComponent::register_binary_sensor(std::string id, binary_sensor
     }
 }
 
-void H60InterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj) {
+void RegoInterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj) {
     this->sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
@@ -89,7 +89,7 @@ void H60InterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj)
     }
 }
 
-void H60InterfaceComponent::register_text_sensor(std::string id, text_sensor::TextSensor *obj) {
+void RegoInterfaceComponent::register_text_sensor(std::string id, text_sensor::TextSensor *obj) {
     this->text_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
@@ -98,11 +98,11 @@ void H60InterfaceComponent::register_text_sensor(std::string id, text_sensor::Te
     }
 }
 
-void H60InterfaceComponent::accept() {
+void RegoInterfaceComponent::accept() {
     // this->publish_sensors();
 }
 
-void H60InterfaceComponent::read() {
+void RegoInterfaceComponent::read() {
     size_t len = 0;
     int available;
     while ((available = this->stream_->available()) > 0) {
@@ -132,18 +132,18 @@ void H60InterfaceComponent::read() {
     }
 }
 
-void H60InterfaceComponent::flush() {
+void RegoInterfaceComponent::flush() {
     ssize_t written;
     this->buf_tail_ = this->buf_head_;
 }
 
-void H60InterfaceComponent::write() {
+void RegoInterfaceComponent::write() {
     uint8_t buf[128];
     ssize_t read;
 }
 
-void H60InterfaceComponent::cleanup() {
+void RegoInterfaceComponent::cleanup() {
 }
 
-}  // namespace h60_interface
+}  // namespace rego
 }  // namespace esphome

@@ -3,7 +3,7 @@
 #include <cstdint>
 
 namespace esphome {
-namespace h60_interface {
+namespace rego {
 
 static const std::int16_t registers = 0x0000;
 /*
@@ -58,5 +58,5 @@ static const std::int16_t registers = 0x0000;
 0x0002         0x0002         "Heat curve coupling diff."
 */
 
-}  // namespace h60_interface
+}  // namespace rego
 }  // namespace esphome

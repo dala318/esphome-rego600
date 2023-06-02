@@ -10,13 +10,12 @@ MULTI_CONF = True
 
 DEPENDENCIES = ["uart"]
 
-CONF_HUB_ID = "h60_interface_id"
-CONF_PARAMETER_ID = "parameter_id"
+CONF_HUB_ID = "rego600_id"
 
 CONF_MODEL = "model"
 
-ns = cg.esphome_ns.namespace("esphome::h60_interface")
-H60InterfaceComponent = ns.class_("H60InterfaceComponent", cg.Component)
+ns = cg.esphome_ns.namespace("esphome::rego")
+RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)
 
 # def validate_buffer_size(buffer_size):
 #     if buffer_size & (buffer_size - 1) != 0:
@@ -27,7 +26,7 @@ CONFIG_SCHEMA = cv.All(
     # cv.require_esphome_version(2022, 3, 0),
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(H60InterfaceComponent),
+            cv.GenerateID(): cv.declare_id(RegoInterfaceComponent),
             cv.Optional(CONF_MODEL, default="rego600"): cv.string,
             # cv.Optional(CONF_PORT, default=6638): cv.port,
             # cv.Optional(CONF_BUFFER_SIZE, default=128): cv.All(

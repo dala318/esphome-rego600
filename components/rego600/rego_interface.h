@@ -21,7 +21,7 @@
 #include <vector>
 
 namespace esphome {
-namespace h60_interface {
+namespace rego {
 
 // Binary Sensor specific classes
 class BinarySensorConnected : public binary_sensor::BinarySensor, public Component {
@@ -124,7 +124,7 @@ private:
     std::string ident;
 };
 
-class H60InterfaceComponent : public Component {
+class RegoInterfaceComponent : public Component {
 public:
     // Function override declarations
     void setup() override;
@@ -186,5 +186,5 @@ protected:
     size_t buf_tail_{0};
 };
 
-}  // namespace h60_interface
+}  // namespace rego
 }  // namespace esphome
