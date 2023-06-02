@@ -40,11 +40,17 @@ void RegoInterfaceComponent::setup() {
 }
 
 void RegoInterfaceComponent::loop() {
-    this->accept();
-    this->read();
-    this->flush();
-    this->write();
-    this->cleanup();
+    // Simplified update interval assuming loop at 60Hz (16ms delta_time)
+    this->last_update_ += 16;
+    if (this->last_update_ >= this->update_interval_) {
+        this->last_update_ = 0;
+
+        this->accept();
+        this->read();
+        this->flush();
+        this->write();
+        this->cleanup();
+    }
 
     // this->loop_counter++;
     // for (auto *sensor : this->sensors_) {

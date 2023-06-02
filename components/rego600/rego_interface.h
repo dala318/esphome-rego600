@@ -139,6 +139,7 @@ public:
     void set_model(std::string model);
 
     // Function definitions component
+    void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
     void set_buffer_size(size_t size) { this->buf_size_ = size; }
     
@@ -172,14 +173,17 @@ protected:
 
     // Internal state storage
     std::vector<Parameter *> parameters_{};
+    int last_update_ = 0;
+
+    // Config parameters
+    std::string model_;
+    int update_interval_;
+    size_t buf_size_;
+    esphome::uart::UARTComponent *stream_{nullptr};
 
     // Keeping track of UART bus data
     size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
     size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
-
-    std::string model_;
-    esphome::uart::UARTComponent *stream_{nullptr};
-    size_t buf_size_;
 
     std::unique_ptr<uint8_t[]> buf_{};
     size_t buf_head_{0};
