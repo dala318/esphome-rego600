@@ -1,5 +1,6 @@
-# H60-OS
-Fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS)
+# esphome-rego600
+Fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS) 
+with a lot of influence from [esphome/components/dsmr](https://github.com/esphome/esphome/tree/dev/esphome/components/dsmr)
 
 To be used as custom component to ESPHome
 
