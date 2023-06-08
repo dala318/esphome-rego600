@@ -3,13 +3,22 @@ import esphome.config_validation as cv
 from esphome.components import binary_sensor
 # from esphome.const import (
 # )
-from . import ns, RegoInterfaceComponent, CONF_HUB_ID
+from . import ns, RegoInterfaceComponent, CONF_HUB_ID, REG_ADDR_SCHEMA
 
 DEPENDENCIES = ['rego600']
 
+binary_sensor_schema = binary_sensor.binary_sensor_schema(
+    ns.class_(
+        "RegoBinarySensor",
+        binary_sensor.BinarySensor,
+        cg.Component,
+        ns.class_("RegoBase")
+    )
+).extend(cv.COMPONENT_SCHEMA)
+
 CONF_DICT = {
-    cv.Optional("connected"): binary_sensor.binary_sensor_schema(ns.class_("BinarySensorConnected", binary_sensor.BinarySensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("heat_needed"): binary_sensor.binary_sensor_schema(ns.class_("BinarySensorHeatNeeded", binary_sensor.BinarySensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("connected"): binary_sensor_schema,
+    cv.Optional("heat_needed"): binary_sensor_schema,
 }
 
 CONFIG_SCHEMA = cv.Schema(

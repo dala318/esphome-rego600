@@ -12,12 +12,15 @@ DEPENDENCIES = ["uart"]
 
 CONF_HUB_ID = "rego600_id"
 
+CONF_REG_ADDR = "reg_addr"
 CONF_MODEL = "model"
 # CONF_LOG_ALL = "log_all"
 CONF_UPDATE_INTERVAL = "update_interval"
 
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)
+
+REG_ADDR_SCHEMA = cv.Schema({cv.Required(CONF_REG_ADDR): cv.hex_int})
 
 def validate_buffer_size(buffer_size):
     if buffer_size & (buffer_size - 1) != 0:

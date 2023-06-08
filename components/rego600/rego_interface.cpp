@@ -82,7 +82,7 @@ void RegoInterfaceComponent::dump_config() {
 void RegoInterfaceComponent::on_shutdown() {
 }
 
-void RegoInterfaceComponent::register_binary_sensor(std::string id, binary_sensor::BinarySensor *obj) {
+void RegoInterfaceComponent::register_binary_sensor(std::string id, RegoBinarySensor *obj) {
     this->binary_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
@@ -91,7 +91,7 @@ void RegoInterfaceComponent::register_binary_sensor(std::string id, binary_senso
     }
 }
 
-void RegoInterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj) {
+void RegoInterfaceComponent::register_sensor(std::string id, RegoSensor *obj) {
     this->sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {
@@ -100,7 +100,7 @@ void RegoInterfaceComponent::register_sensor(std::string id, sensor::Sensor *obj
     }
 }
 
-void RegoInterfaceComponent::register_text_sensor(std::string id, text_sensor::TextSensor *obj) {
+void RegoInterfaceComponent::register_text_sensor(std::string id, RegoTextSensor *obj) {
     this->text_sensors_.push_back(obj);
     for (Parameter *parameter : this->parameters_){
         if (parameter->identifier() == id) {

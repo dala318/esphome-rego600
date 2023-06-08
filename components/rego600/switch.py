@@ -7,8 +7,17 @@ from . import ns, RegoInterfaceComponent, CONF_HUB_ID
 
 DEPENDENCIES = ['rego600']
 
+switch_schema = switch.switch_schema(
+    ns.class_(
+        "RegoSwitch",
+        switch.Switch,
+        cg.Component,
+        ns.class_("RegoBase")
+    )
+).extend(cv.COMPONENT_SCHEMA)
+
 CONF_DICT = {
-    cv.Optional("additional_heat"): switch.switch_schema(ns.class_("SwitchAdditionalHeat", switch.Switch, cg.Component)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("additional_heat"): switch_schema,
 }
 
 CONFIG_SCHEMA = cv.Schema(

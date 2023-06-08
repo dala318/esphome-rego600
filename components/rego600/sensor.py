@@ -7,9 +7,18 @@ from . import ns, RegoInterfaceComponent, CONF_HUB_ID
 
 DEPENDENCIES = ['rego600']
 
+sensor_schema = sensor.sensor_schema(
+    ns.class_(
+        "RegoSensor",
+        sensor.Sensor,
+        cg.Component,
+        ns.class_("RegoBase")
+    )
+).extend(cv.COMPONENT_SCHEMA)
+
 CONF_DICT = {
-    cv.Optional("power"): sensor.sensor_schema(ns.class_("SensorPower", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("return_temp"): sensor.sensor_schema(ns.class_("SensorReturnTemp", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional("power"): sensor_schema,
+    cv.Optional("return_temp"): sensor_schema,
 }
 
 CONFIG_SCHEMA = cv.Schema(
