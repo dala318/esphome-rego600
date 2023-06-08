@@ -30,6 +30,11 @@ void RegoInterfaceComponent::set_model(std::string model) {
     this->parameters_.push_back(new Parameter(0x9954, "heat_needed"));
     this->parameters_.push_back(new Parameter(0x6845, "device_model"));
     this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
+
+    this->parameters_map_["power"] = new Parameter(0x5122, "power");
+    this->parameters_map_["heat_needed"] = new Parameter(0x9954, "heat_needed");
+    this->parameters_map_["device_model"] = new Parameter(0x6845, "device_model");
+    this->parameters_map_["return_temp"] = new Parameter(0x1969, "return_temp");
 }
 
 void RegoInterfaceComponent::setup() {
@@ -129,6 +134,7 @@ void RegoInterfaceComponent::read() {
         this->buf_head_ += len;
     }
 
+    // TODO: Remove, for testing only
     if (this->loop_counter > 1000) {
         this->loop_counter = -200;
     }
@@ -146,6 +152,22 @@ void RegoInterfaceComponent::flush() {
 void RegoInterfaceComponent::write() {
     uint8_t buf[128];
     ssize_t read;
+    // for (Client &client : this->clients_) {
+    //     if (client.disconnected)
+    //         continue;
+
+    //     while ((read = client.socket->read(&buf, sizeof(buf))) > 0)
+    //         this->stream_->write_array(buf, read);
+
+    //     if (read == 0 || errno == ECONNRESET) {
+    //         ESP_LOGD(TAG, "Client %s disconnected", client.identifier.c_str());
+    //         client.disconnected = true;
+    //     } else if (errno == EWOULDBLOCK || errno == EAGAIN) {
+    //         // Expected if the (TCP) receive buffer is empty, nothing to do.
+    //     } else {
+    //         ESP_LOGW(TAG, "Failed to read from client %s with error %d!", client.identifier.c_str(), errno);
+    //     }
+    // }
 }
 
 void RegoInterfaceComponent::cleanup() {

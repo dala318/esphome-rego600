@@ -1,3 +1,8 @@
+/*!
+ * Base definition for regi_interface with class definitions for both internal and external use.
+ * 
+ */
+
 #pragma once
 
 #include "esphome/core/component.h"
