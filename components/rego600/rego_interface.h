@@ -132,29 +132,6 @@ protected:
     bool last_value_;
 };
 
-// Sensor specific class
-class RegoSensor : public sensor::Sensor, public RegoBase {
-public:
-    // void setup() override { this->publish_state(50); }
-    // void update() override {
-    //     // auto ip = wifi::global_wifi_component->wifi_sta_ip();
-    //     // if (ip != this->last_ip_) {
-    //     //   this->last_ip_ = ip;
-    //     //   this->publish_state(ip.str());
-    //     // }
-    //     float value = 5050.8;
-    //     if (value != this->last_value_) {
-    //         this->last_value_ = value;
-    //         // this->publish_state(value);
-    //     }
-    // }
-//   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
-//   void dump_config() override;
-protected:
-    float last_value_;
-//   network::IPAddress last_ip_;
-};
-
 // Text Sensor specific classes
 class RegoTextSensor : public text_sensor::TextSensor, public RegoBase {
 public:
@@ -193,9 +170,9 @@ public:
     }
 
     // Subscribers
-    std::vector<RegoBinarySensor *> binary_sensors_;
-    std::vector<RegoSensor *> sensors_;
-    std::vector<RegoTextSensor *> text_sensors_;
+    // std::vector<RegoBinarySensor *> binary_sensors_;
+    // std::vector<RegoSensor *> sensors_;
+    // std::vector<RegoTextSensor *> text_sensors_;
 
 private:
     // Function declararations
@@ -232,12 +209,15 @@ public:
     void set_buffer_size(size_t size) { this->buf_size_ = size; }
     
     // Function declarations register input entities
-    void register_binary_sensor(std::string id, RegoBinarySensor *obj);
-    void register_sensor(std::string id, RegoSensor *obj);
-    void register_text_sensor(std::string id, RegoTextSensor *obj);
+    // void register_binary_sensor(std::string id, RegoBinarySensor *obj);
+    // void register_sensor(std::string id, RegoSensor *obj);
+    // void register_text_sensor(std::string id, RegoTextSensor *obj);
 
     // Function definitions register output entities
-    void register_switch(std::string id, RegoSwitch *obj) { this->switches_.push_back(obj); /* TODO, use id in-paramter to link the entity to a parameter to the heat-pump and register a callback to update on "sensor->write_state(bool);" */}
+    // void register_switch(std::string id, RegoSwitch *obj) {
+        // this->switches_.push_back(obj);
+        // TODO, use id in-paramter to link the entity to a parameter to the heat-pump and register a callback to update on "sensor->write_state(bool);"
+    // }
 
 protected:
     // Function definitions
@@ -247,12 +227,12 @@ protected:
     // command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val);
 
     // Registred input entities
-    std::vector<RegoBinarySensor *> binary_sensors_; // TODO: remove
-    std::vector<RegoSensor *> sensors_; // TODO: remove
-    std::vector<RegoTextSensor *> text_sensors_; // TODO: remove
+    // std::vector<RegoBinarySensor *> binary_sensors_; // TODO: remove
+    // std::vector<RegoSensor *> sensors_; // TODO: remove
+    // std::vector<RegoTextSensor *> text_sensors_; // TODO: remove
 
     // Registred ouputut entities
-    std::vector<RegoSwitch *> switches_;
+    // std::vector<RegoSwitch *> switches_;
 
     // For testing purposes only
     int loop_counter = 0;

@@ -1,24 +1,23 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import binary_sensor
+from esphome.components import switch
 # from esphome.const import (
 # )
-from . import ns, RegoInterfaceComponent, CONF_HUB_ID, REG_ADDR_SCHEMA
+from .. import ns, RegoInterfaceComponent, CONF_HUB_ID
 
 DEPENDENCIES = ['rego600']
 
-binary_sensor_schema = binary_sensor.binary_sensor_schema(
+switch_schema = switch.switch_schema(
     ns.class_(
-        "RegoBinarySensor",
-        binary_sensor.BinarySensor,
+        "RegoSwitch",
+        switch.Switch,
         cg.Component,
         ns.class_("RegoBase")
     )
 ).extend(cv.COMPONENT_SCHEMA)
 
 CONF_DICT = {
-    cv.Optional("connected"): binary_sensor_schema,
-    cv.Optional("heat_needed"): binary_sensor_schema,
+    cv.Optional("additional_heat"): switch_schema,
 }
 
 CONFIG_SCHEMA = cv.Schema(
@@ -30,9 +29,9 @@ CONFIG_SCHEMA = cv.Schema(
 async def setup_conf(paren, config, key):
     if key in config:
         conf = config[key]
-        var = await binary_sensor.new_binary_sensor(conf)
+        var = await switch.new_switch(conf)
         await cg.register_component(var, conf)
-        cg.add(paren.register_binary_sensor(str(key), var))
+        # cg.add(paren.register_switch(str(key), var))
 
 
 async def to_code(config):

@@ -11,15 +11,15 @@ namespace rego {
 static const char *TAG = "rego_interface";
 
 void Parameter::publish_entities() {
-    for (auto *binary_sensor : this->binary_sensors_){
-        binary_sensor->publish_state(this->b_value);
-    }
-    for (auto *sensor : this->sensors_){
-        sensor->publish_state(this->f_value);
-    }
-    for (auto *text_sensor : this->text_sensors_){
-        text_sensor->publish_state(this->t_value);
-    }
+    // for (auto *binary_sensor : this->binary_sensors_){
+    //     binary_sensor->publish_state(this->b_value);
+    // }
+    // for (auto *sensor : this->sensors_){
+    //     sensor->publish_state(this->f_value);
+    // }
+    // for (auto *text_sensor : this->text_sensors_){
+    //     text_sensor->publish_state(this->t_value);
+    // }
 }
 
 void RegoInterfaceComponent::set_model(std::string model) {
@@ -56,49 +56,49 @@ void RegoInterfaceComponent::loop() {
 
 void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Interface:");
-    for (auto *binary_sensor : this->binary_sensors_){
-        LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
-    }
-    for (auto *sensor : this->sensors_) {
-        LOG_SENSOR("  ", "Sensor", sensor);
-    }
-    for (auto *text_sensor : this->text_sensors_){
-        LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
-    }
-    for (auto *switch_ : this->switches_){
-        LOG_SWITCH("  ", "Switch", switch_);
-    }
+    // for (auto *binary_sensor : this->binary_sensors_){
+    //     LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
+    // }
+    // for (auto *sensor : this->sensors_) {
+    //     LOG_SENSOR("  ", "Sensor", sensor);
+    // }
+    // for (auto *text_sensor : this->text_sensors_){
+    //     LOG_TEXT_SENSOR("  ", "Text sensor", text_sensor);
+    // }
+    // for (auto *switch_ : this->switches_){
+    //     LOG_SWITCH("  ", "Switch", switch_);
+    // }
 }
 
 void RegoInterfaceComponent::on_shutdown() {
 }
 
-void RegoInterfaceComponent::register_binary_sensor(std::string id, RegoBinarySensor *obj) {
-    this->binary_sensors_.push_back(obj);
-    for (Parameter *parameter : this->parameters_){
-        if (parameter->identifier() == id) {
-            parameter->binary_sensors_.push_back(obj);
-        }
-    }
-}
+// void RegoInterfaceComponent::register_binary_sensor(std::string id, RegoBinarySensor *obj) {
+//     // this->binary_sensors_.push_back(obj);
+//     // for (Parameter *parameter : this->parameters_){
+//     //     if (parameter->identifier() == id) {
+//     //         parameter->binary_sensors_.push_back(obj);
+//     //     }
+//     // }
+// }
 
-void RegoInterfaceComponent::register_sensor(std::string id, RegoSensor *obj) {
-    this->sensors_.push_back(obj);
-    for (Parameter *parameter : this->parameters_){
-        if (parameter->identifier() == id) {
-            parameter->sensors_.push_back(obj);
-        }
-    }
-}
+// void RegoInterfaceComponent::register_sensor(std::string id, RegoSensor *obj) {
+//     // this->sensors_.push_back(obj);
+//     // for (Parameter *parameter : this->parameters_){
+//     //     if (parameter->identifier() == id) {
+//     //         parameter->sensors_.push_back(obj);
+//     //     }
+//     // }
+// }
 
-void RegoInterfaceComponent::register_text_sensor(std::string id, RegoTextSensor *obj) {
-    this->text_sensors_.push_back(obj);
-    for (Parameter *parameter : this->parameters_){
-        if (parameter->identifier() == id) {
-            parameter->text_sensors_.push_back(obj);
-        }
-    }
-}
+// void RegoInterfaceComponent::register_text_sensor(std::string id, RegoTextSensor *obj) {
+//     // this->text_sensors_.push_back(obj);
+//     // for (Parameter *parameter : this->parameters_){
+//     //     if (parameter->identifier() == id) {
+//     //         parameter->text_sensors_.push_back(obj);
+//     //     }
+//     // }
+// }
 
 void RegoInterfaceComponent::write_registers() {
     uint8_t buf[128];

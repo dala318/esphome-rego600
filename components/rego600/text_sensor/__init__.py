@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import text_sensor
 # from esphome.const import (
 # )
-from . import ns, RegoInterfaceComponent, CONF_HUB_ID
+from .. import ns, RegoInterfaceComponent, CONF_HUB_ID
 
 DEPENDENCIES = ['rego600']
 
@@ -32,7 +32,7 @@ async def setup_conf(paren, config, key):
         conf = config[key]
         var = await text_sensor.new_text_sensor(conf)
         await cg.register_component(var, conf)
-        cg.add(paren.register_text_sensor(str(key), var))
+        # cg.add(paren.register_text_sensor(str(key), var))
 
 
 async def to_code(config):
