@@ -31,6 +31,7 @@ async def setup_conf(paren, config, key):
         conf = config[key]
         var = await switch.new_switch(conf)
         await cg.register_component(var, conf)
+        cg.add(var.register_hub(paren))
         # cg.add(paren.register_switch(str(key), var))
 
 

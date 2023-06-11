@@ -32,6 +32,7 @@ async def setup_conf(paren, config, key):
         conf = config[key]
         var = await text_sensor.new_text_sensor(conf)
         await cg.register_component(var, conf)
+        cg.add(var.register_hub(paren))
         # cg.add(paren.register_text_sensor(str(key), var))
 
 

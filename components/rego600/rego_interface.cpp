@@ -10,6 +10,10 @@ namespace rego {
 
 static const char *TAG = "rego_interface";
 
+void RegoBase::register_hub(RegoInterfaceComponent *hub) {
+    this->hub_ = hub;
+}
+
 void Parameter::publish_entities() {
     // for (auto *binary_sensor : this->binary_sensors_){
     //     binary_sensor->publish_state(this->b_value);

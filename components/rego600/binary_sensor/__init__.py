@@ -32,6 +32,7 @@ async def setup_conf(paren, config, key):
         conf = config[key]
         var = await binary_sensor.new_binary_sensor(conf)
         await cg.register_component(var, conf)
+        cg.add(var.register_hub(paren))
         # cg.add(paren.register_binary_sensor(str(key), var))
 
 
