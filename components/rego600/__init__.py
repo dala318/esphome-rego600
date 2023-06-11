@@ -35,13 +35,13 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(RegoInterfaceComponent),
             cv.Optional(CONF_MODEL, default="rego600"): cv.string,
             # cv.optional(CONF_LOG_ALL, default=False): cv.bool,
-            cv.Optional(CONF_UPDATE_INTERVAL, default="2s"): cv.update_interval,
+            # cv.Optional(CONF_UPDATE_INTERVAL, default="2s"): cv.update_interval,
             cv.Optional(CONF_BUFFER_SIZE, default=128): cv.All(
                 cv.positive_int, validate_buffer_size
             ),
         }
     )
-    .extend(cv.COMPONENT_SCHEMA)
+    # .extend(cv.COMPONENT_SCHEMA)
     .extend(uart.UART_DEVICE_SCHEMA),
 )
 

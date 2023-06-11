@@ -50,12 +50,15 @@ void RegoInterfaceComponent::setup() {
 
 void RegoInterfaceComponent::loop() {
     // Simplified update interval assuming loop at 60Hz (16ms delta_time)
-    this->last_update_ += 16;
-    if (this->last_update_ >= this->update_interval_) {
-        this->last_update_ = 0;
-        this->write_registers();
-        this->read_registers();
-    }
+    // this->last_update_ += 16;
+    // if (this->last_update_ >= this->update_interval_) {
+    //     ESP_LOGCONFIG(TAG, "Executing in loop of component...");
+    //     this->last_update_ = 0;
+    //     this->write_registers();
+    //     this->read_registers();
+    // }
+    this->write_registers();
+    this->read_registers();
 }
 
 void RegoInterfaceComponent::dump_config() {
@@ -128,38 +131,28 @@ void RegoInterfaceComponent::write_registers() {
 void RegoInterfaceComponent::read_registers() {
     size_t len = 0;
     int available;
-    while ((available = this->stream_->available()) > 0) {
-        size_t free = this->buf_size_ - (this->buf_head_ - this->buf_tail_);
-        if (free == 0) {
-            // Only overwrite if nothing has been added yet, otherwise give flush() a chance to empty the buffer first.
-            if (len > 0)
-                return;
+    // while ((available = this->stream_->available()) > 0) {
+    //     size_t free = this->buf_size_ - (this->buf_head_ - this->buf_tail_);
+    //     if (free == 0) {
+    //         // Only overwrite if nothing has been added yet, otherwise give flush() a chance to empty the buffer first.
+    //         if (len > 0)
+    //             return;
 
-            ESP_LOGE(TAG, "Incoming bytes available, but outgoing buffer is full: stream will be corrupted!");
-            free = std::min<size_t>(available, this->buf_size_);
-            this->buf_tail_ += free;
-        }
+    //         ESP_LOGE(TAG, "Incoming bytes available, but outgoing buffer is full: stream will be corrupted!");
+    //         free = std::min<size_t>(available, this->buf_size_);
+    //         this->buf_tail_ += free;
+    //     }
 
-        // Fill all available contiguous space in the ring buffer.
-        len = std::min<size_t>(available, std::min<size_t>(this->buf_ahead(this->buf_head_), free));
-        this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
-        this->buf_head_ += len;
-    }
+    //     // Fill all available contiguous space in the ring buffer.
+    //     len = std::min<size_t>(available, std::min<size_t>(this->buf_ahead(this->buf_head_), free));
+    //     this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
+    //     this->buf_head_ += len;
+    // }
 
     for (Parameter *parameter : this->parameters_){
         // parameter->
     }
 
-
-
-    // TODO: Remove, for testing only
-    if (this->loop_counter > 1000) {
-        this->loop_counter = -200;
-    }
-    for (Parameter *parameter : this->parameters_){
-        this->loop_counter++;
-        parameter->update_values(this->loop_counter);
-    }
 }
 
 
@@ -171,9 +164,10 @@ std::string RegoInterfaceComponent::read_value(int16_t reg, std::string name)
   if ((response >= 0x8000) && (response <= 0x800F)) {
     // response = command_and_response(0x81, 0x02, reg, 0x00);
   }
-  std::string url = std::string(reg, HEX);
-  url += "=";
-  url += std::string(response, HEX);
+  std::string url = "Return value"; // TODO: Temporare return
+//   std::string url = std::string(reg, HEX);
+//   url += "=";
+//   url += std::string(response, HEX);
 //   Serial1.print(name + " ");
 //   Serial1.print(reg,HEX);
 //   Serial1.print("=");

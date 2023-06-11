@@ -8,14 +8,14 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 
-// Input entities
-#include "esphome/components/binary_sensor/binary_sensor.h"
-#include "esphome/components/sensor/sensor.h"
-#include "esphome/components/text_sensor/text_sensor.h"
+// // Input entities
+// #include "esphome/components/binary_sensor/binary_sensor.h"
+// #include "esphome/components/sensor/sensor.h"
+// #include "esphome/components/text_sensor/text_sensor.h"
 
-// Output entities
-#include "esphome/components/button/button.h"
-#include "esphome/components/switch/switch.h"
+// // Output entities
+// #include "esphome/components/button/button.h"
+// #include "esphome/components/switch/switch.h"
 
 // #include "HD_Globals.h"
 // #include "HD_Utilities.h"
@@ -88,7 +88,7 @@ public:
 
     // Function definitions component
     void set_log_all(bool log_all) {this->log_all_ = log_all; }
-    void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
+    // void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
     void set_buffer_size(size_t size) { this->buf_size_ = size; }
     
@@ -130,7 +130,7 @@ protected:
     // Config parameters
     std::string model_;
     bool log_all_ = false;
-    int update_interval_;
+    // int update_interval_ = 2000;
     size_t buf_size_;
     esphome::uart::UARTComponent *stream_{nullptr};
 
@@ -143,8 +143,10 @@ protected:
     size_t buf_tail_{0};
 };
 
-class RegoBase : public Component {
+class RegoBase : public PollingComponent {
 public:
+    void register_hub(RegoInterfaceComponent *hub);
+
     // virtual void setup() override {
     //     this->setup_listening();
     //     if (this->is_polling) {
@@ -152,11 +154,7 @@ public:
     //     }
     // }
 
-    // /* CAN listening */
-    // void setup_listening() {
-    //     this->can_trigger = new CanbusTriggerProxy(this->canbus, this->can_recv_id, this);
-    //     this->can_trigger->setup();
-    // }
+    void update() override { int a = 1; }
 
     int parse_data(std::vector<uint8_t> data) {
         // if (data.size() == 1) {
@@ -171,7 +169,11 @@ public:
         return 0;
     }
 
-    void register_hub(RegoInterfaceComponent *hub);
+    // /* CAN listening */
+    // void setup_listening() {
+    //     this->can_trigger = new CanbusTriggerProxy(this->canbus, this->can_recv_id, this);
+    //     this->can_trigger->setup();
+    // }
 
     // virtual void data_recv(std::vector<uint8_t> data, uint32_t can_id) {
     //     this->inferred_data_len = data.size();

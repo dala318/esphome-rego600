@@ -11,10 +11,10 @@ switch_schema = switch.switch_schema(
     ns.class_(
         "RegoSwitch",
         switch.Switch,
-        cg.Component,
+        cg.PollingComponent,
         ns.class_("RegoBase")
     )
-).extend(cv.COMPONENT_SCHEMA)
+).extend(cv.polling_component_schema('10s'))
 
 CONF_DICT = {
     cv.Optional("additional_heat"): switch_schema,

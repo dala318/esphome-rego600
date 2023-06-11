@@ -11,10 +11,10 @@ text_sensor_schema = text_sensor.text_sensor_schema(
     ns.class_(
         "RegoTextSensor",
         text_sensor.TextSensor,
-        cg.Component,
+        cg.PollingComponent,
         ns.class_("RegoBase")
     )
-).extend(cv.COMPONENT_SCHEMA)
+).extend(cv.polling_component_schema('10s'))
 
 CONF_DICT = {
     cv.Optional("device_type"): text_sensor_schema,

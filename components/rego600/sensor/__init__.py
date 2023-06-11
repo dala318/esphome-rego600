@@ -11,10 +11,10 @@ sensor_schema = sensor.sensor_schema(
     ns.class_(
         "RegoSensor",
         sensor.Sensor,
-        cg.Component,
+        cg.PollingComponent,
         ns.class_("RegoBase")
     )
-).extend(cv.COMPONENT_SCHEMA)
+).extend(cv.polling_component_schema('10s'))
 
 CONF_DICT = {
     cv.Optional("power"): sensor_schema,
