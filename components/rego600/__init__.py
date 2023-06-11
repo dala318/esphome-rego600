@@ -14,8 +14,8 @@ CONF_HUB_ID = "rego600_id"
 
 CONF_REG_ADDR = "reg_addr"
 CONF_MODEL = "model"
-# CONF_LOG_ALL = "log_all"
-CONF_UPDATE_INTERVAL = "update_interval"
+CONF_LOG_ALL = "log_all"
+# CONF_UPDATE_INTERVAL = "update_interval"
 
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)
@@ -34,23 +34,24 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(): cv.declare_id(RegoInterfaceComponent),
             cv.Optional(CONF_MODEL, default="rego600"): cv.string,
-            # cv.optional(CONF_LOG_ALL, default=False): cv.bool,
+            cv.Optional(CONF_LOG_ALL, default=False): cv.boolean,
             # cv.Optional(CONF_UPDATE_INTERVAL, default="2s"): cv.update_interval,
-            cv.Optional(CONF_BUFFER_SIZE, default=128): cv.All(
-                cv.positive_int, validate_buffer_size
-            ),
+            # cv.Optional(CONF_BUFFER_SIZE, default=128): cv.All(
+            #     cv.positive_int, validate_buffer_size
+            # ),
         }
     )
     # .extend(cv.COMPONENT_SCHEMA)
+    # .extend(cv.polling_component_schema('10s'))
     .extend(uart.UART_DEVICE_SCHEMA),
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     cg.add(var.set_model(config[CONF_MODEL]))
-    # cg.add(var.set_log_all(config[CONF_LOG_ALL]))
-    # cg.add(var.set_update_interval(config[CONF_UPDATE_INTERVAL]))  # Seem to already be a part of component or uart schema
-    cg.add(var.set_buffer_size(config[CONF_BUFFER_SIZE]))
+    cg.add(var.set_log_all(config[CONF_LOG_ALL]))
+    # cg.add(var.set_update_interval(config[CONF_UPDATE_INTERVAL]))  # Seem to already be a part of component schema
+    # cg.add(var.set_buffer_size(config[CONF_BUFFER_SIZE]))
 
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)  # TODO: needed?

@@ -33,44 +33,39 @@ namespace esphome {
 namespace rego {
 
 
-// Parameter register class
-class Parameter {
-public:
-    Parameter(std::int64_t reg_, std::string ident_) {
-        reg = reg_;
-        ident = ident_;
-    }
+// // Parameter register class
+// class Parameter {
+// public:
+//     Parameter(std::int64_t reg_, std::string ident_) {
+//         reg = reg_;
+//         ident = ident_;
+//     }
 
-    std::string identifier(void) {
-        return ident;
-    }
+//     std::string identifier(void) {
+//         return ident;
+//     }
 
-    void update_values(int new_value) {
-        b_value = new_value > 100;
-        f_value = static_cast<float>(new_value);
-        t_value = std::to_string(new_value);
+//     void update_values(int new_value) {
+//         b_value = new_value > 100;
+//         f_value = static_cast<float>(new_value);
+//         t_value = std::to_string(new_value);
 
-        publish_entities();
-    }
+//         publish_entities();
+//     }
 
-    // Subscribers
-    // std::vector<RegoBinarySensor *> binary_sensors_;
-    // std::vector<RegoSensor *> sensors_;
-    // std::vector<RegoTextSensor *> text_sensors_;
+// private:
+//     // Function declararations
+//     void publish_entities();
 
-private:
-    // Function declararations
-    void publish_entities();
+//     // Values
+//     bool b_value;
+//     float f_value;
+//     std::string t_value;
 
-    // Values
-    bool b_value;
-    float f_value;
-    std::string t_value;
-
-    // Identifiers
-    std::int64_t reg;
-    std::string ident;
-};
+//     // Identifiers
+//     std::int64_t reg;
+//     std::string ident;
+// };
 
 class RegoInterfaceComponent : public Component {
 public:
@@ -90,18 +85,7 @@ public:
     void set_log_all(bool log_all) {this->log_all_ = log_all; }
     // void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
-    void set_buffer_size(size_t size) { this->buf_size_ = size; }
-    
-    // Function declarations register input entities
-    // void register_binary_sensor(std::string id, RegoBinarySensor *obj);
-    // void register_sensor(std::string id, RegoSensor *obj);
-    // void register_text_sensor(std::string id, RegoTextSensor *obj);
-
-    // Function definitions register output entities
-    // void register_switch(std::string id, RegoSwitch *obj) {
-        // this->switches_.push_back(obj);
-        // TODO, use id in-paramter to link the entity to a parameter to the heat-pump and register a callback to update on "sensor->write_state(bool);"
-    // }
+    // void set_buffer_size(size_t size) { this->buf_size_ = size; }
 
 protected:
     // Function definitions
@@ -110,49 +94,38 @@ protected:
     std::string  read_value(int16_t reg, std::string name);
     // command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val);
 
-    // Registred input entities
-    // std::vector<RegoBinarySensor *> binary_sensors_; // TODO: remove
-    // std::vector<RegoSensor *> sensors_; // TODO: remove
-    // std::vector<RegoTextSensor *> text_sensors_; // TODO: remove
-
-    // Registred ouputut entities
-    // std::vector<RegoSwitch *> switches_;
 
     // For testing purposes only
-    int loop_counter = 0;
-    std::int16_t reg = registers;
+    // int loop_counter = 0;
+    // int last_update_ = 0;
 
     // Internal state storage
-    std::vector<Parameter *> parameters_{};
-    std::map<std::string, Parameter *> parameters_map_{};
-    int last_update_ = 0;
+    // std::vector<Parameter *> parameters_{};
+    // std::map<std::string, Parameter *> parameters_map_{};
 
     // Config parameters
+    esphome::uart::UARTComponent *stream_{nullptr};
     std::string model_;
     bool log_all_ = false;
-    // int update_interval_ = 2000;
-    size_t buf_size_;
-    esphome::uart::UARTComponent *stream_{nullptr};
 
-    // Keeping track of UART bus data
-    size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
-    size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
-
-    std::unique_ptr<uint8_t[]> buf_{};
-    size_t buf_head_{0};
-    size_t buf_tail_{0};
+    // // Keeping track of UART bus data
+    // size_t buf_index(size_t pos) { return pos & (this->buf_size_ - 1); }
+    // size_t buf_ahead(size_t pos) { return (pos | (this->buf_size_ - 1)) - pos + 1; }
+    // std::unique_ptr<uint8_t[]> buf_{};
+    // size_t buf_head_{0};
+    // size_t buf_tail_{0};
 };
 
 class RegoBase : public PollingComponent {
 public:
-    void register_hub(RegoInterfaceComponent *hub);
-
     // virtual void setup() override {
     //     this->setup_listening();
     //     if (this->is_polling) {
     //         this->setup_polling();
     //     }
     // }
+
+    void register_hub(RegoInterfaceComponent *hub);
 
     void update() override { int a = 1; }
 
@@ -169,42 +142,10 @@ public:
         return 0;
     }
 
-    // /* CAN listening */
-    // void setup_listening() {
-    //     this->can_trigger = new CanbusTriggerProxy(this->canbus, this->can_recv_id, this);
-    //     this->can_trigger->setup();
-    // }
-
-    // virtual void data_recv(std::vector<uint8_t> data, uint32_t can_id) {
-    //     this->inferred_data_len = data.size();
-    //     int value = this->parse_data(data);
-    //     this->publish(value * this->value_factor);
-    // }
-    // virtual void publish(float value)=0;
-
-    // /* CAN polling */
-    // void setup_polling() {
-    //     this->set_interval("rego_poll", this->poll_interval, [this]() { this->rego_poll(); });
-    // }
-    // void rego_poll() {
-    //     this->canbus->send_data(this->can_poll_id, true, true, std::vector<uint8_t>());
-    // }
-
-    // /* Config */
-    // void set_canbus(canbus::Canbus *canbus) {
-    //     this->canbus = canbus;
-    // }
-
     // void set_rego_variable(uint16_t rego_variable) {
     //     this->can_recv_id = 0x0C003FE0 | (rego_variable << 14);
     //     this->can_poll_id = (rego_variable << 14) | 0x04003FE0;
     //     this->is_polling = true;
-    // }
-
-    // void set_rego_listen_can_id(uint32_t can_id) {
-    //     this->can_recv_id = can_id;
-    //     this->can_poll_id = 0;
-    //     this->is_polling = false;
     // }
 
     // void set_value_factor(float value_factor) {

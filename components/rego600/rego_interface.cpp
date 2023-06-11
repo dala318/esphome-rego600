@@ -14,38 +14,38 @@ void RegoBase::register_hub(RegoInterfaceComponent *hub) {
     this->hub_ = hub;
 }
 
-void Parameter::publish_entities() {
-    // for (auto *binary_sensor : this->binary_sensors_){
-    //     binary_sensor->publish_state(this->b_value);
-    // }
-    // for (auto *sensor : this->sensors_){
-    //     sensor->publish_state(this->f_value);
-    // }
-    // for (auto *text_sensor : this->text_sensors_){
-    //     text_sensor->publish_state(this->t_value);
-    // }
-}
+// void Parameter::publish_entities() {
+//     // for (auto *binary_sensor : this->binary_sensors_){
+//     //     binary_sensor->publish_state(this->b_value);
+//     // }
+//     // for (auto *sensor : this->sensors_){
+//     //     sensor->publish_state(this->f_value);
+//     // }
+//     // for (auto *text_sensor : this->text_sensors_){
+//     //     text_sensor->publish_state(this->t_value);
+//     // }
+// }
 
 void RegoInterfaceComponent::set_model(std::string model) {
     this->model_ = model;
 
-    // This part should be uniqu for each model
-    this->parameters_.push_back(new Parameter(0x5122, "power"));
-    this->parameters_.push_back(new Parameter(0x9954, "heat_needed"));
-    this->parameters_.push_back(new Parameter(0x6845, "device_model"));
-    this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
+    // // This part should be uniqu for each model
+    // this->parameters_.push_back(new Parameter(0x5122, "power"));
+    // this->parameters_.push_back(new Parameter(0x9954, "heat_needed"));
+    // this->parameters_.push_back(new Parameter(0x6845, "device_model"));
+    // this->parameters_.push_back(new Parameter(0x1969, "return_temp"));
 
-    this->parameters_map_["power"] = new Parameter(0x5122, "power");
-    this->parameters_map_["heat_needed"] = new Parameter(0x9954, "heat_needed");
-    this->parameters_map_["device_model"] = new Parameter(0x6845, "device_model");
-    this->parameters_map_["return_temp"] = new Parameter(0x1969, "return_temp");
+    // this->parameters_map_["power"] = new Parameter(0x5122, "power");
+    // this->parameters_map_["heat_needed"] = new Parameter(0x9954, "heat_needed");
+    // this->parameters_map_["device_model"] = new Parameter(0x6845, "device_model");
+    // this->parameters_map_["return_temp"] = new Parameter(0x1969, "return_temp");
 }
 
 void RegoInterfaceComponent::setup() {
     ESP_LOGCONFIG(TAG, "Setting up Rego Interface...");
 
     // The make_unique() wrapper doesn't like arrays, so initialize the unique_ptr directly.
-    this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
+    // this->buf_ = std::unique_ptr<uint8_t[]>{new uint8_t[this->buf_size_]};
 }
 
 void RegoInterfaceComponent::loop() {
@@ -149,9 +149,9 @@ void RegoInterfaceComponent::read_registers() {
     //     this->buf_head_ += len;
     // }
 
-    for (Parameter *parameter : this->parameters_){
-        // parameter->
-    }
+    // for (Parameter *parameter : this->parameters_){
+    //     // parameter->
+    // }
 
 }
 

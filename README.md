@@ -29,6 +29,7 @@ uart:
 
 rego600:
   uart_id: uart_bus
+  log_all: true
   id: rego600_hub
 
 binary_sensor:
