@@ -49,18 +49,9 @@ void RegoInterfaceComponent::loop() {
     this->last_update_ += 16;
     if (this->last_update_ >= this->update_interval_) {
         this->last_update_ = 0;
-
-        this->accept();
-        this->read();
-        this->flush();
-        this->write();
-        this->cleanup();
+        this->write_registers();
+        this->read_registers();
     }
-
-    // this->loop_counter++;
-    // for (auto *sensor : this->sensors_) {
-    //     sensor->publish_state(this->loop_counter);
-    // }
 }
 
 void RegoInterfaceComponent::dump_config() {
@@ -109,47 +100,7 @@ void RegoInterfaceComponent::register_text_sensor(std::string id, RegoTextSensor
     }
 }
 
-void RegoInterfaceComponent::accept() {
-    // this->publish_sensors();
-}
-
-void RegoInterfaceComponent::read() {
-    size_t len = 0;
-    int available;
-    while ((available = this->stream_->available()) > 0) {
-        size_t free = this->buf_size_ - (this->buf_head_ - this->buf_tail_);
-        if (free == 0) {
-            // Only overwrite if nothing has been added yet, otherwise give flush() a chance to empty the buffer first.
-            if (len > 0)
-                return;
-
-            ESP_LOGE(TAG, "Incoming bytes available, but outgoing buffer is full: stream will be corrupted!");
-            free = std::min<size_t>(available, this->buf_size_);
-            this->buf_tail_ += free;
-        }
-
-        // Fill all available contiguous space in the ring buffer.
-        len = std::min<size_t>(available, std::min<size_t>(this->buf_ahead(this->buf_head_), free));
-        this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
-        this->buf_head_ += len;
-    }
-
-    // TODO: Remove, for testing only
-    if (this->loop_counter > 1000) {
-        this->loop_counter = -200;
-    }
-    for (Parameter *parameter : this->parameters_){
-        this->loop_counter++;
-        parameter->update_values(this->loop_counter);
-    }
-}
-
-void RegoInterfaceComponent::flush() {
-    ssize_t written;
-    this->buf_tail_ = this->buf_head_;
-}
-
-void RegoInterfaceComponent::write() {
+void RegoInterfaceComponent::write_registers() {
     uint8_t buf[128];
     ssize_t read;
     // for (Client &client : this->clients_) {
@@ -170,8 +121,123 @@ void RegoInterfaceComponent::write() {
     // }
 }
 
-void RegoInterfaceComponent::cleanup() {
+void RegoInterfaceComponent::read_registers() {
+    size_t len = 0;
+    int available;
+    while ((available = this->stream_->available()) > 0) {
+        size_t free = this->buf_size_ - (this->buf_head_ - this->buf_tail_);
+        if (free == 0) {
+            // Only overwrite if nothing has been added yet, otherwise give flush() a chance to empty the buffer first.
+            if (len > 0)
+                return;
+
+            ESP_LOGE(TAG, "Incoming bytes available, but outgoing buffer is full: stream will be corrupted!");
+            free = std::min<size_t>(available, this->buf_size_);
+            this->buf_tail_ += free;
+        }
+
+        // Fill all available contiguous space in the ring buffer.
+        len = std::min<size_t>(available, std::min<size_t>(this->buf_ahead(this->buf_head_), free));
+        this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
+        this->buf_head_ += len;
+    }
+
+    for (Parameter *parameter : this->parameters_){
+        // parameter->
+    }
+
+
+
+    // TODO: Remove, for testing only
+    if (this->loop_counter > 1000) {
+        this->loop_counter = -200;
+    }
+    for (Parameter *parameter : this->parameters_){
+        this->loop_counter++;
+        parameter->update_values(this->loop_counter);
+    }
 }
+
+
+std::string RegoInterfaceComponent::read_value(int16_t reg, std::string name)
+{
+  uint16_t response = 0;
+//   response = command_and_response(0x81, 0x02, reg, 0x00);
+  // if error, try again
+  if ((response >= 0x8000) && (response <= 0x800F)) {
+    // response = command_and_response(0x81, 0x02, reg, 0x00);
+  }
+  std::string url = std::string(reg, HEX);
+  url += "=";
+  url += std::string(response, HEX);
+//   Serial1.print(name + " ");
+//   Serial1.print(reg,HEX);
+//   Serial1.print("=");
+//   Serial1.print(response,DEC);
+//   Serial1.print(" (");
+//   Serial1.print(response,HEX);
+//   Serial1.println(" hex)");
+  return url;
+}
+
+// int16_t RegoInterfaceComponent::command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val)
+// {
+//   std::byte request[9];
+  
+//   // Compose command
+//   *request = addr;
+//   *(request+1) = cmd;
+//   *(request+8) = 0; // XOR
+//   int2write(reg,request+2);
+//   int2write(val,request+5);
+//   for (int i=2; i< 8; i++)
+//   {
+//      *(request+8) ^= *(request+i); // update XOR with data
+//   }
+
+//   // Send command
+//   ESP_LOGI("Command to send: " + hex2str(request, 9))  // TODO: How to merge all the bytes below into one string
+//   //Serial1.print("Command to send: "); // send data to port
+//   for (int i=0; i< 9; i++)
+//   {
+//      Serial.write(*(request+i)); // send data to port
+//      //Serial1.print(*(request+i),HEX); // send data to port
+//      //Serial1.print(" "); // send separator
+//   }
+//   //Serial1.println(" "); // end of line
+
+//   // Read result
+//   std::byte MyResponse[5];
+//   int TO = 0;	// timeout value
+//   int len = 0;	// count of received characters
+//   bool done=false;	// are we done with reading?
+//   do {
+//     if (Serial.available() > 0) {
+//       // read the incoming byte:
+//       *(MyResponse+len) = Serial.read();
+//     //   Serial1.print("R: ");
+//     //   Serial1.println(*(response+cnt),HEX);
+//       if (++len == 5) {done = true;}
+//     } else {
+//       delay(100);
+//       if (++TO > 10) {done = true;}
+//       //Serial1.print("T");
+//     }
+//   } while (!done);
+
+//   int16_t res = 0x8001;
+//   bool valid = (len == 5);
+//   if ((valid) && (MyResponse[0]!=0x01)) {
+//     valid=false; res = 0x8002;
+//   }
+//   if ((valid) && (MyResponse[4]!=(MyResponse[1]^MyResponse[2]^MyResponse[3]))) {
+//     valid=false; res = 0x8003;
+//   }
+//   if (valid) {
+//     res = read2int(MyResponse+1);
+//   }
+//   return res;
+// }
 
 }  // namespace rego
 }  // namespace esphome

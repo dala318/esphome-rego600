@@ -22,6 +22,8 @@
 // #include "HD_H1comm.h"
 #include "constants.h"
 
+#include <cstdint>
+#include <cstddef>
 #include <memory>
 #include <string>
 #include <vector>
@@ -239,11 +241,10 @@ public:
 
 protected:
     // Function definitions
-    void accept();
-    void read();
-    void flush();
-    void write();
-    void cleanup();
+    void write_registers();
+    void read_registers();
+    std::string  read_value(int16_t reg, std::string name);
+    // command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val);
 
     // Registred input entities
     std::vector<RegoBinarySensor *> binary_sensors_; // TODO: remove
