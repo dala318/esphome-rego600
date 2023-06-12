@@ -8,7 +8,7 @@
 namespace esphome {
 namespace rego {
 
-static const char *TAG = "Rego";
+static const char *TAG = "rego";
 
 void RegoInterfaceComponent::loop() {
     this->write_registers();

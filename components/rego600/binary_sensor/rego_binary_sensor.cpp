@@ -3,7 +3,7 @@
 namespace esphome {
 namespace rego {
 
-static const char *TAG = "Rego.BinarySensor";
+static const char *TAG = "rego.binary_sensor";
 
 void RegoBinarySensor::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego BinarySensor:");

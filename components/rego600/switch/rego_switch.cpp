@@ -3,7 +3,7 @@
 namespace esphome {
 namespace rego {
 
-static const char *TAG = "Rego.Switch";
+static const char *TAG = "rego.switch";
 
 void RegoSwitch::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Switch:");

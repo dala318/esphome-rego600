@@ -3,7 +3,7 @@
 namespace esphome {
 namespace rego {
 
-static const char *TAG = "Rego.TextSensor";
+static const char *TAG = "rego.text_sensor";
 
 void RegoTextSensor::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego TextSensor:");
