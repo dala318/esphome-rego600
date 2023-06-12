@@ -12,7 +12,6 @@ switch_schema = switch.switch_schema(
         "RegoSwitch",
         switch.Switch,
         cg.PollingComponent,
-        ns.class_("RegoBase")
     )
 ).extend(cv.polling_component_schema('10s'))
 
@@ -20,11 +19,14 @@ CONF_DICT = {
     cv.Optional("additional_heat"): switch_schema,
 }
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
-    }
-).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+CONFIG_SCHEMA = cv.All(
+    cv.has_at_least_one_key(*CONF_DICT.keys()),
+    cv.Schema(
+        {
+            cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
+        }
+    ).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+)
 
 async def setup_conf(paren, config, key):
     if key in config:

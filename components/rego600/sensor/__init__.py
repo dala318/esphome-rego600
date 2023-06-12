@@ -12,7 +12,6 @@ sensor_schema = sensor.sensor_schema(
         "RegoSensor",
         sensor.Sensor,
         cg.PollingComponent,
-        ns.class_("RegoBase")
     )
 ).extend(cv.polling_component_schema('10s'))
 
@@ -21,11 +20,14 @@ CONF_DICT = {
     cv.Optional("return_temp"): sensor_schema,
 }
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
-    }
-).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+CONFIG_SCHEMA = cv.All(
+    cv.has_at_least_one_key(*CONF_DICT.keys()),
+    cv.Schema(
+        {
+            cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
+        }
+    ).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+)
 
 async def setup_conf(paren, config, key):
     if key in config:

@@ -12,7 +12,6 @@ text_sensor_schema = text_sensor.text_sensor_schema(
         "RegoTextSensor",
         text_sensor.TextSensor,
         cg.PollingComponent,
-        ns.class_("RegoBase")
     )
 ).extend(cv.polling_component_schema('10s'))
 
@@ -21,11 +20,14 @@ CONF_DICT = {
     cv.Optional("device_model"): text_sensor_schema,
 }
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
-    }
-).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+CONFIG_SCHEMA = cv.All(
+    cv.has_at_least_one_key(*CONF_DICT.keys()),
+    cv.Schema(
+        {
+            cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
+        }
+    ).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+)
 
 async def setup_conf(paren, config, key):
     if key in config:
