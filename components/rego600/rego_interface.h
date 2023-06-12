@@ -16,6 +16,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 namespace esphome {
 namespace rego {
@@ -37,6 +40,9 @@ public:
     void set_log_all(bool log_all) {this->log_all_ = log_all; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
     // void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
+    std::string to_str() {
+        return "Model: " + this->model_ + " UART: " + std::to_string(this->stream_->get_baud_rate()) + " baud";
+    }
 
 protected:
     // Function definitions
@@ -112,6 +118,12 @@ protected:
         //     ESP_LOGE(TAG, "Received DLC %d is invalid. Has to be 1, 2 or 4", data.size());
         // }
         return 0;
+    }
+
+    std::string int2hex(std::uint16_t value) {
+        std::stringstream stream;
+        stream << std::setfill('0') << std::setw(sizeof(value)*2) << std::hex << value;
+        return stream.str();
     }
 
     RegoInterfaceComponent *hub_;

@@ -18,6 +18,7 @@ void RegoInterfaceComponent::loop() {
 void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Interface:");
     ESP_LOGCONFIG(TAG, "  UART device: %s", this->stream_);  // TODO: Need a "to_str" representation
+    // ESP_LOGCONFIG(TAG, "  UART device: %s", std::to_string(this->stream_->get_baud_rate()));
     ESP_LOGCONFIG(TAG, "  Model: %s", this->model_);  // TODO: Need a "to_str" representation
 }
 
