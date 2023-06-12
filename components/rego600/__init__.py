@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import uart
 from esphome.const import CONF_ID, CONF_BUFFER_SIZE
 
-# ESPHome doesn't know the Stream abstraction yet, so hardcode to use a UART for now.
+CODEOWNERS = ['@dala318']
 
 AUTO_LOAD = [ 'binary_sensor', 'sensor','text_sensor', 'switch']
 MULTI_CONF = True

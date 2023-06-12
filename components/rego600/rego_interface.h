@@ -129,6 +129,8 @@ public:
 
     void update() override { int a = 1; }
 
+    // void dump_config() override;
+
     int parse_data(std::vector<uint8_t> data) {
         // if (data.size() == 1) {
         //     return (int8_t)data[0];

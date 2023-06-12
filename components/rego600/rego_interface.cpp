@@ -8,7 +8,7 @@
 namespace esphome {
 namespace rego {
 
-static const char *TAG = "rego_interface";
+static const char *TAG = "Rego";
 
 void RegoBase::register_hub(RegoInterfaceComponent *hub) {
     this->hub_ = hub;
@@ -63,6 +63,8 @@ void RegoInterfaceComponent::loop() {
 
 void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Interface:");
+    ESP_LOGCONFIG(TAG, "  UART device: %s", this->stream_);  // TODO: Need a "to_str" representation
+    ESP_LOGCONFIG(TAG, "  Model: %s", this->model_);  // TODO: Need a "to_str" representation
     // for (auto *binary_sensor : this->binary_sensors_){
     //     LOG_BINARY_SENSOR("  ", "Binary sensor", binary_sensor);
     // }

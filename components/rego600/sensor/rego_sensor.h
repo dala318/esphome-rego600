@@ -1,3 +1,5 @@
+#pragma once
+
 #include "esphome.h"
 #include "esphome/components/rego600/rego_interface.h"
 
@@ -22,7 +24,7 @@ public:
     //     }
     // }
 //   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
-//   void dump_config() override;
+    void dump_config() override;
 protected:
     float last_value_;
 //   network::IPAddress last_ip_;

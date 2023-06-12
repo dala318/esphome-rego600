@@ -1,3 +1,5 @@
+#pragma once
+
 #include "esphome.h"
 #include "esphome/components/rego600/rego_interface.h"
 
@@ -10,7 +12,7 @@ class RegoSwitch: public switch_::Switch, public RegoBase {
 public:
     // void setup() override;
     void write_state(bool state) override { this->publish_state(state); }
-    // void dump_config() override;
+    void dump_config() override ;
 protected:
     // bool last_state_;
 };
