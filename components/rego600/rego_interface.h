@@ -65,6 +65,10 @@ public:
 
     void register_hub(RegoInterfaceComponent *hub);
 
+    void set_rego_variable(std::uint16_t rego_variable) {
+        this->rego_variable_ = rego_variable;
+    }
+
     void update() override { int a = 1; }
 
     // void set_rego_variable(uint16_t rego_variable) {
@@ -111,7 +115,7 @@ protected:
     }
 
     RegoInterfaceComponent *hub_;
-    std::uint16_t register_;
+    std::uint16_t rego_variable_;
     // uint32_t can_recv_id;
     // uint32_t can_poll_id;
     // uint32_t poll_interval;

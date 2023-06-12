@@ -3,9 +3,14 @@ import esphome.config_validation as cv
 from esphome.components import sensor
 # from esphome.const import (
 # )
-from .. import ns, RegoInterfaceComponent, CONF_HUB_ID
+from .. import ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE, CONF_VALUE_FACTOR
 
 DEPENDENCIES = ['rego600']
+
+REGO_PARAMETERS = {
+    cv.Required(CONF_REGO_VARIABLE): cv.hex_uint16_t,
+    cv.Optional(CONF_VALUE_FACTOR, default=1.): cv.float_,
+}
 
 sensor_schema = sensor.sensor_schema(
     ns.class_(
@@ -13,7 +18,7 @@ sensor_schema = sensor.sensor_schema(
         sensor.Sensor,
         cg.PollingComponent,
     )
-).extend(cv.polling_component_schema('10s'))
+).extend(cv.polling_component_schema('10s')).extend(REGO_PARAMETERS)
 
 CONF_DICT = {
     cv.Optional("power"): sensor_schema,
@@ -35,6 +40,8 @@ async def setup_conf(paren, config, key):
         var = await sensor.new_sensor(conf)
         await cg.register_component(var, conf)
         cg.add(var.register_hub(paren))
+        cg.add(var.set_rego_variable(int(conf[CONF_REGO_VARIABLE])))
+        cg.add(var.set_value_factor(conf[CONF_VALUE_FACTOR]))
         # cg.add(paren.register_sensor(str(key), var))
 
 

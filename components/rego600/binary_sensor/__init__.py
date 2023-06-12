@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import binary_sensor
 # from esphome.const import (
 # )
-from .. import ns, RegoInterfaceComponent, CONF_HUB_ID, REG_ADDR_SCHEMA
+from .. import ns, RegoInterfaceComponent, CONF_HUB_ID
 
 DEPENDENCIES = ['rego600']
 

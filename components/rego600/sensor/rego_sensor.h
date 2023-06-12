@@ -25,8 +25,13 @@ public:
     // }
 //   std::string unique_id() override { return get_mac_address() + "-wifiinfo-ip"; }
     void dump_config() override;
+
+    void set_value_factor(float value_factor) {
+    this->value_factor_ = value_factor;
+  }
 protected:
     float last_value_;
+    float value_factor_;
 //   network::IPAddress last_ip_;
 };
 

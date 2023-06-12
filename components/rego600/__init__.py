@@ -11,17 +11,18 @@ MULTI_CONF = True
 DEPENDENCIES = ["uart"]
 
 CONF_HUB_ID = "rego600_id"
-
-CONF_REG_ADDR = "reg_addr"
 CONF_MODEL = "model"
 CONF_LOG_ALL = "log_all"
 # CONF_UPDATE_INTERVAL = "update_interval"
 
+# CONF_REG_ADDR = "reg_addr"
+CONF_REGO_VARIABLE = "rego_variable"
+CONF_VALUE_FACTOR = "value_factor"
+
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)
 
-REG_ADDR_SCHEMA = cv.Schema({cv.Required(CONF_REG_ADDR): cv.hex_int})
-
+# REG_ADDR_SCHEMA = cv.Schema({cv.Required(CONF_REG_ADDR): cv.hex_int})
 
 CONFIG_SCHEMA = cv.All(
     # cv.require_esphome_version(2022, 3, 0),
