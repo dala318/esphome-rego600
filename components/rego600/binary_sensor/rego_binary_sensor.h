@@ -1,7 +1,7 @@
 #pragma once
 
 #include "esphome.h"
-#include "esphome/components/rego600/rego_interface.h"
+#include "esphome/components/rego600/rego.h"
 
 #include <vector>
 

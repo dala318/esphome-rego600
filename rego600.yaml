@@ -1,0 +1,69 @@
+substitutions:
+  devicename: rego-reader
+  friendly_name: "Reader Reader "
+  device_description: "Rego600 reader for heat-pump communication"
+
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendly_name}
+  comment: "${device_description}"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+captive_portal:
+
+logger:
+  level: DEBUG
+  baud_rate: 0 # disable logging over uart
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+
+web_server:
+
+external_components:
+  - source: github://dala318/esphome-rego600
+
+uart:
+  id: uart_bus
+  baud_rate: 19200
+
+rego600:
+  uart_id: uart_bus
+  id: rego600_hub
+  log_all: true
+
+binary_sensor:
+  - platform: rego600
+    # rego600_id: rego600_hub  # Optional if only one hub
+    name: ${friendly_name}Radiator pump P1
+    rego_variable: 0x0203
+
+sensor:
+  - platform: rego600
+    name: ${friendly_name}Radiator return GT1
+    rego_variable: 0x0209
+
+  - platform: rego600
+    name: ${friendly_name}Outdoor GT2
+    rego_variable: 0x020A
+
+# switch:
+#   - platform: rego600
+#     name: ${friendly_name}
+#     rego_variable: 
+
+# text_sensor:
+#   - platform: rego600
+#     name: ${friendly_name}
+#     rego_variable: 
