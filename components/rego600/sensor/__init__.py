@@ -31,7 +31,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
         }
-    ).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+    ).extend(CONF_DICT)
 )
 
 async def setup_conf(paren, config, key):

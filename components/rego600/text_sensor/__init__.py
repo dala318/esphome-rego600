@@ -3,9 +3,13 @@ import esphome.config_validation as cv
 from esphome.components import text_sensor
 # from esphome.const import (
 # )
-from .. import ns, RegoInterfaceComponent, CONF_HUB_ID
+from .. import ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE
 
 DEPENDENCIES = ['rego600']
+
+REGO_PARAMETERS = {
+    cv.Required(CONF_REGO_VARIABLE): cv.hex_uint16_t,
+}
 
 text_sensor_schema = text_sensor.text_sensor_schema(
     ns.class_(
@@ -13,7 +17,7 @@ text_sensor_schema = text_sensor.text_sensor_schema(
         text_sensor.TextSensor,
         cg.PollingComponent,
     )
-).extend(cv.polling_component_schema('10s'))
+).extend(cv.polling_component_schema('10s')).extend(REGO_PARAMETERS)
 
 CONF_DICT = {
     cv.Optional("device_type"): text_sensor_schema,
@@ -26,7 +30,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
         }
-    ).extend(CONF_DICT)# .extend(cv.COMPONENT_SCHEMA)
+    ).extend(CONF_DICT)
 )
 
 async def setup_conf(paren, config, key):
@@ -35,6 +39,7 @@ async def setup_conf(paren, config, key):
         var = await text_sensor.new_text_sensor(conf)
         await cg.register_component(var, conf)
         cg.add(var.register_hub(paren))
+        cg.add(var.set_rego_variable(int(conf[CONF_REGO_VARIABLE])))
         # cg.add(paren.register_text_sensor(str(key), var))
 
 
