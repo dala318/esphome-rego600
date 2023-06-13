@@ -10,11 +10,6 @@ namespace rego {
 
 static const char *TAG = "rego";
 
-void RegoInterfaceComponent::loop() {
-    this->write_registers();
-    this->read_registers();
-}
-
 void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Interface:");
     ESP_LOGCONFIG(TAG, "  UART device: %s", this->stream_);  // TODO: Need a "to_str" representation
@@ -22,21 +17,26 @@ void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "  Model: %s", this->model_);  // TODO: Need a "to_str" representation
 }
 
-void RegoInterfaceComponent::write_registers() {
-}
+// void RegoInterfaceComponent::loop() {
+//     this->write_registers();
+//     this->read_registers();
+// }
 
-void RegoInterfaceComponent::read_registers() {
-    int available;
-    // while ((available = this->stream_->available()) > 0) {
-    if ((available = this->stream_->available()) > 0) {
-        if (this->log_all_) {
-            ESP_LOGD(TAG, "Spare data (%u bytes) avaialble on UART", available);
-            // this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
-        }
-        // TODO: Read and handle spare data on UART, take from StreamServer
-        // Could be that this will interfere with the reading/writing from the entities and hence need to be removed
-    }
-}
+// void RegoInterfaceComponent::write_registers() {
+// }
+
+// void RegoInterfaceComponent::read_registers() {
+//     int available;
+//     // while ((available = this->stream_->available()) > 0) {
+//     if ((available = this->stream_->available()) > 0) {
+//         if (this->log_all_) {
+//             ESP_LOGD(TAG, "Spare data (%u bytes) avaialble on UART", available);
+//             // this->stream_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
+//         }
+//         // TODO: Read and handle spare data on UART, take from StreamServer
+//         // Could be that this will interfere with the reading/writing from the entities and hence need to be removed
+//     }
+// }
 
 
 std::string RegoInterfaceComponent::read_value(int16_t reg, std::string name)
@@ -120,9 +120,9 @@ std::string RegoInterfaceComponent::read_value(int16_t reg, std::string name)
 //   return res;
 // }
 
-void RegoBase::register_hub(RegoInterfaceComponent *hub) {
-    this->hub_ = hub;
-}
+// void RegoBase::register_hub(RegoInterfaceComponent *hub) {
+//     this->hub_ = hub;
+// }
 
 }  // namespace rego
 }  // namespace esphome

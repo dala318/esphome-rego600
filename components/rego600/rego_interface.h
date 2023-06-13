@@ -26,11 +26,11 @@ namespace rego {
 class RegoInterfaceComponent : public Component {
 public:
     // Function override declarations
-    void loop() override;
     void dump_config() override;
+    // void loop() override;
 
     // Function override definitions
-    float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
+    // float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
     // Function declaration component
     std::string read_value(int16_t reg, std::string name);
@@ -46,8 +46,8 @@ public:
 
 protected:
     // Function definitions
-    void write_registers();  // For the main-loop in hub, for now not doing anything
-    void read_registers();  // For the main-loop in hub, for now not doing anything
+    // void write_registers();  // For the main-loop in hub, for now not doing anything
+    // void read_registers();  // For the main-loop in hub, for now not doing anything
     // command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val);
 
     // Config parameters
@@ -69,11 +69,9 @@ public:
     //     }
     // }
 
-    void register_hub(RegoInterfaceComponent *hub);
+    void register_hub(RegoInterfaceComponent *hub){ this->hub_ = hub; }
 
-    void set_rego_variable(std::uint16_t rego_variable) {
-        this->rego_variable_ = rego_variable;
-    }
+    void set_rego_variable(std::uint16_t rego_variable) { this->rego_variable_ = rego_variable; }
 
     void update() override { int a = 1; }
 

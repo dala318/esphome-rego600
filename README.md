@@ -34,17 +34,18 @@ rego600:
 
 binary_sensor:
   - platform: rego600
-    rego600_id: rego600_hub
-    connected:
-      name: Connected to Rego600
+    rego600_id: rego600_hub  # Optional
+    rego_variable: 0x0209
+    name: Connected to Rego600
 
 sensor:
   - platform: rego600
-    rego600_id: rego600_hub
-    return_temp:
-      name: Return temp
-    power:
-      name: Power usage
+    name: Return temp
+    rego_variable: 0x0209
+
+- platform: rego600
+    name: Power usage
+    rego_variable: 0x0209
 ```
 
 For a complete list of available entities and registers to access, for now, refer to the code in each python entity template.
