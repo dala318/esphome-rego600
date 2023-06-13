@@ -58,6 +58,14 @@ sensor:
     name: ${friendly_name}Outdoor GT2
     rego_variable: 0x020A
 
+number:
+  - platform: rego600
+    name: ${friendly_name}GT1 Target value
+    rego_variable: 0x006E
+    min_value: 0
+    max_value: 100
+    step: 1
+
 # switch:
 #   - platform: rego600
 #     name: ${friendly_name}

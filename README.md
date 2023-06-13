@@ -34,18 +34,27 @@ rego600:
 
 binary_sensor:
   - platform: rego600
-    rego600_id: rego600_hub  # Optional
-    rego_variable: 0x0209
-    name: Connected to Rego600
+    rego600_id: rego600_hub  # Optional if only one hub
+    name: Radiator pump P1
+    rego_variable: 0x0203
 
 sensor:
   - platform: rego600
-    name: Return temp
+    name: Radiator return GT1
     rego_variable: 0x0209
 
-- platform: rego600
-    name: Power usage
-    rego_variable: 0x0209
+  - platform: rego600
+    name: Outdoor GT2
+    rego_variable: 0x020A
+
+number:
+  - platform: rego600
+    name: GT1 Target value
+    rego_variable: 0x006E
+    min_value: 0
+    max_value: 100
+    step: 1
+
 ```
 
 For a complete list of available entities and registers to access, for now, refer to the code in each python entity template.
