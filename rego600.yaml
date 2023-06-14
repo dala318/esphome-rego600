@@ -58,6 +58,11 @@ sensor:
     name: ${friendly_name}Outdoor GT2
     rego_variable: 0x020A
 
+button:
+  - platform: rego600
+    name: External control
+    rego_variable: 0x0213
+
 number:
   - platform: rego600
     name: ${friendly_name}GT1 Target value
