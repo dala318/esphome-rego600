@@ -14,7 +14,6 @@ public:
     void press_action() override { }
     void dump_config() override ;
 protected:
-    // bool last_state_;
 };
 
 }  // namespace rego

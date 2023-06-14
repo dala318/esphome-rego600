@@ -12,7 +12,6 @@ class RegoBinarySensor : public binary_sensor::BinarySensor, public RegoBase {
 public:
     void dump_config() override;
 protected:
-    bool last_value_;
 };
 
 }  // namespace rego

@@ -14,7 +14,6 @@ public:
     void control(float value) override { this->publish_state(value); }
     void set_value_factor(float value_factor) { this->value_factor_ = value_factor; }
 protected:
-    float last_value_;
     float value_factor_;
 };
 

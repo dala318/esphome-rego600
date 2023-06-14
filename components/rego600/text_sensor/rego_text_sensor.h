@@ -12,7 +12,6 @@ class RegoTextSensor : public text_sensor::TextSensor, public RegoBase {
 public:
     void dump_config() override;
 protected:
-    std::string last_value_;
 };
 
 }  // namespace rego
