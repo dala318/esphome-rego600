@@ -39,6 +39,10 @@ binary_sensor:
     rego_variable: 0x0203
 
 sensor:
+  - platform: homeassistant  # Get actual indoor temp from other sensor, could also be a sensor read from rego600
+    entity_id: sensor.indoor_temperature
+    id: indoor_temp
+
   - platform: rego600
     name: Radiator return GT1
     rego_variable: 0x0209
@@ -46,6 +50,12 @@ sensor:
   - platform: rego600
     name: Outdoor GT2
     rego_variable: 0x020A
+
+climate:
+  - platform: rego600
+    name: House temp
+    rego_variable: 0x0010
+    sensor_id: indoor_temp
 
 number:
   - platform: rego600
