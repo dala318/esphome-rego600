@@ -48,13 +48,15 @@ public:
     void set_value_factor(float value_factor) { this->value_factor_ = value_factor; }
     void set_indoor_sensor(sensor::Sensor *indoor_sensor) {
         this->indoor_sensor_ = indoor_sensor;
-        // this->set_interval("update_indoor_temperature", 5000, [this]() { this->update_indoor_temperature(); });
+        this->set_interval("update_indoor_temperature", 5000, [this]() { this->update_indoor_temperature(); });
     }
 
     void update_indoor_temperature() {
         if (this->indoor_sensor_->has_state()) {
-            this->current_temperature = this->indoor_sensor_->state;
-            this->publish_state();
+            if (this->current_temperature != this->indoor_sensor_->state) {
+                this->current_temperature = this->indoor_sensor_->state;
+                this->publish_state();
+            }
             int32_t indoor_temp = this->current_temperature * 10;
             // this->send_data(INDOOR_THERMOSTAT_DIAL_CAN_ID, INDOOR_THERMOSTAT_DIAL_MIDPOINT);
             // this->send_data(INDOOR_THERMOSTAT_TEMP_CAN_ID, indoor_temp);

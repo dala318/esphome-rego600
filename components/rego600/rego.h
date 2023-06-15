@@ -30,34 +30,29 @@ public:
     // void loop() override;
 
     // Function override definitions
-    // float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
     // Function declaration component
-    std::string read_value(int16_t reg, std::string name);
+    uint16_t read_value(int16_t reg);
 
     // Function definitions component
     void set_model(std::string model){ this->model_ = model; }
     void set_log_all(bool log_all) {this->log_all_ = log_all; }
-    void set_uart_parent(esphome::uart::UARTComponent *parent) { this->stream_ = parent; }
-    // void set_update_interval(int update_interval) { this->update_interval_ = update_interval; }
+    void set_uart_parent(esphome::uart::UARTComponent *parent) { this->uart_ = parent; }
     std::string to_str() {
-        return "Model: " + this->model_ + " UART: " + std::to_string(this->stream_->get_baud_rate()) + " baud";
+        return "Model: " + this->model_ + " UART: " + std::to_string(this->uart_->get_baud_rate()) + " baud";
     }
 
 protected:
     // Function definitions
-    // void write_registers();  // For the main-loop in hub, for now not doing anything
-    // void read_registers();  // For the main-loop in hub, for now not doing anything
-    // command_and_response(std::byte addr, std::byte cmd, int16_t reg, int16_t val);
+    int16_t command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val);
+    void int2write (int16_t value, uint8_t *write_array); // convert int (16 bit) to array for sending
+    int16_t read2int(uint8_t *read_array);
+    std::string hex2str(const uint8_t *data, size_t len);
 
     // Config parameters
-    esphome::uart::UARTComponent *stream_{nullptr};
+    esphome::uart::UARTComponent *uart_{nullptr};
     std::string model_;
     bool log_all_ = false;
-
-    // For testing purposes only
-    // int loop_counter = 0;
-    // int last_update_ = 0;
 };
 
 class RegoBase : public PollingComponent {
@@ -74,20 +69,6 @@ public:
     void set_rego_variable(std::uint16_t rego_variable) { this->rego_variable_ = rego_variable; }
 
     void update() override { int a = 1; }
-
-    // void set_rego_variable(uint16_t rego_variable) {
-    //     this->can_recv_id = 0x0C003FE0 | (rego_variable << 14);
-    //     this->can_poll_id = (rego_variable << 14) | 0x04003FE0;
-    //     this->is_polling = true;
-    // }
-
-    // void set_value_factor(float value_factor) {
-    //     this->value_factor = value_factor;
-    // }
-
-    // void set_poll_interval(uint32_t poll_interval) {
-    //     this->poll_interval = poll_interval;
-    // }
 
     // void send_data(uint32_t can_id, int32_t value) {
     //     if (this->inferred_data_len == 1) {
@@ -126,12 +107,6 @@ protected:
 
     RegoInterfaceComponent *hub_;
     std::uint16_t rego_variable_;
-    // uint32_t can_recv_id;
-    // uint32_t can_poll_id;
-    // uint32_t poll_interval;
-    // uint8_t inferred_data_len = 0;
-    // bool is_polling = false;
-    // float value_factor = 1;
 };
 
 
