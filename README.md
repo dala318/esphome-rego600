@@ -67,13 +67,6 @@ number:
 
 ```
 
-For a complete list of available entities and registers to access, for now, refer to the code in each python entity template.
-
-```python
-CONF_DICT = {
-    cv.Optional("power"): sensor.sensor_schema(ns.class_("SensorPower", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
-    cv.Optional("return_temp"): sensor.sensor_schema(ns.class_("SensorReturnTemp", sensor.Sensor, cg.Component)).extend(cv.COMPONENT_SCHEMA),
-}
-```
+Currently there is no compiled list of registers to be used, but can get a lot from the tables here (https://rago600.sourceforge.net/#SW), also copird to [constants.h](https://github.com/dala318/esphome-rego600/blob/master/components/rego600/constants.h) but not used. When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
 
 For debugging it's suggested to also add a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump
