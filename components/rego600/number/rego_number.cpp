@@ -13,5 +13,15 @@ void RegoNumber::dump_config() {
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 
+void RegoNumber::control(float value) {
+    this->publish_state(value);
+    
+    // uint16_t result = 0;
+    // if (this->hub_->read_value(this->rego_variable_, &result)) { }  // TODO: Ensure command is sent if UART bussy, retry or queue in hub?
+    // else {
+    //     ESP_LOGE(TAG, "Could not write number value");
+    // }
+}
+
 }  // namespace rego
 }  // namespace esphome

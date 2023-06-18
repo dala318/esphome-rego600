@@ -13,7 +13,6 @@ public:
     // void setup() override { this->publish_state(50); }
     void dump_config() override;
     void update() override;
-
     void set_value_factor(float value_factor) { this->value_factor_ = value_factor; }
 protected:
     float value_factor_;
