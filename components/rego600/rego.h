@@ -49,6 +49,9 @@ protected:
     int16_t read2int(uint8_t *read_array);
     std::string hex2str(const uint8_t *data, size_t len);
 
+    // Thread mutex
+    bool bussy_ = false;
+
     // Config parameters
     esphome::uart::UARTComponent *uart_{nullptr};
     std::string model_;

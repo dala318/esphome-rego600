@@ -41,7 +41,15 @@ void RegoInterfaceComponent::dump_config() {
 
 bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
 {
+    if (this->bussy_) {        
+        if (this->log_all_) {
+            ESP_LOGI(TAG, "Could not query data this time as UART bus bussy");
+        }
+        return false;
+    }
+    this->bussy_ = true;
     return command_and_response(0x81, 0x02, reg, 0x00, result);
+    this->bussy_ = false;
 }
 
 void RegoInterfaceComponent::int2write (int16_t value, uint8_t *write_array)
