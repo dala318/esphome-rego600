@@ -13,7 +13,7 @@ void RegoButton::dump_config() {
 
 void RegoButton::press_action() {
     uint16_t result = 0;
-    if (this->hub_->read_value(this->rego_variable_, &result)) { }
+    if (this->hub_->read_value(this->rego_variable_, &result)) { }  // TODO: Ensure command is sent if UART bussy, retry or queue in hub?
     else {
         ESP_LOGE(TAG, "Could not perform button command");
     }

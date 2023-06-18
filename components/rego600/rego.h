@@ -55,9 +55,9 @@ protected:
     // Config parameters
     esphome::uart::UARTComponent *uart_{nullptr};
     std::string model_;
-    bool log_all_ = false;
-    const uint8_t read_attempts_timeout_ = 10;
-    const uint8_t read_retry_sleep_ = 100;
+    bool log_all_;
+    const uint8_t read_attempts_timeout_ = 50;
+    const uint8_t read_retry_sleep_ = 10;
 };
 
 class RegoBase : public PollingComponent {
