@@ -13,5 +13,15 @@ void RegoSensor::dump_config() {
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 
+void RegoSensor::update() {
+    uint16_t result = 0;
+    if (this->hub_->read_value(this->rego_variable_, &result)) {
+        this->publish_state(result * this->value_factor_);
+    }
+    else {
+        ESP_LOGE(TAG, "Could not update sensor");
+    }
+}
+
 }  // namespace rego
 }  // namespace esphome

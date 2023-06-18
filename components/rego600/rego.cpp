@@ -39,9 +39,9 @@ void RegoInterfaceComponent::dump_config() {
 // }
 
 
-uint16_t RegoInterfaceComponent::read_value(int16_t reg)
+bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
 {
-    return command_and_response(0x81, 0x02, reg, 0x00);
+    return command_and_response(0x81, 0x02, reg, 0x00, result);
 }
 
 void RegoInterfaceComponent::int2write (int16_t value, uint8_t *write_array)
@@ -66,7 +66,7 @@ std::string RegoInterfaceComponent::hex2str(const uint8_t *data, size_t len)
     return ss.str();
 }
 
-int16_t RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val)
+bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val, uint16_t *result)
 {
     // Compose command
     uint8_t request[9];
@@ -87,30 +87,42 @@ int16_t RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, 
     // Read result
     int available = 0;
     uint8_t response[128];
-    while ((available = this->uart_->available()) > 0) {
-        this->uart_->read_array(response, available);
-        ESP_LOGD(TAG, "Response received: %s", hex2str(response, available).c_str());  // TODO: How to merge all the bytes below into one string
+    uint8_t attempts = 0;
+    while (attempts < this->read_attempts_timeout_) {
+        if ((available = this->uart_->available()) > 0) {
+            this->uart_->read_array(response, available);
+            ESP_LOGD(TAG, "Response received: %s", hex2str(response, available).c_str());  // TODO: How to merge all the bytes below into one string
+            break;
+        }
+        else {
+            if (this->log_all_) {
+                ESP_LOGD(TAG, "No response yet, sleeping %ums and retrying", this->read_retry_sleep_);
+            }
+            delay(this->read_retry_sleep_);
+        }
+        attempts++;
+    }
+    if (available == 0) {
+        ESP_LOGE(TAG, "No response after %u attempts", attempts);
+        return false;
     }
 
     // Decode response
-    int16_t result = 0x8001;
-    bool valid = (available == 5);
-    if ((valid) && (response[0]!=0x01)) {
-        valid=false; result = 0x8002;
-        ESP_LOGE(TAG, "Response from wrong address");
-    }
-    if ((valid) && (response[4]!=(response[1]^response[2]^response[3]))) {
-        valid=false; result = 0x8003;
-        ESP_LOGE(TAG, "Response wrong checksum");
-    }
-    if (valid) {
-        result = read2int(response+1);
-        ESP_LOGD(TAG, "Response decoded to %u", result);
-    }
-    else {
+    if (available != 5) {
         ESP_LOGE(TAG, "Response wrong size");
+        return false;
     }
-    return result;
+    if (response[0] != 0x01) {
+        ESP_LOGE(TAG, "Response from wrong address");
+        return false;
+    }
+    if (response[4] != (response[1]^response[2]^response[3])) {
+        ESP_LOGE(TAG, "Response wrong checksum");
+        return false;
+    }
+    *result = read2int(response+1);
+    ESP_LOGD(TAG, "Response decoded to %u", result);
+    return true;
 }
 
 }  // namespace rego

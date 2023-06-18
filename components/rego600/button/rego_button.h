@@ -11,8 +11,8 @@ namespace rego {
 class RegoButton: public button::Button, public RegoBase {
 public:
     // void setup() override;
-    void press_action() override { this->hub_->read_value(this->rego_variable_); }
-    void dump_config() override ;
+    void press_action() override;
+    void dump_config() override;
 protected:
 };
 

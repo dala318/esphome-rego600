@@ -32,7 +32,7 @@ public:
     // Function override definitions
 
     // Function declaration component
-    uint16_t read_value(int16_t reg);
+    bool read_value(int16_t reg, uint16_t *result);
 
     // Function definitions component
     void set_model(std::string model){ this->model_ = model; }
@@ -44,7 +44,7 @@ public:
 
 protected:
     // Function definitions
-    int16_t command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val);
+    bool command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val, uint16_t *result);
     void int2write (int16_t value, uint8_t *write_array); // convert int (16 bit) to array for sending
     int16_t read2int(uint8_t *read_array);
     std::string hex2str(const uint8_t *data, size_t len);
@@ -53,6 +53,8 @@ protected:
     esphome::uart::UARTComponent *uart_{nullptr};
     std::string model_;
     bool log_all_ = false;
+    const uint8_t read_attempts_timeout_ = 10;
+    const uint8_t read_retry_sleep_ = 100;
 };
 
 class RegoBase : public PollingComponent {
