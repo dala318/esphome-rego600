@@ -13,6 +13,21 @@ void RegoNumber::setup() {
     }
 }
 
+void RegoNumber::loop() {
+    if ((this->attempt_ != 0) && !this->hub_->get_uart_bussy()) {
+        if (this->attempt_ <= this->max_retry_attempts_) {
+            this->control(this->retry_value_);
+            this->attempt_++;
+        }
+        else {
+            if (this->hub_->get_log_all()) {
+                ESP_LOGI(TAG, "Abort retry after %u attempts", this->attempt_);
+            }
+            this->attempt_ = 0;
+        }
+    }
+}
+
 void RegoNumber::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Number:");
     LOG_NUMBER("  ", "Number", this);
@@ -22,12 +37,20 @@ void RegoNumber::dump_config() {
 }
 
 void RegoNumber::control(float value) {
-    this->publish_state(value);
-    
     uint16_t result = 0;
-    if (this->hub_->write_value(this->rego_variable_, value, &result)) { }  // TODO: Ensure command is sent if UART bussy, retry or queue in hub?
+    if (this->hub_->write_value(this->rego_variable_, (uint16_t)(value / this->value_factor_), &result)) {
+        this->publish_state(value);
+        this->attempt_ = 0;
+    }
     else {
-        ESP_LOGE(TAG, "Could not write %u to number %s", value, this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not write %f to number %s", value, this->get_name().c_str());
+        if ((this->max_retry_attempts_ != 0) && (this->attempt_ == 0)) {
+            this->attempt_ = 1;
+            this->retry_value_ = value;
+            if (this->hub_->get_log_all()) {
+                ESP_LOGI(TAG, "Scheduling for retry");
+            }
+        }
     }
 }
 

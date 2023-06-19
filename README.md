@@ -1,21 +1,22 @@
 # esphome-rego600
-Started as a fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS) 
-but with a lot of influence from
-[esphome/components/dsmr](https://github.com/esphome/esphome/tree/dev/esphome/components/dsmr), 
-[stream server for ESPHome](https://github.com/oxan/esphome-stream-server/), 
-[how to connect heat pump with Rego 6xx controller](https://rago600.sourceforge.net/) and 
-[custom component esphome-rego1000](https://github.com/jagheterfredrik/esphome-rego1000)
-it is now broken out as stand-alone custom component.
+Started as a fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS) but it is now broken out as stand-alone custom component. Used a lot of influence from the following projects:
+  - [esphome/components/dsmr](https://github.com/esphome/esphome/tree/dev/esphome/components/dsmr)
+  - [stream server for ESPHome](https://github.com/oxan/esphome-stream-server/)
+  - [how to connect heat pump with Rego 6xx controller](https://rago600.sourceforge.net/)
+  - [custom component esphome-rego1000](https://github.com/jagheterfredrik/esphome-rego1000) 
+  - [openhab addons](https://github.com/openhab/openhab-addons/tree/main/bundles/org.openhab.binding.regoheatpump) [mappings](https://github.com/openhab/openhab-addons/blob/main/bundles/org.openhab.binding.regoheatpump/src/main/java/org/openhab/binding/regoheatpump/internal/rego6xx/RegoRegisterMapper.java)
 
 To be used as custom component to ESPHome
 
 Planned functions:
   - (done) Wifi connection with DHCP and fixed SSID/PASS
   - (done) Web page showing status and heat pump data (ESPHome)
-  - Basic code for communication with heat pump via ESPHome UART component
+  - (untested) Communication with heat pump via ESPHome UART component
   - Provide input and output entities based on heat-pump model
 
 Add the following to your ESPHome config
+
+All entities are extendable with normal additional attrubutes as "unit_of_measurement", "state_class" etc.
 
 ```yaml
 external_components:
@@ -26,11 +27,18 @@ uart:
   tx_pin: GPIO12
   rx_pin: GPIO13
   baud_rate: 19200
+  debug:            # Optional, good for degugging input/output of UART
+    direction: BOTH
+    dummy_receiver: false
 
 rego600:
   uart_id: uart_bus
   log_all: true
   id: rego600_hub
+  log_all: true     # Optional, print some more
+  read_delay: 10ms  # Optional, delay to first reading of UART
+  retry_sleep: 20ms # Optional, delay between read attempts
+  retry_attempts: 1 # Optional, number of read retry attempts
 
 binary_sensor:
   - platform: rego600
@@ -46,6 +54,9 @@ sensor:
   - platform: rego600
     name: Radiator return GT1
     rego_variable: 0x0209
+    unit_of_measurement: °C   # Optional, set your own desire
+    state_class: measurement  # Optional, set your own desire
+    accuracy_decimals: 1      # Optional, set your own desire
 
   - platform: rego600
     name: Outdoor GT2
@@ -64,6 +75,7 @@ number:
     min_value: 0
     max_value: 100
     step: 1
+    retry_write: 1    # Optional, retry writing event if com bussy
 
 ```
 

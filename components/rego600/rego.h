@@ -43,9 +43,9 @@ public:
     void set_retry_sleep(int sleep) {this->read_retry_sleep_ = sleep; }
     void set_retry_attempts(uint8_t attempts) {this->read_retry_attempts_ = attempts; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->uart_ = parent; }
-    std::string to_str() {
-        return "Model: " + this->model_ + " UART: " + std::to_string(this->uart_->get_baud_rate()) + " baud";
-    }
+    bool get_uart_bussy() { return this->bussy_; }
+    bool get_log_all() { return this->log_all_; }
+    std::string to_str() { return "Model: " + this->model_ + " UART: " + std::to_string(this->uart_->get_baud_rate()) + " baud"; }
 
 protected:
     // Function definitions

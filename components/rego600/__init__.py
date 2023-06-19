@@ -22,11 +22,18 @@ CONF_RETRY_ATTEMPTS = "retry_attempts"
 # CONF_REG_ADDR = "reg_addr"
 CONF_REGO_VARIABLE = "rego_variable"
 CONF_VALUE_FACTOR = "value_factor"
+CONF_RETRY_WRITE = "retry_write"
 
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)
 
 # REG_ADDR_SCHEMA = cv.Schema({cv.Required(CONF_REG_ADDR): cv.hex_int})
+
+SMALL_NUMBER = 0.0001
+def not_zero_or_small(value):
+    if value and (value > SMALL_NUMBER or value < -SMALL_NUMBER):
+        return value
+    raise cv.Invalid(f"Value factor cannot be zero or close to zero (+-{SMALL_NUMBER})")
 
 CONFIG_SCHEMA = cv.All(
     # cv.require_esphome_version(2022, 3, 0),
@@ -36,9 +43,9 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_MODEL, default="rego600"): cv.string,
             cv.Optional(CONF_LOG_ALL, default=False): cv.boolean,
             # cv.Optional(CONF_UPDATE_INTERVAL, default="2s"): cv.update_interval,
-            cv.Optional(CONF_READ_DELAY, default="0ms"): cv.positive_time_period_milliseconds,
-            cv.Optional(CONF_RETRY_SLEEP, default="10ms"): cv.positive_time_period_milliseconds,
-            cv.Optional(CONF_RETRY_ATTEMPTS, default=5): cv.uint8_t,
+            cv.Optional(CONF_READ_DELAY, default="10ms"): cv.positive_time_period_milliseconds,
+            cv.Optional(CONF_RETRY_SLEEP, default="20ms"): cv.positive_time_period_milliseconds,
+            cv.Optional(CONF_RETRY_ATTEMPTS, default=1): cv.uint8_t,
         }
     )
     # .extend(cv.COMPONENT_SCHEMA)

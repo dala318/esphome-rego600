@@ -5,6 +5,21 @@ namespace rego {
 
 static const char *TAG = "rego.button";
 
+void RegoButton::loop() {
+    if ((this->attempt_ != 0) && !this->hub_->get_uart_bussy()) {
+        if (this->attempt_ <= this->max_retry_attempts_) {
+            this->press_action();
+            this->attempt_++;
+        }
+        else {
+            if (this->hub_->get_log_all()) {
+                ESP_LOGI(TAG, "Abort retry after %u attempts", this->attempt_);
+            }
+            this->attempt_ = 0;
+        }
+    }
+}
+
 void RegoButton::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Button:");
     LOG_BUTTON("  ", "Button", this);
@@ -14,9 +29,17 @@ void RegoButton::dump_config() {
 
 void RegoButton::press_action() {
     uint16_t result = 0;
-    if (this->hub_->read_value(this->rego_variable_, &result)) { }  // TODO: Ensure command is sent if UART bussy, retry or queue in hub?
+    if (this->hub_->read_value(this->rego_variable_, &result)) {
+        this->attempt_ = 0;
+    }
     else {
-        ESP_LOGE(TAG, "Could not perform button command");
+        ESP_LOGE(TAG, "Could not perform button command %s", this->get_name().c_str());
+        if ((this->max_retry_attempts_ != 0) && (this->attempt_ == 0)) {
+            this->attempt_ = 1;
+            if (this->hub_->get_log_all()) {
+                ESP_LOGI(TAG, "Scheduling for retry");
+            }
+        }
     }
 }
 
