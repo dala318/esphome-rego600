@@ -33,6 +33,7 @@ public:
 
     // Function declaration component
     bool read_value(int16_t reg, uint16_t *result);
+    bool write_value(int16_t reg, uint16_t value, uint16_t *result);
 
     // Function definitions component
     void set_model(std::string model){ this->model_ = model; }

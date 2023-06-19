@@ -10,9 +10,9 @@ namespace rego {
 
 class RegoSwitch: public switch_::Switch, public RegoBase {
 public:
-    // void setup() override;
-    void write_state(bool state) override { this->publish_state(state); }
+    void setup() override;
     void dump_config() override ;
+    void write_state(bool state) override;
 protected:
 };
 

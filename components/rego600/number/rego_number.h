@@ -10,6 +10,7 @@ namespace rego {
 
 class RegoNumber : public number::Number, public RegoBase {
 public:
+    void setup() override;
     void dump_config() override;
     void control(float value) override;
     void set_value_factor(float value_factor) { this->value_factor_ = value_factor; }
