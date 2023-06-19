@@ -109,6 +109,7 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
     this->uart_->write_array(request, sizeof(request));
 
     // Read result
+    delay(this->read_delay_);
     int available = 0;
     uint8_t response[128];
     uint8_t attempt = 0;

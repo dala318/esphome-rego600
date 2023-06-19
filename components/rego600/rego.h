@@ -39,6 +39,7 @@ public:
     // Function definitions component
     void set_model(std::string model){ this->model_ = model; }
     void set_log_all(bool log_all) {this->log_all_ = log_all; }
+    void set_read_delay(int delay) {this->read_delay_ = delay; }
     void set_retry_sleep(int sleep) {this->read_retry_sleep_ = sleep; }
     void set_retry_attempts(uint8_t attempts) {this->read_retry_attempts_ = attempts; }
     void set_uart_parent(esphome::uart::UARTComponent *parent) { this->uart_ = parent; }
@@ -61,8 +62,9 @@ protected:
     esphome::uart::UARTComponent *uart_{nullptr};
     std::string model_;
     bool log_all_;
-    uint8_t read_retry_attempts_ = 5;
+    uint8_t read_delay_ = 10;
     uint8_t read_retry_sleep_ = 10;
+    uint8_t read_retry_attempts_ = 5;
 };
 
 class RegoBase : public PollingComponent {
