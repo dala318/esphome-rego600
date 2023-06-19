@@ -8,6 +8,7 @@ static const char *TAG = "rego.button";
 void RegoButton::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Button:");
     LOG_BUTTON("  ", "Button", this);
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);  // TODO: Need a "to_str" representation
 }
 

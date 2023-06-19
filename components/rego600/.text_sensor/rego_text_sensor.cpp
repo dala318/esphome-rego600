@@ -8,7 +8,8 @@ static const char *TAG = "rego.text_sensor";
 void RegoTextSensor::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego TextSensor:");
     LOG_TEXT_SENSOR("  ", "TextSensor", this);
-    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);  // TODO: Need a "to_str" representation
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
 }
 
 }  // namespace rego

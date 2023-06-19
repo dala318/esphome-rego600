@@ -16,7 +16,8 @@ void RegoSwitch::setup() {
 void RegoSwitch::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Switch:");
     LOG_SWITCH("  ", "Switch", this);
-    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);  // TODO: Need a "to_str" representation
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
 }
 
 void RegoSwitch::write_state(bool state) {

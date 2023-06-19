@@ -8,7 +8,8 @@ static const char *TAG = "rego.binary_sensor";
 void RegoBinarySensor::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego BinarySensor:");
     LOG_BINARY_SENSOR("  ", "BinarySensor", this);
-    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);  // TODO: Need a "to_str" representation
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
 }
 
 void RegoBinarySensor::update() {
@@ -17,7 +18,7 @@ void RegoBinarySensor::update() {
         this->publish_state(result != 0);
     }
     else {
-        ESP_LOGE(TAG, "Could not update binary sensor");
+        ESP_LOGE(TAG, "Could not update binary sensor %s", this->get_name().c_str());
     }
 }
 

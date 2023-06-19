@@ -43,6 +43,7 @@ public:
     }
 
     void dump_config() override;
+    void update() override {}
     void set_value_factor(float value_factor) { this->value_factor_ = value_factor; }
     void set_indoor_sensor(sensor::Sensor *indoor_sensor) {
         this->indoor_sensor_ = indoor_sensor;

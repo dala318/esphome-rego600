@@ -17,52 +17,55 @@ void RegoInterfaceComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "  Model: %s", this->model_);  // TODO: Need a "to_str" representation
 }
 
-// void RegoInterfaceComponent::loop() {
-//     this->write_registers();
-//     this->read_registers();
-// }
+void RegoInterfaceComponent::loop() {
+    if (this->bussy_) {
+        this->bussy_counter_++;
+    }
+    else {
+        this->bussy_counter_ = 0;
+    }
+    if (this->bussy_counter_ > 2000) {
+        ESP_LOGD(TAG, "Max bussy_counter reached, resetting and enabling communication");
+        this->bussy_ = false;
+        this->bussy_counter_ = 0;
+    }
 
-// void RegoInterfaceComponent::write_registers() {
-// }
-
-// void RegoInterfaceComponent::read_registers() {
-//     int available;
-//     // while ((available = this->uart_->available()) > 0) {
-//     if ((available = this->uart_->available()) > 0) {
-//         if (this->log_all_) {
-//             ESP_LOGD(TAG, "Spare data (%u bytes) avaialble on UART", available);
-//             // this->uart_->read_array(&this->buf_[this->buf_index(this->buf_head_)], len);
-//         }
-//         // TODO: Read and handle spare data on UART, take from StreamServer
-//         // Could be that this will interfere with the reading/writing from the entities and hence need to be removed
-//     }
-// }
-
+    // this->write_registers();
+    // this->read_registers();
+}
 
 bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
 {
     if (this->bussy_) {
         if (this->log_all_) {
-            ESP_LOGI(TAG, "Could not read data this time as UART bus bussy");
+            ESP_LOGI(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);
         }
         return false;
     }
+    else if (this->log_all_) {
+        ESP_LOGD(TAG, "UART bus free to use");
+    }
     this->bussy_ = true;
-    return command_and_response(0x81, 0x02, reg, 0x00, result);
+    bool response = command_and_response(0x81, 0x02, reg, 0x00, result);
     this->bussy_ = false;
+    return response;
 }
 
 bool RegoInterfaceComponent::write_value(int16_t reg, uint16_t value, uint16_t *result)
 {
     if (this->bussy_) {
         if (this->log_all_) {
-            ESP_LOGI(TAG, "Could not write data this time as UART bus bussy");
+            ESP_LOGI(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);
         }
         return false;
     }
+    else if (this->log_all_) {
+        ESP_LOGD(TAG, "UART bus free to use");
+    }
     this->bussy_ = true;
-    return command_and_response(0x81, 0x02, reg, value, result);
+    bool response = command_and_response(0x81, 0x03, reg, value, result);
     this->bussy_ = false;
+    return response;
 }
 
 void RegoInterfaceComponent::int2write (int16_t value, uint8_t *write_array)
@@ -78,7 +81,7 @@ int16_t RegoInterfaceComponent::read2int(uint8_t *read_array)
     return res;
 }
 
-std::string RegoInterfaceComponent::hex2str(const uint8_t *data, size_t len)
+std::string RegoInterfaceComponent::data2hexstr(const uint8_t *data, size_t len)
 {
     std::stringstream ss;
     ss << std::hex;
@@ -102,29 +105,29 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
     }
 
     // Send command
-    ESP_LOGD(TAG, "Command to send: %s", hex2str(request, sizeof(request)).c_str());  // TODO: How to merge all the bytes below into one string
+    ESP_LOGD(TAG, "Command to send: %s", data2hexstr(request, sizeof(request)).c_str());
     this->uart_->write_array(request, sizeof(request));
 
     // Read result
     int available = 0;
     uint8_t response[128];
-    uint8_t attempts = 0;
-    while (attempts < this->read_attempts_timeout_) {
+    uint8_t attempt = 0;
+    while (attempt <= this->read_retry_attempts_) {
         if ((available = this->uart_->available()) > 0) {
             this->uart_->read_array(response, available);
-            ESP_LOGD(TAG, "Response received: %s", hex2str(response, available).c_str());  // TODO: How to merge all the bytes below into one string
+            ESP_LOGD(TAG, "Response received: %s", data2hexstr(response, available).c_str());
             break;
         }
-        else {
+        attempt++;
+        if (attempt <= this->read_retry_attempts_) {
             if (this->log_all_) {
                 ESP_LOGD(TAG, "No response yet, sleeping %ums and retrying", this->read_retry_sleep_);
             }
             delay(this->read_retry_sleep_);
         }
-        attempts++;
     }
     if (available == 0) {
-        ESP_LOGE(TAG, "No response after %u attempts", attempts);
+        ESP_LOGE(TAG, "No response after %u attempts", (attempt));
         return false;
     }
 
