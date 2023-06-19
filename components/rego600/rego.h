@@ -26,6 +26,7 @@ namespace rego {
 class RegoInterfaceComponent : public Component {
 public:
     // Function override declarations
+    void setup() override { this->bussy_ = false; }
     void dump_config() override;
     // void loop() override;
 

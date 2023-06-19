@@ -6,6 +6,7 @@ namespace rego {
 static const char *TAG = "rego.switch";
 
 void RegoSwitch::setup() {
+    ESP_LOGD(TAG, "Restoring switch %s", this->get_name().c_str());
     uint16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result != 0);
@@ -25,7 +26,7 @@ void RegoSwitch::write_state(bool state) {
         this->publish_state(result != 0);
     }
     else {
-        ESP_LOGE(TAG, "Could not set %s switch %s", (state ? "true" : "false"), this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not set %s to switch %s", (state ? "true" : "false"), this->get_name().c_str());
     }
 }
 
