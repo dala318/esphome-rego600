@@ -23,6 +23,7 @@ CONF_RETRY_ATTEMPTS = "retry_attempts"
 CONF_REGO_VARIABLE = "rego_variable"
 CONF_VALUE_FACTOR = "value_factor"
 CONF_RETRY_WRITE = "retry_write"
+CONF_PAYLOAD = "payload"
 
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)

@@ -24,12 +24,12 @@ void RegoButton::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Button:");
     LOG_BUTTON("  ", "Button", this);
     ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
-    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);  // TODO: Need a "to_str" representation
+    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 
 void RegoButton::press_action() {
     uint16_t result = 0;
-    if (this->hub_->read_value(this->rego_variable_, &result)) {
+    if (this->hub_->write_value(this->rego_variable_, this->action_payload_, &result)) {
         this->attempt_ = 0;
     }
     else {

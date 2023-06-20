@@ -9,7 +9,7 @@ void RegoBinarySensor::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego BinarySensor:");
     LOG_BINARY_SENSOR("  ", "BinarySensor", this);
     ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
-    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
+    ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 
 void RegoBinarySensor::update() {
