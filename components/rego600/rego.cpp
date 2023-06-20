@@ -109,6 +109,7 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
     // Send command
     ESP_LOGD(TAG, "Command to send: %s", data2hexstr(request, sizeof(request)).c_str());
     this->uart_->write_array(request, sizeof(request));
+    this->uart_->flush();
 
     // Read result
     delay(this->read_delay_);
@@ -147,6 +148,7 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
         ESP_LOGE(TAG, "Response wrong checksum");
         return false;
     }
+    // TODO: Add check that resonse address matches the request address
     *result = read2int(response+1);
     ESP_LOGD(TAG, "Response decoded to %u", result);
     return true;
