@@ -36,6 +36,7 @@ void RegoInterfaceComponent::loop() {
 
 bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
 {
+    // ESP_LOGD(TAG, "Processing read of register %s (%u)", this->data2hexstr, data2hexstr(reg, sizeof(reg)).c_str(), reg);
     if (this->bussy_) {
         if (this->log_all_) {
             ESP_LOGI(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);
@@ -53,6 +54,7 @@ bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
 
 bool RegoInterfaceComponent::write_value(int16_t reg, uint16_t value, uint16_t *result)
 {
+    // ESP_LOGD(TAG, "Processing write value %u to register %s (%u)", value, this->data2hexstr, data2hexstr(reg, sizeof(reg)).c_str(), reg);
     if (this->bussy_) {
         if (this->log_all_) {
             ESP_LOGI(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);

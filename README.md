@@ -54,15 +54,16 @@ sensor:
   - platform: rego600
     name: Radiator return GT1
     rego_variable: 0x0209
-    unit_of_measurement: °C   # Optional, set your own desire
-    state_class: measurement  # Optional, set your own desire
-    accuracy_decimals: 1      # Optional, set your own desire
+    value_factor: 10          # Optional, scale factor multiply real->register value
+    unit_of_measurement: °C   # Optional, set at your own desire
+    state_class: measurement  # Optional, set at your own desire
+    accuracy_decimals: 1      # Optional, set at your own desire
 
   - platform: rego600
     name: Outdoor GT2
     rego_variable: 0x020A
 
-climate:
+climate:              # Climate not really finalized, might still work
   - platform: rego600
     name: House temp
     rego_variable: 0x0010
@@ -72,11 +73,18 @@ number:
   - platform: rego600
     name: GT1 Target value
     rego_variable: 0x006E
+    value_factor: 10  # Optional, scale factor multiply real->register value
     min_value: 0
     max_value: 100
     step: 1
     retry_write: 1    # Optional, retry writing event if com bussy
 
+button:
+  - platform: rego600
+    name: External control
+    rego_variable: 0x0213
+    payload: 0x01     # Optional, data to provide on action
+    retry_write: 3    # Optional, retry writing event if com bussy
 ```
 
 Currently there is no compiled list of registers to be used, but can get a lot from the tables here (https://rago600.sourceforge.net/#SW), also copird to [constants.h](https://github.com/dala318/esphome-rego600/blob/master/components/rego600/constants.h) but not used. When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
