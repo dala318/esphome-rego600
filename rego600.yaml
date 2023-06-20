@@ -246,7 +246,7 @@ number:
     name: ${friendly_name}Add heat power in %
     rego_variable: 0x
     value_factor: 0.1
-    unit_of_measurement: %
+    unit_of_measurement: "%"
     min_value: 0
     max_value: 100
     step: 1
