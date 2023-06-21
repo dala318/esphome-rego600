@@ -31,14 +31,11 @@ void RegoInterfaceComponent::loop() {
             ESP_LOGI(TAG, "Data received from UART outside request: %s", data2hexstr(response, available).c_str());
         }
     }
-    if (this->bussy_counter_ > 2000) {
+    if (this->bussy_counter_ > 2000) {  // TODO: This can probably be solved much better with a timer or time-delta function
         ESP_LOGD(TAG, "Max bussy_counter reached, resetting and enabling communication");
         this->bussy_ = false;
         this->bussy_counter_ = 0;
     }
-
-    // this->write_registers();
-    // this->read_registers();
 }
 
 bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
@@ -155,7 +152,10 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
         ESP_LOGE(TAG, "Response wrong checksum");
         return false;
     }
-    // TODO: Add check that resonse address matches the request address
+    // TODO: Not sure this is how it works
+    // if ((response[2] != request[2]) || (response[3] != request[3]) || (response[4] != request[4]))
+    //     ESP_LOGE(TAG, "Response wrong register");
+    //     return false;
     *result = read2int(response+1);
     ESP_LOGD(TAG, "Response decoded to %u", result);
     return true;
