@@ -91,4 +91,4 @@ button:
     retry_write: 3    # Optional, retry writing event if com bussy
 ```
 
-For debugging it's suggested to also add a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump
+For HW debugging it's suggested to use a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump. But have not tested this in combination and possible that the rego600 component and stream_server will not work together, stealing received messages from each other.
