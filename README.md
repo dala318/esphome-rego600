@@ -4,7 +4,7 @@ Started as a fork of [Husdata H60 Arduino get started code](https://github.com/p
   - [stream server for ESPHome](https://github.com/oxan/esphome-stream-server/) (how to create a service communicating over UART)
   - [custom component esphome-rego1000](https://github.com/jagheterfredrik/esphome-rego1000) (a related integration, have been trying to keep external design as similar as possible)
   - [how to connect heat pump with Rego 6xx controller](https://rago600.sourceforge.net/) (a lot of information about the Rego600 interface)
-  - [openhab addons](https://github.com/openhab/openhab-addons/tree/main/bundles/org.openhab.binding.regoheatpump) [mappings](https://github.com/openhab/openhab-addons/blob/main/bundles/org.openhab.binding.regoheatpump/src/main/java/org/openhab/binding/regoheatpump/internal/rego6xx/RegoRegisterMapper.java) (SW implementation for the interface)
+  - [openhab addons](https://github.com/openhab/openhab-addons/tree/main/bundles/org.openhab.binding.regoheatpump), [mappings](https://github.com/openhab/openhab-addons/blob/main/bundles/org.openhab.binding.regoheatpump/src/main/java/org/openhab/binding/regoheatpump/internal/rego6xx/RegoRegisterMapper.java) (SW implementation for the interface)
 
 To be used as custom component to ESPHome
 
