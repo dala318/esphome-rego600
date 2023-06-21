@@ -18,7 +18,9 @@ Add the following to your ESPHome config
 
 All entities are extendable with normal additional attrubutes as "unit_of_measurement", "state_class" etc.
 
-An as complete as possible configuration package as possible is provided in [rego600.yaml](rego600.yaml)
+An as complete as possible configuration package as possible is provided in [rego600.yaml](rego600.yaml).
+Please use information from above provided links to adapt to your needs and model.
+When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml][rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
 
 ```yaml
 external_components:
@@ -88,7 +90,5 @@ button:
     payload: 0x01     # Optional, data to provide on action
     retry_write: 3    # Optional, retry writing event if com bussy
 ```
-
-Currently there is no compiled list of registers to be used, but can get a lot from the tables here (https://rago600.sourceforge.net/#SW), also copird to [constants.h](https://github.com/dala318/esphome-rego600/blob/master/components/rego600/constants.h) but not used. When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
 
 For debugging it's suggested to also add a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump
