@@ -1,10 +1,10 @@
 # esphome-rego600
 Started as a fork of [Husdata H60 Arduino get started code](https://github.com/peterarandis/H60-OS) but it is now broken out as stand-alone custom component. Used a lot of influence from the following projects:
-  - [esphome/components/dsmr](https://github.com/esphome/esphome/tree/dev/esphome/components/dsmr)
-  - [stream server for ESPHome](https://github.com/oxan/esphome-stream-server/)
-  - [how to connect heat pump with Rego 6xx controller](https://rago600.sourceforge.net/)
-  - [custom component esphome-rego1000](https://github.com/jagheterfredrik/esphome-rego1000) 
-  - [openhab addons](https://github.com/openhab/openhab-addons/tree/main/bundles/org.openhab.binding.regoheatpump) [mappings](https://github.com/openhab/openhab-addons/blob/main/bundles/org.openhab.binding.regoheatpump/src/main/java/org/openhab/binding/regoheatpump/internal/rego6xx/RegoRegisterMapper.java)
+  - [esphome/components/dsmr](https://github.com/esphome/esphome/tree/dev/esphome/components/dsmr) (how to combide a back-bone service and different types of child entities)
+  - [stream server for ESPHome](https://github.com/oxan/esphome-stream-server/) (how to create a service communicating over UART)
+  - [custom component esphome-rego1000](https://github.com/jagheterfredrik/esphome-rego1000) (a related integration, have been trying to keep external design as similar as possible)
+  - [how to connect heat pump with Rego 6xx controller](https://rago600.sourceforge.net/) (a lot of information about the Rego600 interface)
+  - [openhab addons](https://github.com/openhab/openhab-addons/tree/main/bundles/org.openhab.binding.regoheatpump) [mappings](https://github.com/openhab/openhab-addons/blob/main/bundles/org.openhab.binding.regoheatpump/src/main/java/org/openhab/binding/regoheatpump/internal/rego6xx/RegoRegisterMapper.java) (SW implementation for the interface)
 
 To be used as custom component to ESPHome
 
@@ -17,6 +17,8 @@ Planned functions:
 Add the following to your ESPHome config
 
 All entities are extendable with normal additional attrubutes as "unit_of_measurement", "state_class" etc.
+
+An as complete as possible configuration package as possible is provided in [rego600.yaml](rego600.yaml)
 
 ```yaml
 external_components:
