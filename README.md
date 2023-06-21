@@ -20,7 +20,7 @@ All entities are extendable with normal additional attrubutes as "unit_of_measur
 
 An as complete as possible configuration package as possible is provided in [rego600.yaml](rego600.yaml).
 Please use information from above provided links to adapt to your needs and model.
-When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml][rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
+When up and working it might be a good idea to prepare these type of templates [rego1000-v3.7.0.yaml](https://github.com/jagheterfredrik/esphome-rego1000/blob/main/rego1000-v3.7.0.yaml)
 
 ```yaml
 external_components:
