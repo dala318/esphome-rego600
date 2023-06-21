@@ -23,6 +23,13 @@ void RegoInterfaceComponent::loop() {
     }
     else {
         this->bussy_counter_ = 0;
+        // Check the UART rx-buffer for received data that is not requested by any entity
+        int available = 0;
+        uint8_t response[128];
+        if ((available = this->uart_->available()) > 0) {
+            this->uart_->read_array(response, available);
+            ESP_LOGI(TAG, "Data received from UART outside request: %s", data2hexstr(response, available).c_str());
+        }
     }
     if (this->bussy_counter_ > 2000) {
         ESP_LOGD(TAG, "Max bussy_counter reached, resetting and enabling communication");
