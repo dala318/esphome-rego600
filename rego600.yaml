@@ -46,40 +46,40 @@ rego600:
 binary_sensor:
   - platform: rego600
     # rego600_id: rego600_hub  # Optional if only one hub
-    name: ${friendly_name}Ground loop pump P3
+    name: Ground loop pump P3
     rego_variable: 0x01FD
 
   - platform: rego600
-    name: ${friendly_name}Compresor
+    name: Compresor
     rego_variable: 0x01FE
 
   - platform: rego600
-    name: ${friendly_name}Additional heat 3kW
+    name: Additional heat 3kW
     rego_variable: 0x01FF
 
   - platform: rego600
-    name: ${friendly_name}Additional heat 6kW
+    name: Additional heat 6kW
     rego_variable: 0x0200
 
   - platform: rego600
-    name: ${friendly_name}Radiator pump P1
+    name: Radiator pump P1
     rego_variable: 0x0203
 
   - platform: rego600
-    name: ${friendly_name}Heat carrier pump P2
+    name: Heat carrier pump P2
     rego_variable: 0x0204
 
   - platform: rego600
-    name: ${friendly_name}Tree-way valve VXV
+    name: Tree-way valve VXV
     rego_variable: 0x0205
 
   - platform: rego600
-    name: ${friendly_name}Alarm
+    name: Alarm
     rego_variable: 0x0206
 
 sensor:
   - platform: rego600
-    name: ${friendly_name}Radiator return GT1
+    name: Radiator return GT1
     rego_variable: 0x0209
     value_factor: 0.1
     unit_of_measurement: °C
@@ -87,7 +87,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Outdoor GT2
+    name: Outdoor GT2
     rego_variable: 0x020A
     value_factor: 0.1
     unit_of_measurement: °C
@@ -95,7 +95,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Hot water GT3
+    name: Hot water GT3
     rego_variable: 0x020B
     value_factor: 0.1
     unit_of_measurement: °C
@@ -103,7 +103,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Forward GT4
+    name: Forward GT4
     rego_variable: 0x020C
     value_factor: 0.1
     unit_of_measurement: °C
@@ -111,7 +111,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Room GT5
+    name: Room GT5
     rego_variable: 0x020D
     value_factor: 0.1
     unit_of_measurement: °C
@@ -119,7 +119,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Compressor GT6
+    name: Compressor GT6
     rego_variable: 0x020E
     value_factor: 0.1
     unit_of_measurement: °C
@@ -127,7 +127,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Heat fluid out GT8
+    name: Heat fluid out GT8
     rego_variable: 0x020F
     value_factor: 0.1
     unit_of_measurement: °C
@@ -135,7 +135,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Heat fluid in GT9
+    name: Heat fluid in GT9
     rego_variable: 0x0210
     value_factor: 0.1
     unit_of_measurement: °C
@@ -143,7 +143,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Cold fluid in GT10
+    name: Cold fluid in GT10
     rego_variable: 0x0211
     value_factor: 0.1
     unit_of_measurement: °C
@@ -151,7 +151,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}Cold fluid out GT11
+    name: Cold fluid out GT11
     rego_variable: 0x0212
     value_factor: 0.1
     unit_of_measurement: °C
@@ -159,7 +159,7 @@ sensor:
     accuracy_decimals: 1
 
   - platform: rego600
-    name: ${friendly_name}External hot water GT3x
+    name: External hot water GT3x
     rego_variable: 0x0213
     value_factor: 0.1
     unit_of_measurement: °C
@@ -179,7 +179,7 @@ sensor:
 
 number:
   - platform: rego600
-    name: ${friendly_name}GT1 Target value
+    name: GT1 Target value
     id: gt1_target
     rego_variable: 0x006E
     value_factor: 0.1
@@ -189,7 +189,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT1 On value
+    name: GT1 On value
     rego_variable: 0x006F
     value_factor: 0.1
     unit_of_measurement: °C
@@ -198,7 +198,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT1 Off value
+    name: GT1 Off value
     rego_variable: 0x0070
     value_factor: 0.1
     unit_of_measurement: °C
@@ -207,7 +207,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT3 Target value
+    name: GT3 Target value
     rego_variable: 0x002B
     value_factor: 0.1
     unit_of_measurement: °C
@@ -216,7 +216,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT3 On value
+    name: GT3 On value
     rego_variable: 0x0073
     value_factor: 0.1
     unit_of_measurement: °C
@@ -225,7 +225,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT3 Off value
+    name: GT3 Off value
     rego_variable: 0x0074
     value_factor: 0.1
     unit_of_measurement: °C
@@ -234,7 +234,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}GT4 Target value
+    name: GT4 Target value
     rego_variable: 0x006D
     value_factor: 0.1
     unit_of_measurement: °C
@@ -243,7 +243,7 @@ number:
     step: 1
 
   - platform: rego600
-    name: ${friendly_name}Add heat power in %
+    name: Add heat power in %
     rego_variable: 0x
     value_factor: 0.1
     unit_of_measurement: "%"
@@ -259,10 +259,10 @@ number:
 
 # switch:
 #   - platform: rego600
-#     name: ${friendly_name}
+#     name: 
 #     rego_variable: 
 
 # text_sensor:
 #   - platform: rego600
-#     name: ${friendly_name}
+#     name: 
 #     rego_variable: 
