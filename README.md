@@ -14,6 +14,9 @@ Planned functions:
   - (untested) Communication with heat pump via ESPHome UART component
   - Provide input and output entities based on heat-pump model
 
+> **NOTE**: This integration is still in development and used at own risk. Connecting unsupported devices to your heat-pump via service interface may
+cause important settings to be overwritten and lost. Please start small with some read-only sensors.
+
 Add the following to your ESPHome config
 
 All entities are extendable with normal additional attrubutes as "unit_of_measurement", "state_class" etc.
