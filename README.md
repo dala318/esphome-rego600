@@ -96,6 +96,8 @@ button:
 
 ## Function overview
 
+Flow overview for updating a single sensor entity
+
 ```mermaid
 graph TD;
     start[Start];
