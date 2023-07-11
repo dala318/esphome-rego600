@@ -8,7 +8,7 @@ Started as a fork of [Husdata H60 Arduino get started code](https://github.com/p
 
 To be used as custom component to ESPHome
 
-Planned functions:
+## Planned functions
   - (done) Wifi connection with DHCP and fixed SSID/PASS
   - (done) Web page showing status and heat pump data (ESPHome)
   - (untested) Communication with heat pump via ESPHome UART component
@@ -17,7 +17,7 @@ Planned functions:
 > **NOTE**: This integration is still in development and used at own risk. Connecting unsupported devices to your heat-pump via service interface may
 cause important settings to be overwritten and lost. Please start small with some read-only sensors.
 
-Add the following to your ESPHome config
+## Add the following to your ESPHome config
 
 All entities are extendable with normal additional attrubutes as "unit_of_measurement", "state_class" etc.
 
@@ -93,5 +93,36 @@ button:
     payload: 0x01     # Optional, data to provide on action
     retry_write: 3    # Optional, retry writing event if com bussy
 ```
+
+## Function overview
+
+```mermaid
+graph TD;
+    start[Start];
+    send[Send command]
+    read_delay[Wait read_delay]
+    data_available[Is data available in RX-buffer?]
+    retry_sleep[Wait retry_sleep];
+    retry_attempts[< retry_attempts];
+    read_data[Read data]
+    error[Error]
+    validate_data[Data valid?]
+    ok[Update sensor]
+
+    start-->send;
+    send-->read_delay;
+    read_delay-->data_available
+
+    data_available-->|no|retry_attempts;
+    retry_attempts-->|yes|retry_sleep;
+    retry_sleep-->data_available;
+    retry_attempts-->|no|error;
+
+    data_available-->|yes|read_data;
+    read_data-->validate_data;
+    validate_data-->|yes|ok
+    validate_data-->|no|error
+```
+
 
 For HW debugging it's suggested to use a [stream server](https://github.com/oxan/esphome-stream-server) to your config for direct connection between your PC and heat-pump. But have not tested this in combination and possible that the rego600 component and stream_server will not work together, stealing received messages from each other.
