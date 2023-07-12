@@ -61,7 +61,7 @@ sensor:
   - platform: rego600
     name: Radiator return GT1
     rego_variable: 0x0209
-    value_factor: 10          # Optional, scale factor multiply real->register value
+    value_factor: 0.1         # Optional, scale factor multiply register-value -> real
     unit_of_measurement: °C   # Optional, set at your own desire
     state_class: measurement  # Optional, set at your own desire
     accuracy_decimals: 1      # Optional, set at your own desire
@@ -80,7 +80,7 @@ number:
   - platform: rego600
     name: GT1 Target value
     rego_variable: 0x006E
-    value_factor: 10  # Optional, scale factor multiply real->register value
+    value_factor: 0.1 # Optional, scale factor multiply register-value -> real
     min_value: 0
     max_value: 100
     step: 1
