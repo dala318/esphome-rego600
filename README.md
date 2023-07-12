@@ -100,16 +100,16 @@ Flow overview for updating a single sensor entity
 
 ```mermaid
 graph TD;
-    start[Start];
+    start(Start);
     send[Send command]
     read_delay[Wait read_delay]
-    data_available[Is data available in RX-buffer?]
+    data_available{Data in RX-buffer?}
     retry_sleep[Wait retry_sleep];
-    retry_attempts[< retry_attempts];
+    retry_attempts{< retry_attempts};
     read_data[Read data]
-    error[Error]
-    validate_data[Data valid?]
-    ok[Update sensor]
+    error(Error)
+    validate_data{Data valid?}
+    ok(Update sensor)
 
     start-->send;
     send-->read_delay;
