@@ -25,9 +25,10 @@ void RegoInterfaceComponent::loop() {
         this->bussy_counter_ = 0;
         // Check the UART rx-buffer for received data that is not requested by any entity
         int available = 0;
-        uint8_t response[128];
+        uint8_t response[MAX_READ];
         if ((available = this->uart_->available()) > 0) {
-            this->uart_->read_array(response, available);
+            size_t read_bytes = std::min<size_t>(available, MAX_READ);
+            this->uart_->read_array(response, read_bytes);
             ESP_LOGI(TAG, "Data received from UART outside request: %s", data2hexstr(response, available).c_str());
         }
     }
@@ -117,12 +118,13 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
 
     // Read result
     delay(this->read_delay_);
-    int available = 0;
-    uint8_t response[128];
+    size_t available = 0;
+    uint8_t response[MAX_READ];
     uint8_t attempt = 0;
     while (attempt <= this->read_retry_attempts_) {
         if ((available = this->uart_->available()) > 0) {
-            this->uart_->read_array(response, available);
+            size_t read_bytes = std::min<size_t>(available, MAX_READ);
+            this->uart_->read_array(response, read_bytes);
             ESP_LOGD(TAG, "Response received: %s", data2hexstr(response, available).c_str());
             break;
         }
@@ -157,7 +159,7 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
     //     ESP_LOGE(TAG, "Response wrong register");
     //     return false;
     *result = read2int(response+1);
-    ESP_LOGD(TAG, "Response decoded to %u", result);
+    ESP_LOGD(TAG, "Response decoded to %u", *result);
     return true;
 }
 

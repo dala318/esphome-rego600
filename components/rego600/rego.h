@@ -23,6 +23,8 @@
 namespace esphome {
 namespace rego {
 
+#define MAX_READ 128
+
 class RegoInterfaceComponent : public Component {
 public:
     // Function override declarations
