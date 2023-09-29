@@ -8,11 +8,12 @@ Started as a fork of [Husdata H60 Arduino get started code](https://github.com/p
 
 To be used as custom component to ESPHome
 
-## Planned functions
-  - (done) Wifi connection with DHCP and fixed SSID/PASS
-  - (done) Web page showing status and heat pump data (ESPHome)
-  - (untested) Communication with heat pump via ESPHome UART component
-  - Provide input and output entities based on heat-pump model
+## Harware
+The component is not bound the any specific harware setup, it only requires that a UART port of the MCU is connectred to the external comms-port of the heat-pump. This far, successfull communication of one sensor and one binary_sensor has been made with a lab-setup as this one [Serial communication via optocouplers](https://forum.arduino.cc/t/serial-communication-via-optocouplers/686872/26)
+
+## Future planned functions
+  - Extent entity type support
+  - Provide ready-made input and output entities based on heat-pump model
 
 > **NOTE**: This integration is still in development and used at own risk. Connecting unsupported devices to your heat-pump via service interface may
 cause important settings to be overwritten and lost. Please start small with some read-only sensors.
@@ -46,6 +47,7 @@ rego600:
   read_delay: 10ms  # Optional, delay to first reading of UART
   retry_sleep: 20ms # Optional, delay between read attempts
   retry_attempts: 1 # Optional, number of read retry attempts
+  # model: rego600    # Not in use!
 
 binary_sensor:
   - platform: rego600
@@ -76,7 +78,7 @@ climate:              # Climate not really finalized, might still work
     rego_variable: 0x0010
     sensor_id: indoor_temp
 
-number:
+number:               # UNTESTED!
   - platform: rego600
     name: GT1 Target value
     rego_variable: 0x006E
@@ -86,7 +88,7 @@ number:
     step: 1
     retry_write: 1    # Optional, retry writing event if com bussy
 
-button:
+button:               # UNTESTED!
   - platform: rego600
     name: External control
     rego_variable: 0x0213
