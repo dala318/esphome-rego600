@@ -142,6 +142,12 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
     }
 
     // Decode response
+    if (available == 1 && response[0] == 0x01) {
+        *result = response[0];
+        ESP_LOGD(TAG, "Positive response to write command (%u)", *result);
+        return true;
+    }
+
     if (available != 5) {
         ESP_LOGE(TAG, "Response wrong size");
         return false;
