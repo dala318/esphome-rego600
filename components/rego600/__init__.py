@@ -6,7 +6,7 @@ from esphome.const import CONF_ID
 CODEOWNERS = ['@dala318']
 
 # AUTO_LOAD = [ 'binary_sensor', 'sensor','text_sensor', 'button', 'climate', 'number', 'switch']
-AUTO_LOAD = [ 'binary_sensor', 'sensor', 'button', 'climate', 'number', 'switch']
+AUTO_LOAD = [ 'binary_sensor', 'sensor', 'button', 'number', 'switch']
 MULTI_CONF = True
 
 DEPENDENCIES = ["uart"]

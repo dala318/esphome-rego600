@@ -72,12 +72,6 @@ sensor:
     name: Outdoor GT2
     rego_variable: 0x020A
 
-climate:              # Climate not really finalized, might still work
-  - platform: rego600
-    name: House temp
-    rego_variable: 0x0010
-    sensor_id: indoor_temp
-
 number:               # UNTESTED!
   - platform: rego600
     name: GT1 Target value
@@ -94,6 +88,14 @@ button:               # UNTESTED!
     rego_variable: 0x0213
     payload: 0x01     # Optional, data to provide on action
     retry_write: 3    # Optional, retry writing event if com bussy
+
+# Disabled: not really finalized, use the number component to set values
+# climate:
+#   - platform: rego600
+#     name: House temp
+#     rego_variable: 0x0010
+#     sensor_id: indoor_temp
+
 ```
 
 ## Function overview
