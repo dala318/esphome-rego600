@@ -44,7 +44,7 @@ bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
     // ESP_LOGD(TAG, "Processing read of register %s (%u)", this->data2hexstr, data2hexstr(reg, sizeof(reg)).c_str(), reg);
     if (this->bussy_) {
         if (this->log_all_) {
-            ESP_LOGI(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);
+            ESP_LOGW(TAG, "UART bus bussy (%u), more attempts will be made", this->bussy_counter_);
         }
         return false;
     }
