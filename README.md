@@ -64,9 +64,10 @@ sensor:
     name: Radiator return GT1
     rego_variable: 0x0209
     value_factor: 0.1         # Optional, scale factor multiply register-value -> real
-    unit_of_measurement: °C   # Optional, set at your own desire
-    state_class: measurement  # Optional, set at your own desire
-    accuracy_decimals: 1      # Optional, set at your own desire
+    # All configurations inherited from basic sensor
+    unit_of_measurement: °C
+    state_class: measurement
+    accuracy_decimals: 1
 
   - platform: rego600
     name: Outdoor GT2
@@ -77,10 +78,11 @@ number:               # UNTESTED!
     name: GT1 Target value
     rego_variable: 0x006E
     value_factor: 0.1 # Optional, scale factor multiply register-value -> real
+    retry_write: 1    # Optional, retry writing event if com bussy
+    # All configurations inherited from basic number
     min_value: 0
     max_value: 100
     step: 1
-    retry_write: 1    # Optional, retry writing event if com bussy
 
 button:               # UNTESTED!
   - platform: rego600
