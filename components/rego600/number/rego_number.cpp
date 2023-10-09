@@ -43,7 +43,7 @@ void RegoNumber::control(float value) {
         this->attempt_ = 0;
     }
     else {
-        ESP_LOGE(TAG, "Could not write %f to number %s", value, this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not write \"%f\" to number \"%s\"", value, this->get_name().c_str());
         if ((this->max_retry_attempts_ != 0) && (this->attempt_ == 0)) {
             this->attempt_ = 1;
             this->retry_value_ = value;

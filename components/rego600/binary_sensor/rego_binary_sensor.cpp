@@ -18,7 +18,7 @@ void RegoBinarySensor::update() {
         this->publish_state(result != 0);
     }
     else {
-        ESP_LOGE(TAG, "Could not update binary sensor %s", this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not update binary sensor \"%s\"", this->get_name().c_str());
     }
 }
 

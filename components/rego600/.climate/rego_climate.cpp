@@ -28,7 +28,7 @@ void RegoClimate::update() {
         this->publish_state();
     }
     else {
-        ESP_LOGE(TAG, "Could not update climate %s", this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not update climate \"%s\"", this->get_name().c_str());
     }
 }
 

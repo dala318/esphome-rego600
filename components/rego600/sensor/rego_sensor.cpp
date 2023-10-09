@@ -19,7 +19,7 @@ void RegoSensor::update() {
         this->publish_state(result * this->value_factor_);
     }
     else {
-        ESP_LOGE(TAG, "Could not update sensor %s", this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not update sensor \"%s\"", this->get_name().c_str());
     }
 }
 

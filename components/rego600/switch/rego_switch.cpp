@@ -43,7 +43,7 @@ void RegoSwitch::write_state(bool state) {
         this->attempt_ = 0;
     }
     else {
-        ESP_LOGE(TAG, "Could not set %s to switch %s", (state ? "true" : "false"), this->get_name().c_str());
+        ESP_LOGE(TAG, "Could not set \"%s\" to switch \"%s\"", (state ? "true" : "false"), this->get_name().c_str());
         if ((this->max_retry_attempts_ != 0) && (this->attempt_ == 0)) {
             this->attempt_ = 1;
             this->retry_value_ = state;
