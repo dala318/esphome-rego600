@@ -24,6 +24,8 @@ CONF_REGO_VARIABLE = "rego_variable"
 CONF_VALUE_FACTOR = "value_factor"
 CONF_RETRY_WRITE = "retry_write"
 CONF_PAYLOAD = "payload"
+CONF_PAYLOAD_TRUE = "payload_true"
+CONF_PAYLOAD_FALSE = "payload_false"
 
 ns = cg.esphome_ns.namespace("esphome::rego")
 RegoInterfaceComponent = ns.class_("RegoInterfaceComponent", cg.Component)

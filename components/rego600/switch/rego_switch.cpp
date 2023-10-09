@@ -9,7 +9,8 @@ void RegoSwitch::setup() {
     ESP_LOGD(TAG, "Restoring switch %s", this->get_name().c_str());
     uint16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
-        this->publish_state(result != 0);
+        // this->publish_state(result != 0);
+        this->publish_state(result == this->action_payload_true);
     }
 }
 
@@ -32,14 +33,19 @@ void RegoSwitch::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Switch:");
     LOG_SWITCH("  ", "Switch", this);
     ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Payload true: %s", this->int2hex(this->action_payload_true).c_str());
+    ESP_LOGCONFIG(TAG, "  Payload false: %s", this->int2hex(this->action_payload_false).c_str());
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
 }
 
 void RegoSwitch::write_state(bool state) {
     uint16_t result = 0;
-    uint16_t value = (uint16_t)state;
+    // uint16_t value = (uint16_t)state;
+    uint16_t value = (state ? this->action_payload_true : this->action_payload_false);
     if (this->hub_->write_value(this->rego_variable_, value, &result)) {
-        this->publish_state(result != 0);
+        // this->publish_state(result != 0);
+        // this->publish_state(result == this->action_payload_true);
+        this->publish_state(result == state);
         this->attempt_ = 0;
     }
     else {
