@@ -32,9 +32,9 @@ void RegoSwitch::loop() {
 void RegoSwitch::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Switch:");
     LOG_SWITCH("  ", "Switch", this);
-    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
-    ESP_LOGCONFIG(TAG, "  Payload true: %s", this->int2hex(this->action_payload_true).c_str());
-    ESP_LOGCONFIG(TAG, "  Payload false: %s", this->int2hex(this->action_payload_false).c_str());
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int_to_hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Payload true: %s", this->int_to_hex(this->action_payload_true).c_str());
+    ESP_LOGCONFIG(TAG, "  Payload false: %s", this->int_to_hex(this->action_payload_false).c_str());
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_);
 }
 

@@ -36,6 +36,7 @@ public:
 
     // Function declaration component
     bool read_value(int16_t reg, uint16_t *result);
+    bool read_text(int16_t reg, std::string *result);
     bool write_value(int16_t reg, uint16_t value, uint16_t *result);
 
     // Function definitions component
@@ -51,10 +52,9 @@ public:
 
 protected:
     // Function definitions
-    bool command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val, uint16_t *result);
-    void int2write (int16_t value, uint8_t *write_array); // convert int (16 bit) to array for sending
-    int16_t read2int(uint8_t *read_array);
-    std::string data2hexstr(const uint8_t *data, size_t len);
+    bool command_and_response(uint8_t addr, uint8_t cmd, uint16_t reg, uint16_t val, size_t *available, uint8_t *response);
+    void int16_to_7bit_array(int16_t value, uint8_t *write_array); // convert int (16 bit) to array for sending
+    std::string data_to_hexstr(const uint8_t *data, size_t len);
 
     // Thread mutex
     bool bussy_ = false;
@@ -73,10 +73,11 @@ class RegoBase : public PollingComponent {
 public:
     void register_hub(RegoInterfaceComponent *hub){ this->hub_ = hub; }
     void set_rego_variable(std::uint16_t rego_variable) { this->rego_variable_ = rego_variable; }
+    void set_rego_address(std::uint8_t rego_address) { this->rego_address_ = rego_address; }
     void update() override { }
 
 protected:
-    std::string int2hex(std::uint16_t value) {
+    std::string int_to_hex(std::uint16_t value) {
         std::stringstream stream;
         stream << std::setfill('0') << std::setw(sizeof(value)*2) << std::hex << value;
         return stream.str();
@@ -84,6 +85,7 @@ protected:
 
     RegoInterfaceComponent *hub_;
     std::uint16_t rego_variable_;
+    std::uint8_t rego_address_ = 0x02;
 };
 
 }  // namespace rego

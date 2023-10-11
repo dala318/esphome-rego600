@@ -23,8 +23,8 @@ void RegoButton::loop() {
 void RegoButton::dump_config() {
     ESP_LOGCONFIG(TAG, "Rego Button:");
     LOG_BUTTON("  ", "Button", this);
-    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int2hex(this->rego_variable_).c_str());
-    ESP_LOGCONFIG(TAG, "  Payload: %s", this->int2hex(this->action_payload_).c_str());
+    ESP_LOGCONFIG(TAG, "  Rego variable: 0x%s", this->int_to_hex(this->rego_variable_).c_str());
+    ESP_LOGCONFIG(TAG, "  Payload: %s", this->int_to_hex(this->action_payload_).c_str());
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 

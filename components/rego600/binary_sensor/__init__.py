@@ -22,7 +22,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await binary_sensor.register_binary_sensor(var, config)
     cg.add(var.set_rego_variable(int(config[CONF_REGO_VARIABLE])))
-    cg.add(var.set_action_payload_true(int(config[CONF_PAYLOAD_TRUE])))
+    cg.add(var.set_payload_true(int(config[CONF_PAYLOAD_TRUE])))
     # cg.add(var.set_action_payload_false(int(config[CONF_PAYLOAD_FALSE])))
     paren = await cg.get_variable(config[CONF_HUB_ID])
     cg.add(var.register_hub(paren))

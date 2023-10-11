@@ -11,6 +11,7 @@ namespace rego {
 class RegoTextSensor : public text_sensor::TextSensor, public RegoBase {
 public:
     void dump_config() override;
+    void update() override;
 protected:
 };
 
