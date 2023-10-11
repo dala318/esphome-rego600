@@ -152,7 +152,7 @@ bool RegoInterfaceComponent::command_and_response(uint8_t addr, uint8_t cmd, uin
         ESP_LOGE(TAG, "Response wrong size");
         return false;
     }
-    if (response[0] != 0x01) {
+    if (! (response[0] == 0x01 || response[0] == 0x0C)) {
         ESP_LOGE(TAG, "Response from wrong address");
         return false;
     }
