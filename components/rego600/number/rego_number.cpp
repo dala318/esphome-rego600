@@ -36,6 +36,16 @@ void RegoNumber::dump_config() {
     ESP_LOGCONFIG(TAG, "  Hub: %s", this->hub_->to_str().c_str());
 }
 
+void RegoNumber::update() {
+    uint16_t result = 0;
+    if (this->hub_->read_value(this->rego_variable_, &result)) {
+        this->publish_state(result * this->value_factor_);
+    }
+    else {
+        ESP_LOGE(TAG, "Could not update number \"%s\"", this->get_name().c_str());
+    }
+}
+
 void RegoNumber::control(float value) {
     uint16_t result = 0;
     if (this->hub_->write_value(this->rego_variable_, (uint16_t)(value / this->value_factor_), &result)) {
