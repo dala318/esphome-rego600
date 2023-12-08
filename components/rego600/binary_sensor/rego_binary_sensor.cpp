@@ -14,7 +14,7 @@ void RegoBinarySensor::dump_config() {
 }
 
 void RegoBinarySensor::update() {
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result == this->payload_true_);
     }
