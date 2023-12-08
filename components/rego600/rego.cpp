@@ -39,7 +39,7 @@ void RegoInterfaceComponent::loop() {
     }
 }
 
-bool RegoInterfaceComponent::read_value(int16_t reg, uint16_t *result)
+bool RegoInterfaceComponent::read_value(int16_t reg, int16_t *result)
 {
     // ESP_LOGD(TAG, "Processing read of register %s (%u)", this->data_to_hexstr, this->data_to_hexstr(reg, sizeof(reg)).c_str(), reg);
     size_t available = 0;
@@ -124,7 +124,7 @@ bool RegoInterfaceComponent::read_text(int16_t reg, std::string *result)
     return true;
 }
 
-bool RegoInterfaceComponent::write_value(int16_t reg, uint16_t value, uint16_t *result)
+bool RegoInterfaceComponent::write_value(int16_t reg, int16_t value, uint16_t *result)
 {
     // ESP_LOGD(TAG, "Processing write value %u to register %s (%u)", value, this->data_to_hexstr, data_to_hexstr(reg, sizeof(reg)).c_str(), reg);
     size_t available = 0;
