@@ -20,8 +20,8 @@ public:
     void set_action_payload_false(uint8_t payload) { this->action_payload_false_ = payload; }
 protected:
     uint8_t max_retry_attempts_ = 0;
-    uint16_t action_payload_true_ = 1;
-    uint16_t action_payload_false_ = 0;
+    int16_t action_payload_true_ = 1;
+    int16_t action_payload_false_ = 0;
     uint8_t attempt_ = 0;
     bool retry_value_;
 };

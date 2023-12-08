@@ -7,7 +7,7 @@ static const char *TAG = "rego.number";
 
 void RegoNumber::setup() {
     ESP_LOGD(TAG, "Restoring number %s", this->get_name().c_str());
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result * this->value_factor_);
     }
@@ -37,7 +37,7 @@ void RegoNumber::dump_config() {
 }
 
 void RegoNumber::update() {
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result * this->value_factor_);
     }
@@ -48,7 +48,7 @@ void RegoNumber::update() {
 
 void RegoNumber::control(float value) {
     uint16_t result = 0;
-    if (this->hub_->write_value(this->rego_variable_, (uint16_t)(value / this->value_factor_), &result)) {
+    if (this->hub_->write_value(this->rego_variable_, (int16_t)(value / this->value_factor_), &result)) {
         this->publish_state(value);
         this->attempt_ = 0;
     }

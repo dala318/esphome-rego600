@@ -7,7 +7,7 @@ static const char *TAG = "rego.switch";
 
 void RegoSwitch::setup() {
     ESP_LOGD(TAG, "Restoring switch %s", this->get_name().c_str());
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result == this->action_payload_true_);
     }
@@ -38,7 +38,7 @@ void RegoSwitch::dump_config() {
 }
 
 void RegoSwitch::update() {
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result == this->action_payload_true_);
     }
@@ -50,7 +50,7 @@ void RegoSwitch::update() {
 void RegoSwitch::write_state(bool state) {
     uint16_t result = 0;
     // uint16_t value = (uint16_t)state;
-    uint16_t value = (state ? this->action_payload_true_ : this->action_payload_false_);
+    int16_t value = (state ? this->action_payload_true_ : this->action_payload_false_);
     if (this->hub_->write_value(this->rego_variable_, value, &result)) {
         this->publish_state(state);
         this->attempt_ = 0;

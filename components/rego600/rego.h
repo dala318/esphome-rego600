@@ -35,9 +35,9 @@ public:
     // Function override definitions
 
     // Function declaration component
-    bool read_value(int16_t reg, uint16_t *result);
+    bool read_value(int16_t reg, int16_t *result);
     bool read_text(int16_t reg, std::string *result);
-    bool write_value(int16_t reg, uint16_t value, uint16_t *result);
+    bool write_value(int16_t reg, int16_t value, uint16_t *result);
 
     // Function definitions component
     void set_model(std::string model){ this->model_ = model; }

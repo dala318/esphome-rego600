@@ -14,7 +14,7 @@ void RegoSensor::dump_config() {
 }
 
 void RegoSensor::update() {
-    uint16_t result = 0;
+    int16_t result = 0;
     if (this->hub_->read_value(this->rego_variable_, &result)) {
         this->publish_state(result * this->value_factor_);
     }
