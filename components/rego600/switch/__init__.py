@@ -7,7 +7,8 @@ from .. import rego_ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE,
 DEPENDENCIES = ['rego600']
 
 RegoSwitch = rego_ns.class_("RegoSwitch", switch.Switch, cg.PollingComponent)
-CONFIG_SCHEMA = switch.SWITCH_SCHEMA.extend( 
+
+CONFIG_SCHEMA = switch.switch_schema(RegoSwitch).extend(
     {
         cv.GenerateID(): cv.declare_id(RegoSwitch),
         cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),

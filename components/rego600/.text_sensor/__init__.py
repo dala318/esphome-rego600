@@ -7,7 +7,8 @@ from .. import rego_ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE
 DEPENDENCIES = ['rego600']
 
 RegoTextSensor = rego_ns.class_("RegoTextSensor", text_sensor.TextSensor, cg.PollingComponent)
-CONFIG_SCHEMA = text_sensor.TEXT_SENSOR_SCHEMA.extend( 
+
+CONFIG_SCHEMA = text_sensor.text_sensor_schema(RegoTextSensor).extend(
     {
         cv.GenerateID(): cv.declare_id(RegoTextSensor),
         cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),

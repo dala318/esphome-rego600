@@ -8,7 +8,8 @@ from .. import rego_ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE,
 DEPENDENCIES = ['rego600']
 
 RegoClimate = rego_ns.class_("RegoClimate", climate.Climate, cg.PollingComponent)
-CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend(
+
+CONFIG_SCHEMA = climate.climate_schema(RegoClimate).extend(
     {
         cv.GenerateID(): cv.declare_id(RegoClimate),
         cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),

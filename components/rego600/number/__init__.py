@@ -7,7 +7,8 @@ from .. import rego_ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE,
 DEPENDENCIES = ['rego600']
 
 RegoNumber = rego_ns.class_("RegoNumber", number.Number, cg.PollingComponent)
-CONFIG_SCHEMA = number.NUMBER_SCHEMA.extend( 
+
+CONFIG_SCHEMA = number.number_schema(RegoNumber).extend( 
     {
         cv.GenerateID(): cv.declare_id(RegoNumber),
         cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),

@@ -7,7 +7,8 @@ from .. import rego_ns, RegoInterfaceComponent, CONF_HUB_ID, CONF_REGO_VARIABLE,
 DEPENDENCIES = ['rego600']
 
 RegoButton = rego_ns.class_("RegoButton", button.Button, cg.PollingComponent)
-CONFIG_SCHEMA = button.BUTTON_SCHEMA.extend( 
+
+CONFIG_SCHEMA = button.button_schema(RegoButton).extend( 
     {
         cv.GenerateID(): cv.declare_id(RegoButton),
         cv.GenerateID(CONF_HUB_ID): cv.use_id(RegoInterfaceComponent),
